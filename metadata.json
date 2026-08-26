@@ -1,0 +1,8 @@
+{
+  "name": "Remix HGW Marketing AI",
+  "description": "Plataforma integral de marketing digital para distribuidores HGW: generador de 30 copys persuasivos, prompts maestros de imágenes con preservación exacta de producto, landing pages de alta conversión, frases motivadoras y gestión de catálogo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
