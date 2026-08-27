@@ -48,25 +48,6 @@ export const AuthView: React.FC<AuthViewProps> = ({ onLoginSuccess }) => {
   const [regCountry, setRegCountry] = useState('Panamá');
 
   const yamilkaPhotoUrl = 'https://drive.google.com/file/d/1KeOPcyuhctKp1qJsNsfw-nlUuXzyU_hf/view?usp=drive_link';
-  const directYamilkaPhoto = getDirectImageUrl(yamilkaPhotoUrl);
-
-  const handleQuickLoginYamilka = () => {
-    const res = AuthService.login('info.yamilka@gmail.com', 'admin');
-    if (res.success && res.user) {
-      onLoginSuccess(res.user, {
-        nombre: 'Yamilka Batista',
-        whatsapp: '67603578',
-        codigo: 'Yamilka507',
-        ciudad: 'Ciudad de Panamá',
-        pais: 'Panamá',
-        enlaceWhatsapp: 'https://wa.me/50767603578',
-        email: 'info.yamilka@gmail.com',
-        sitioWeb: 'https://hgw.yamilkabatista.com',
-        fotoPerfil: yamilkaPhotoUrl,
-        enlaceReferido: 'https://hgwpanama.com/registro?ref=Yamilka507'
-      });
-    }
-  };
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,7 +56,7 @@ export const AuthView: React.FC<AuthViewProps> = ({ onLoginSuccess }) => {
     setPendingApprovalUser(null);
 
     if (!loginEmail.trim() || !loginPassword.trim()) {
-      setError('Por favor completa tu correo o código y contraseña.');
+      setError('Por favor completa tu correo o código HGW y tu contraseña.');
       return;
     }
 
@@ -96,10 +77,10 @@ export const AuthView: React.FC<AuthViewProps> = ({ onLoginSuccess }) => {
           ciudad: res.user!.ciudad || 'Ciudad de Panamá',
           pais: res.user!.pais || 'Panamá',
           email: res.user!.email,
-          fotoPerfil: res.user!.fotoPerfil || '',
+          fotoPerfil: res.user!.fotoPerfil || (res.user!.rol === 'admin' ? yamilkaPhotoUrl : ''),
           enlaceReferido: `https://hgwpanama.com/registro?ref=${res.user!.codigo}`
         });
-      }, 600);
+      }, 500);
     }
   };
 
@@ -124,7 +105,7 @@ export const AuthView: React.FC<AuthViewProps> = ({ onLoginSuccess }) => {
       pais: regCountry.trim() || 'Panamá',
       rol: 'distribuidor',
       fotoPerfil: ''
-    }, false); // Pending approval by default
+    }, false); // All new registrations are strictly 'pendiente' requiring admin approval
 
     if (!res.success) {
       setError(res.message);
@@ -133,25 +114,6 @@ export const AuthView: React.FC<AuthViewProps> = ({ onLoginSuccess }) => {
 
     if (res.user) {
       setPendingApprovalUser(res.user);
-    }
-  };
-
-  // Demo helper: instant approval for test accounts
-  const handleInstantApproveDemo = (user: AuthUser) => {
-    AuthService.approveUser(user.id);
-    const updated = AuthService.getUsers().find(u => u.id === user.id);
-    if (updated) {
-      setSuccessMsg('¡Usuario aprobado por la administradora! Entrando...');
-      setTimeout(() => {
-        onLoginSuccess(updated, {
-          nombre: updated.nombre,
-          whatsapp: updated.telefono,
-          codigo: updated.codigo,
-          email: updated.email,
-          pais: updated.pais,
-          ciudad: updated.ciudad
-        });
-      }, 800);
     }
   };
 
@@ -177,40 +139,6 @@ export const AuthView: React.FC<AuthViewProps> = ({ onLoginSuccess }) => {
           </p>
         </div>
 
-        {/* Quick Access Card for Admin Yamilka Batista */}
-        <div className="bg-slate-900/90 backdrop-blur-md p-4 rounded-2xl border border-emerald-500/40 shadow-xl flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl overflow-hidden bg-emerald-950 border border-[#D4AF37] shadow-xs shrink-0 flex items-center justify-center">
-              {directYamilkaPhoto ? (
-                <img
-                  src={directYamilkaPhoto}
-                  alt="Yamilka Batista"
-                  className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
-              ) : (
-                <span className="font-bold text-[#D4AF37]">YB</span>
-              )}
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-sm font-bold text-white">Yamilka Batista</span>
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              </div>
-              <span className="text-xs text-emerald-300 font-mono">Administradora · {ADMIN_EMAIL}</span>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={handleQuickLoginYamilka}
-            className="bg-[#D4AF37] hover:bg-amber-400 text-slate-950 font-extrabold px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow-md transition active:scale-95 cursor-pointer shrink-0"
-          >
-            <span>Acceso Admin</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
-
         {/* If user just registered and is pending approval */}
         {pendingApprovalUser ? (
           <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-2xl border border-amber-200 space-y-4 text-center animate-in zoom-in-95 duration-200">
@@ -225,10 +153,10 @@ export const AuthView: React.FC<AuthViewProps> = ({ onLoginSuccess }) => {
             <div className="p-3.5 bg-amber-50 rounded-2xl border border-amber-200 text-xs text-amber-950 space-y-2 text-left">
               <div className="flex items-center gap-2 font-bold text-amber-900">
                 <BellRing className="w-4 h-4 text-amber-700 shrink-0" />
-                <span>Notificación Enviada por Email</span>
+                <span>Notificación Enviada por Email a la Administradora</span>
               </div>
               <p>
-                Se ha notificado a la administradora principal (<strong>{ADMIN_EMAIL}</strong>) para validar tu código <strong>{pendingApprovalUser.codigo}</strong> y autorizar tu cuenta.
+                Tu solicitud ha sido registrada con el código <strong>{pendingApprovalUser.codigo}</strong>. La administradora principal (<strong>{ADMIN_EMAIL}</strong>) debe autorizar tu cuenta antes de que puedas iniciar sesión.
               </p>
             </div>
 
@@ -236,25 +164,16 @@ export const AuthView: React.FC<AuthViewProps> = ({ onLoginSuccess }) => {
               <div><strong>Nombre:</strong> {pendingApprovalUser.nombre}</div>
               <div><strong>Correo:</strong> {pendingApprovalUser.email}</div>
               <div><strong>Código HGW:</strong> {pendingApprovalUser.codigo}</div>
-              <div><strong>Estado:</strong> <span className="text-amber-700 font-bold">Pendiente de Aprobación</span></div>
+              <div><strong>Estado:</strong> <span className="text-amber-700 font-bold">Pendiente de Autorización</span></div>
             </div>
 
-            <div className="pt-2 space-y-2">
-              <button
-                type="button"
-                onClick={() => handleInstantApproveDemo(pendingApprovalUser)}
-                className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 shadow-xs transition cursor-pointer"
-              >
-                <Check className="w-4 h-4 text-[#D4AF37]" />
-                <span>[Modo Demo] Aprobar Ahora como Administrador</span>
-              </button>
-
+            <div className="pt-2">
               <button
                 type="button"
                 onClick={() => { setPendingApprovalUser(null); setIsRegisterMode(false); }}
-                className="w-full text-xs text-slate-500 hover:text-slate-800 font-semibold py-2 transition cursor-pointer"
+                className="w-full bg-[#0B3D2E] hover:bg-emerald-900 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 shadow-xs transition cursor-pointer"
               >
-                Volver al Inicio de Sesión
+                <span>Ir al Inicio de Sesión</span>
               </button>
             </div>
           </div>

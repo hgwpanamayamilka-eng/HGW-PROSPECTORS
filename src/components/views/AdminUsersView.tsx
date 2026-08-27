@@ -29,10 +29,12 @@ import { AuthUser, AuditLog, AdminNotification } from '../../types';
 import { AuthService, ADMIN_EMAIL } from '../../lib/authService';
 
 interface AdminUsersViewProps {
-  currentAdminUser: AuthUser;
+  currentAdminUser?: AuthUser;
+  currentUser?: AuthUser;
 }
 
-export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser }) => {
+export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser, currentUser }) => {
+  const activeAdmin = currentAdminUser || currentUser;
   const [activeSubTab, setActiveSubTab] = useState<'users' | 'pending' | 'audit' | 'notifications'>('pending');
   const [users, setUsers] = useState<AuthUser[]>([]);
   const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
@@ -49,9 +51,14 @@ export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser
   const [newUserEmail, setNewUserEmail] = useState('');
   const [newUserCode, setNewUserCode] = useState('');
   const [newUserPhone, setNewUserPhone] = useState('');
+  const [newUserPassword, setNewUserPassword] = useState('123');
   const [newUserRole, setNewUserRole] = useState<'distribuidor' | 'lider' | 'admin'>('distribuidor');
   const [newUserCity, setNewUserCity] = useState('Ciudad de Panamá');
   const [newUserCountry, setNewUserCountry] = useState('Panamá');
+
+  // Modal for reset password
+  const [resetModalUser, setResetModalUser] = useState<AuthUser | null>(null);
+  const [resetNewPass, setResetNewPass] = useState('');
 
   // Toast feedback
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
@@ -103,6 +110,25 @@ export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser
     }
   };
 
+  const handleOpenResetPassword = (user: AuthUser) => {
+    setResetModalUser(user);
+    setResetNewPass(user.password || '123');
+  };
+
+  const handleConfirmResetPassword = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!resetModalUser || !resetNewPass.trim()) return;
+    const res = AuthService.adminResetPassword(resetModalUser.id, resetNewPass);
+    if (res.success) {
+      showToast(res.message);
+      setResetModalUser(null);
+      setResetNewPass('');
+      reloadData();
+    } else {
+      showToast(res.message, 'error');
+    }
+  };
+
   const handleCreateNewUser = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newUserName.trim() || !newUserEmail.trim() || !newUserCode.trim()) {
@@ -118,7 +144,7 @@ export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser
       ciudad: newUserCity,
       pais: newUserCountry,
       rol: newUserRole,
-      password: '123'
+      password: newUserPassword.trim() || '123'
     }, true); // pre-approved
 
     if (res.success) {
@@ -128,6 +154,7 @@ export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser
       setNewUserEmail('');
       setNewUserCode('');
       setNewUserPhone('');
+      setNewUserPassword('123');
       reloadData();
     } else {
       showToast(res.message, 'error');
@@ -536,6 +563,15 @@ export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser
                             </button>
                           )}
 
+                          {/* Reset / Change Password Button */}
+                          <button
+                            onClick={() => handleOpenResetPassword(user)}
+                            className="p-1.5 text-amber-600 hover:bg-amber-50 rounded-lg transition cursor-pointer"
+                            title={`Gestionar / Restablecer Contraseña (Actual: ${user.password || '***'})`}
+                          >
+                            <Key className="w-4 h-4" />
+                          </button>
+
                           {/* Email notification */}
                           <a
                             href={`mailto:${user.email}?subject=Bienvenido%20a%20HGW%20Marketing%20AI&body=Hola%20${encodeURIComponent(user.nombre)},%20tu%20cuenta%20ha%20sido%20autorizada%20con%20éxito.`}
@@ -822,6 +858,19 @@ export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser
                 </div>
               </div>
 
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Contraseña Inicial de Acceso *</label>
+                <input
+                  type="text"
+                  required
+                  value={newUserPassword}
+                  onChange={(e) => setNewUserPassword(e.target.value)}
+                  placeholder="Ej. 123456"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono text-slate-900"
+                />
+                <span className="text-[10px] text-slate-400">Esta contraseña será requerida para que el usuario inicie sesión.</span>
+              </div>
+
               <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
                 <button
                   type="button"
@@ -839,6 +888,63 @@ export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser
               </div>
             </form>
 
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: RESET USER PASSWORD */}
+      {resetModalUser && (
+        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-slate-200 space-y-4 animate-in zoom-in-95">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <h3 className="font-heading font-bold text-base text-slate-900 flex items-center gap-2">
+                <Key className="w-5 h-5 text-amber-600" />
+                <span>Gestionar Contraseña de Usuario</span>
+              </h3>
+              <button onClick={() => setResetModalUser(null)} className="text-slate-400 hover:text-slate-600">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs text-slate-700 space-y-1">
+              <div><strong>Usuario:</strong> {resetModalUser.nombre}</div>
+              <div><strong>Correo:</strong> {resetModalUser.email}</div>
+              <div><strong>Código:</strong> {resetModalUser.codigo}</div>
+              <div><strong>Contraseña Actual:</strong> <span className="font-mono font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded">{resetModalUser.password || '123'}</span></div>
+            </div>
+
+            <form onSubmit={handleConfirmResetPassword} className="space-y-3">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Nueva Contraseña para el Usuario *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={resetNewPass}
+                  onChange={(e) => setResetNewPass(e.target.value)}
+                  placeholder="Nueva contraseña"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono font-bold text-slate-900 focus:ring-2 focus:ring-amber-500 focus:outline-hidden"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setResetModalUser(null)}
+                  className="px-4 py-2 text-slate-600 text-xs font-bold rounded-xl hover:bg-slate-100 transition cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl shadow-md transition cursor-pointer flex items-center gap-1.5"
+                >
+                  <Key className="w-3.5 h-3.5" />
+                  <span>Actualizar Contraseña</span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

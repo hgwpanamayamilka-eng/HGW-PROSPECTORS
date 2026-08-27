@@ -1,9 +1,10 @@
 import { LandingFormData } from '../../types';
-import { getEmbedVideoUrl } from '../imageUtils';
+import { getEmbedVideoUrl, getDirectImageUrl } from '../imageUtils';
 
 export function buildChatGPTLandingPrompt(data: LandingFormData): string {
   const waUrl = data.linkWhatsapp || `https://wa.me/${data.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(`Hola ${data.nombreVendedor}, quiero ordenar ${data.nombreProducto} y conocer las promociones disponibles.`)}`;
   const referralUrl = data.enlaceReferido || `https://hgwpanama.com/registro?ref=${data.codigoDistribuidor}`;
+  const profilePhotoUrl = data.fotoPerfil || 'https://drive.google.com/file/d/1KeOPcyuhctKp1qJsNsfw-nlUuXzyU_hf/view?usp=drive_link';
 
   return `Actúa como un desarrollador web Senior y especialista en CRO (Optimización de la Tasa de Conversión), diseño UX/UI y copywriting de ventas directas.
 
@@ -24,10 +25,11 @@ INFORMACIÓN EXACTA Y REAL PROPORCIONADA:
 - Puntos de Volumen (BV): ${data.bv} BV
 - Público Objetivo: ${data.publicoObjetivo || 'Familias, profesionales y personas interesadas en salud natural'}
 
-2. INFORMACIÓN COMERCIAL, ENLACE DE REFERIDO Y VIDEOS:
-- Vendedor / Distribuidor Oficial: ${data.nombreVendedor}
+2. INFORMACIÓN COMERCIAL, ASESORA OFICIAL Y VIDEOS:
+- Vendedora / Distribuidora Oficial: ${data.nombreVendedor}
+- Foto de Perfil Oficial de la Distribuidora (Enlace Drive / Imagen Directa): ${profilePhotoUrl}
 - Empresa: ${data.empresa || 'HGW Health Green World'}
-- Código de Distribuidor: ${data.codigoDistribuidor}
+- Código de Distribuidor / Patrocinador: ${data.codigoDistribuidor}
 - WhatsApp: ${data.whatsapp}
 - Enlace directo a WhatsApp: ${waUrl}
 - Enlace Oficial de Registro / Referido HGW: ${referralUrl}
@@ -48,8 +50,9 @@ ${data.videoOpcional2 ? `- Video Opcional 2 (Uso de Oficina Virtual / Testimonio
 - Testimonios sugeridos: ${data.testimonios || 'Experiencias de clientes reales satisfechos con la calidad del producto'}
 - Preguntas Frecuentes: ${data.faqs || 'Preguntas sobre envíos a nivel nacional, formas de pago, cómo afiliarse y modo de uso'}
 
-4. DIRECCIÓN VISUAL Y REGLA DE TIPOGRAFÍA CENTRADA:
+4. DIRECCIÓN VISUAL, FOTO DE PERFIL Y REGLA DE TIPOGRAFÍA CENTRADA:
 - REGLA ESTRICTA DE TIPOGRAFÍA: TODOS los títulos (h1, h2, h3, h4) y subtítulos de TODAS las secciones de la landing page DEBEN estar estrictamente centrados (text-center, mx-auto, max-w-3xl) para garantizar máxima simetría visual y balance estético en dispositivos móviles y de escritorio.
+- FOTO DE PERFIL DE LA DISTRIBUIDORA: La fotografía oficial de la asesora (${profilePhotoUrl}) DEBE aparecer visiblemente en el Header/Navbar, en una Sección de Autoridad & Confianza ("Conoce a tu Asesora Oficial HGW") y en el bloque de contacto final de WhatsApp, con marco circular elegante, borde dorado (#D4AF37) y badge de distribuidora certificada.
 - Color Primario: ${data.colorPrincipal || '#0B3D2E'} (Verde Esmeralda HGW)
 - Color Secundario: ${data.colorSecundario || '#D4AF37'} (Dorado Imperial)
 - Estilo: ${data.estilo || 'SaaS Premium / E-commerce de Alto Nivel, limpio, Mobile First y moderno'}
@@ -62,7 +65,7 @@ REGLAS Y ESTRUCTURA OBLIGATORIA DE LA LANDING PAGE (29 SECCIONES):
 ===================================================================
 La landing page debe incluir en orden armónico las siguientes 29 secciones:
 1. Barra de anuncio superior (urgencia de envío / descuento).
-2. Header / Barra de navegación con logo centrado/balanceado, enlaces de salto y botón WhatsApp.
+2. Header / Barra de navegación con foto de perfil de la distribuidora ${data.nombreVendedor}, logo HGW, enlaces de salto y botón WhatsApp.
 3. Hero Section (Título H1 CENTRADO de alto impacto, subtítulo CENTRADO persuasivo, badge de descuento, imagen hero del producto y CTA principal).
 4. Barra de confianza (Certificaciones: FDA, ISO 9001, Halal, Presencia en +69 países).
 5. Sección del Problema común que enfrenta el cliente (Título y subtítulo centrados).
@@ -83,12 +86,12 @@ La landing page debe incluir en orden armónico las siguientes 29 secciones:
 20. Preguntas Frecuentes desplegables (Acordeón interactivo).
 21. Manejo y derribo de objeciones frecuentes.
 22. Garantía oficial de satisfacción y autenticidad.
-23. Sección de Llamado a la Acción Final (Gran bloque de conversión centrado).
+23. Sección de Autoridad & Confianza: "Tu Asesora Oficial HGW" con la foto de perfil de ${data.nombreVendedor}, código ${data.codigoDistribuidor}, ciudad ${data.ciudad} y mensaje de bienvenida.
 24. Formulario de pedido rápido con envío automático a WhatsApp.
-25. Botón flotante interactivo de WhatsApp fijado en la esquina.
+25. Botón flotante interactivo de WhatsApp fijado en la esquina con foto miniatura.
 26. Información sobre métodos de envío (Servientrega / Retiro en Oficinas Nacionales).
 27. Directorio y datos de contacto de la distribuidora ${data.nombreVendedor} (Código: ${data.codigoDistribuidor}).
-28. Footer completo con enlaces, mapa de sitio y derechos de autor.
+28. Footer completo con enlaces, foto de perfil, mapa de sitio y derechos de autor.
 29. Disclaimer legal correspondiente: "Este sitio es operado por un distribuidor independiente de HGW Health Green World. Los productos son suplementos y alimentos, no reemplazan tratamientos médicos prescritos."
 
 REQUISITOS TÉCNICOS:
@@ -105,6 +108,10 @@ export function generateStandAloneLandingHTML(data: LandingFormData): string {
   const referralUrl = data.enlaceReferido || `https://hgwpanama.com/registro?ref=${data.codigoDistribuidor}`;
   const primary = data.colorPrincipal || '#0B3D2E';
   const secondary = data.colorSecundario || '#D4AF37';
+
+  // Profile photo handling with Google Drive conversion
+  const rawProfilePhoto = data.fotoPerfil || 'https://drive.google.com/file/d/1KeOPcyuhctKp1qJsNsfw-nlUuXzyU_hf/view?usp=drive_link';
+  const directProfilePhoto = getDirectImageUrl(rawProfilePhoto);
 
   const embedMainVideo = data.videoTutorialRegistro ? getEmbedVideoUrl(data.videoTutorialRegistro) : null;
   const embedOpt1 = data.videoOpcional1 ? getEmbedVideoUrl(data.videoOpcional1) : null;
@@ -140,19 +147,38 @@ export function generateStandAloneLandingHTML(data: LandingFormData): string {
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-100 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-[${primary}] flex items-center justify-center text-white font-bold text-lg shadow">
-          HGW
+        <!-- Profile photo and brand badge -->
+        <div class="relative">
+          ${directProfilePhoto ? `
+            <img 
+              src="${directProfilePhoto}" 
+              alt="${data.nombreVendedor}" 
+              referrerpolicy="no-referrer"
+              class="w-11 h-11 rounded-full object-cover border-2 border-[${secondary}] shadow-md"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+            />
+            <div class="hidden w-11 h-11 rounded-full bg-[${primary}] text-white items-center justify-center font-bold text-sm shadow">
+              HGW
+            </div>
+          ` : `
+            <div class="w-11 h-11 rounded-full bg-[${primary}] text-white flex items-center justify-center font-bold text-sm shadow">
+              HGW
+            </div>
+          `}
+          <span class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full flex items-center justify-center text-[8px] text-white font-bold" title="Distribuidora Verificada">
+            ✓
+          </span>
         </div>
         <div>
-          <span class="font-heading font-bold text-lg text-[${primary}] block leading-tight text-left">Health Green World</span>
-          <span class="text-xs text-slate-500 font-medium block text-left">${data.nombreVendedor} · Distribuidor Oficial</span>
+          <span class="font-heading font-bold text-base sm:text-lg text-[${primary}] block leading-tight text-left">${data.nombreVendedor}</span>
+          <span class="text-[11px] text-slate-500 font-medium block text-left">Distribuidora Autorizada HGW · Cód: ${data.codigoDistribuidor}</span>
         </div>
       </div>
       <div class="flex items-center gap-2">
         <a href="${referralUrl}" target="_blank" class="hidden sm:inline-flex bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 px-3.5 py-1.5 rounded-xl text-xs font-bold transition">
           <span>Crear Cuenta HGW</span>
         </a>
-        <a href="${waUrl}" target="_blank" class="bg-[#25D366] hover:bg-[#20bd5a] text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-md transition flex items-center gap-1.5">
+        <a href="${waUrl}" target="_blank" class="bg-[#25D366] hover:bg-[#20bd5a] text-white px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-md transition flex items-center gap-1.5">
           <span>WhatsApp</span>
         </a>
       </div>
@@ -163,8 +189,11 @@ export function generateStandAloneLandingHTML(data: LandingFormData): string {
   <section class="relative overflow-hidden py-12 lg:py-16 bg-gradient-to-b from-emerald-50/50 via-white to-slate-50">
     <div class="max-w-5xl mx-auto px-4 text-center">
       
-      <div class="inline-flex items-center justify-center gap-2 bg-emerald-100 text-[${primary}] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-4 mx-auto">
-        ✨ Calidad Certificada Internacional · HGW Oficial
+      <div class="inline-flex items-center justify-center gap-2 bg-emerald-100 text-[${primary}] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-4 mx-auto shadow-xs">
+        ${directProfilePhoto ? `
+          <img src="${directProfilePhoto}" alt="${data.nombreVendedor}" referrerpolicy="no-referrer" class="w-4 h-4 rounded-full object-cover" />
+        ` : ''}
+        <span>✨ Calidad Certificada HGW · Asesoría de ${data.nombreVendedor}</span>
       </div>
 
       <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-[1.15] mb-4 text-center max-w-4xl mx-auto">
@@ -255,6 +284,90 @@ export function generateStandAloneLandingHTML(data: LandingFormData): string {
     </div>
   </section>
 
+  <!-- Section: Tu Asesora y Distribuidora Oficial HGW (Requested with Profile Photo) -->
+  <section class="py-16 bg-gradient-to-b from-slate-50 to-emerald-50/40 border-t border-slate-100">
+    <div class="max-w-4xl mx-auto px-4">
+      
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <span class="inline-flex items-center gap-1.5 bg-[#D4AF37]/20 text-amber-950 font-bold px-3.5 py-1 rounded-full text-xs uppercase tracking-wider mb-2">
+          🌟 Asesoría Personalizada y Directa
+        </span>
+        <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-slate-900 mb-2 text-center">
+          Conoce a tu Distribuidora Autorizada HGW
+        </h2>
+        <p class="text-slate-600 text-sm sm:text-base text-center">
+          Cuentas con el respaldo, asesoramiento nutricional y acompañamiento directo en cada etapa de tu pedido o afiliación.
+        </p>
+      </div>
+
+      <!-- Distributor Bio Card -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-emerald-100 flex flex-col md:flex-row items-center gap-6 sm:gap-8">
+        
+        <!-- Profile Picture with Gold & Emerald double frame -->
+        <div class="relative shrink-0 text-center">
+          <div class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full p-1.5 bg-gradient-to-tr from-[#0B3D2E] via-[#D4AF37] to-[#1F7A5A] shadow-2xl mx-auto">
+            ${directProfilePhoto ? `
+              <img 
+                src="${directProfilePhoto}" 
+                alt="${data.nombreVendedor}" 
+                referrerpolicy="no-referrer"
+                class="w-full h-full object-cover rounded-full bg-slate-100"
+                onerror="this.parentElement.innerHTML='<div class=\\'w-full h-full rounded-full bg-emerald-900 text-white flex items-center justify-center text-3xl font-bold\\'>HGW</div>'"
+              />
+            ` : `
+              <div class="w-full h-full rounded-full bg-emerald-900 text-white flex items-center justify-center text-3xl font-bold">
+                HGW
+              </div>
+            `}
+          </div>
+          <div class="absolute bottom-1 right-2 bg-emerald-600 text-white p-2 rounded-full shadow-lg border-2 border-white flex items-center justify-center">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+          </div>
+        </div>
+
+        <!-- Bio & Credentials -->
+        <div class="flex-1 text-center md:text-left space-y-3">
+          <div class="inline-flex items-center gap-2 bg-emerald-50 text-[${primary}] px-3 py-1 rounded-lg text-xs font-bold">
+            <span>🏅 Distribuidora Oficial & Líder de Expansión</span>
+          </div>
+
+          <h3 class="font-heading text-2xl sm:text-3xl font-bold text-slate-900 text-center md:text-left">
+            ${data.nombreVendedor}
+          </h3>
+
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            "Mi compromiso es ayudarte a transformar tu salud con la suplementación botánica de más alta pureza de HGW y guiarte si deseas emprender como socio con descuentos permanentes del 30% al 50%."
+          </p>
+
+          <!-- Contact details badges -->
+          <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 pt-1 text-xs">
+            <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-lg font-mono font-bold">
+              ID Patrocinador: <strong class="text-[${primary}]">${data.codigoDistribuidor}</strong>
+            </span>
+            <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-lg">
+              📍 ${data.ciudad}, ${data.pais}
+            </span>
+            <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-lg font-medium">
+              📞 ${data.whatsapp}
+            </span>
+          </div>
+
+          <!-- Buttons -->
+          <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-3">
+            <a href="${waUrl}" target="_blank" class="bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs sm:text-sm font-bold px-5 py-2.5 rounded-xl shadow-md transition flex items-center gap-2">
+              <span>💬 Chatear con ${data.nombreVendedor}</span>
+            </a>
+            <a href="${referralUrl}" target="_blank" class="bg-[${primary}] hover:bg-emerald-900 text-white text-xs sm:text-sm font-bold px-5 py-2.5 rounded-xl shadow-md transition flex items-center gap-2">
+              <span>⭐ Registrarme en su Equipo</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
   <!-- Video Tutorial Section: Cómo Crear tu Cuenta HGW (Requested) -->
   <section class="py-16 bg-slate-900 text-white">
     <div class="max-w-4xl mx-auto px-4 text-center">
@@ -322,10 +435,24 @@ export function generateStandAloneLandingHTML(data: LandingFormData): string {
     </div>
   </section>
 
-  <!-- Fast Contact CTA -->
+  <!-- Fast Contact CTA with Profile Picture -->
   <section class="py-16 bg-[${primary}] text-white text-center">
     <div class="max-w-4xl mx-auto px-4 text-center">
-      <h2 class="font-heading text-3xl sm:text-4xl font-extrabold mb-4 text-center">¿Tienes dudas o deseas atención personalizada?</h2>
+      
+      <!-- Mini avatar with status indicator -->
+      <div class="inline-flex items-center gap-3 bg-black/20 p-2 pr-4 rounded-full mb-6 mx-auto border border-white/10">
+        ${directProfilePhoto ? `
+          <img src="${directProfilePhoto}" alt="${data.nombreVendedor}" referrerpolicy="no-referrer" class="w-10 h-10 rounded-full object-cover border-2 border-[${secondary}]" />
+        ` : ''}
+        <div class="text-left">
+          <span class="text-xs font-bold text-white block">${data.nombreVendedor}</span>
+          <span class="text-[10px] text-emerald-300 flex items-center gap-1 font-medium">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> En línea para ayudarte
+          </span>
+        </div>
+      </div>
+
+      <h2 class="font-heading text-3xl sm:text-4xl font-extrabold mb-4 text-center text-white">¿Tienes dudas o deseas atención personalizada?</h2>
       <p class="text-emerald-100 text-base sm:text-lg mb-8 max-w-xl mx-auto text-center">
         Comunícate directamente con <strong>${data.nombreVendedor}</strong>. Te asesoraré sobre el modo de uso, envíos a tu ciudad o cómo afiliarte con descuento.
       </p>
@@ -340,6 +467,14 @@ export function generateStandAloneLandingHTML(data: LandingFormData): string {
   <!-- Legal Disclaimer -->
   <footer class="bg-slate-900 text-slate-400 py-12 text-xs border-t border-slate-800">
     <div class="max-w-6xl mx-auto px-4 text-center space-y-4">
+      <div class="flex items-center justify-center gap-3 mb-2">
+        ${directProfilePhoto ? `
+          <img src="${directProfilePhoto}" alt="${data.nombreVendedor}" referrerpolicy="no-referrer" class="w-8 h-8 rounded-full object-cover border border-[${secondary}]" />
+        ` : ''}
+        <span class="text-white font-bold text-sm">${data.nombreVendedor}</span>
+        <span class="text-slate-500">·</span>
+        <span class="text-emerald-400 font-mono">Código HGW: ${data.codigoDistribuidor}</span>
+      </div>
       <p class="text-center max-w-3xl mx-auto">
         <strong>Aviso Importante:</strong> Este sitio es operado por <strong>${data.nombreVendedor}</strong> (Código Oficial HGW: <strong>${data.codigoDistribuidor}</strong>), distribuidora independiente autorizada de Health Green World (HGW). La información proporcionada tiene fines informativos y comerciales. Los productos no sustituyen tratamientos médicos prescritos.
       </p>

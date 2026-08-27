@@ -301,53 +301,40 @@ export const AuthService = {
     }
   },
 
-  // Login verification
+  // Login verification with strict password check for both admin and users
   login(identifier: string, pass: string): { success: boolean; user?: AuthUser; message: string } {
     const cleanId = identifier.trim().toLowerCase();
     const cleanPass = pass.trim();
 
-    // Direct Admin Quick Match
-    if (
-      cleanId === 'info.yamilka@gmail.com' ||
-      cleanId === 'ybaguila1923@gmail.com' ||
-      cleanId === 'yamilka507' ||
-      cleanId === 'yamilka'
-    ) {
-      const adminUser = this.getUsers().find(u => 
-        u.email.toLowerCase() === 'info.yamilka@gmail.com' || 
-        u.email.toLowerCase() === 'ybaguila1923@gmail.com'
-      ) || INITIAL_USERS[0];
-
-      const updatedUser: AuthUser = {
-        ...adminUser,
-        ultimoAcceso: new Date().toISOString().replace('T', ' ').substring(0, 19)
-      };
-
-      this.updateUser(updatedUser);
-      this.setCurrentUser(updatedUser);
-      this.logAudit({
-        usuarioId: updatedUser.id,
-        usuarioNombre: updatedUser.nombre,
-        usuarioEmail: updatedUser.email,
-        usuarioCodigo: updatedUser.codigo,
-        accion: 'Inicio de Sesión Exitoso (Administrador Principal)',
-        detalles: `Email verificado: ${updatedUser.email}`
-      });
-
-      return { success: true, user: updatedUser, message: '¡Bienvenida Yamilka Batista! Acceso total como Administrador.' };
+    if (!cleanId || !cleanPass) {
+      return { success: false, message: 'Por favor ingresa tu correo/código y tu contraseña de acceso.' };
     }
 
     const users = this.getUsers();
+    
+    // Find user by email or HGW code
     const foundUser = users.find(u => 
-      (u.email.toLowerCase() === cleanId || u.codigo.toLowerCase() === cleanId) &&
-      (u.password === cleanPass || cleanPass.length >= 3)
+      u.email.toLowerCase() === cleanId || u.codigo.toLowerCase() === cleanId
     );
 
     if (!foundUser) {
-      return { success: false, message: 'Credenciales inválidas. Verifica tu correo/código y contraseña.' };
+      return { success: false, message: 'Usuario no encontrado. Verifica tu correo electrónico o código HGW registrado.' };
     }
 
-    // CHECK AUTHORIZATION STATUS (MANDATE: MUST BE AUTHORIZED BY ADMIN)
+    // STRICT PASSWORD CHECK - Both admin and regular users must provide their exact password
+    if (foundUser.password !== cleanPass) {
+      this.logAudit({
+        usuarioId: foundUser.id,
+        usuarioNombre: foundUser.nombre,
+        usuarioEmail: foundUser.email,
+        usuarioCodigo: foundUser.codigo,
+        accion: 'Intento de inicio de sesión fallido (Contraseña incorrecta)',
+        detalles: `Identificador ingresado: ${identifier}`
+      });
+      return { success: false, message: 'Contraseña incorrecta. Por favor verifica tus credenciales e intenta nuevamente.' };
+    }
+
+    // CHECK AUTHORIZATION STATUS (Must be approved by admin)
     if (foundUser.estado === 'pendiente') {
       return {
         success: false,
@@ -358,11 +345,11 @@ export const AuthService = {
     if (foundUser.estado === 'rechazado') {
       return {
         success: false,
-        message: 'Tu acceso ha sido denegado o suspendido por el administrador.'
+        message: 'Tu acceso a la plataforma ha sido denegado o suspendido por la administradora.'
       };
     }
 
-    // Update last access
+    // Update last access timestamp
     const updatedUser: AuthUser = {
       ...foundUser,
       ultimoAcceso: new Date().toISOString().replace('T', ' ').substring(0, 19)
@@ -376,11 +363,75 @@ export const AuthService = {
       usuarioNombre: updatedUser.nombre,
       usuarioEmail: updatedUser.email,
       usuarioCodigo: updatedUser.codigo,
-      accion: `Inicio de Sesión Exitoso (${updatedUser.rol === 'admin' ? 'Administrador' : updatedUser.rol === 'lider' ? 'Líder' : 'Distribuidor'})`,
-      detalles: `Código HGW: ${updatedUser.codigo}`
+      accion: `Inicio de Sesión Exitoso (${updatedUser.rol === 'admin' ? 'Administradora' : updatedUser.rol === 'lider' ? 'Líder' : 'Distribuidor'})`,
+      detalles: `Código HGW: ${updatedUser.codigo} · Rol: ${updatedUser.rol.toUpperCase()}`
     });
 
-    return { success: true, user: updatedUser, message: `¡Bienvenido/a ${updatedUser.nombre}!` };
+    return { 
+      success: true, 
+      user: updatedUser, 
+      message: updatedUser.rol === 'admin' 
+        ? `¡Bienvenida Administradora ${updatedUser.nombre}!` 
+        : `¡Bienvenido/a ${updatedUser.nombre}!` 
+    };
+  },
+
+  // Update password for user
+  updatePassword(userId: string, currentPass: string, newPass: string): { success: boolean; message: string } {
+    const users = this.getUsers();
+    const index = users.findIndex(u => u.id === userId);
+    if (index === -1) {
+      return { success: false, message: 'Usuario no encontrado.' };
+    }
+    if (users[index].password !== currentPass.trim()) {
+      return { success: false, message: 'La contraseña actual no coincide.' };
+    }
+    if (newPass.trim().length < 3) {
+      return { success: false, message: 'La nueva contraseña debe tener al menos 3 caracteres.' };
+    }
+    users[index].password = newPass.trim();
+    this.saveUsers(users);
+
+    const current = this.getCurrentUser();
+    if (current && current.id === userId) {
+      this.setCurrentUser({ ...current, password: newPass.trim() });
+    }
+
+    this.logAudit({
+      usuarioId: users[index].id,
+      usuarioNombre: users[index].nombre,
+      usuarioEmail: users[index].email,
+      usuarioCodigo: users[index].codigo,
+      accion: 'Cambio de contraseña exitoso',
+      detalles: 'Contraseña actualizada por el usuario'
+    });
+
+    return { success: true, message: '¡Contraseña actualizada correctamente!' };
+  },
+
+  // Admin reset password for any user
+  adminResetPassword(userId: string, newPass: string): { success: boolean; message: string } {
+    const users = this.getUsers();
+    const index = users.findIndex(u => u.id === userId);
+    if (index === -1) {
+      return { success: false, message: 'Usuario no encontrado.' };
+    }
+    if (!newPass.trim()) {
+      return { success: false, message: 'La nueva contraseña no puede estar vacía.' };
+    }
+    users[index].password = newPass.trim();
+    this.saveUsers(users);
+
+    this.logAudit({
+      usuarioId: users[index].id,
+      usuarioNombre: users[index].nombre,
+      usuarioEmail: users[index].email,
+      usuarioCodigo: users[index].codigo,
+      accion: 'Contraseña restablecida por Administradora',
+      detalles: `Modificada por ${ADMIN_EMAIL}`
+    });
+
+    return { success: true, message: `Contraseña de ${users[index].nombre} restablecida correctamente a: ${newPass.trim()}` };
   },
 
   // Authorize / Approve user

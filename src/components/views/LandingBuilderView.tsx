@@ -12,10 +12,13 @@ import {
   Palette,
   ShieldCheck,
   Smartphone,
-  Laptop
+  Laptop,
+  User,
+  Image as ImageIcon
 } from 'lucide-react';
 import { Product, ContactData, LandingFormData } from '../../types';
 import { buildChatGPTLandingPrompt, generateStandAloneLandingHTML } from '../../lib/prompts/landingPrompts';
+import { getDirectImageUrl } from '../../lib/imageUtils';
 
 interface LandingBuilderViewProps {
   products: Product[];
@@ -32,6 +35,8 @@ export const LandingBuilderView: React.FC<LandingBuilderViewProps> = ({
 }) => {
   const currentProduct = selectedProduct || products[0];
 
+  const defaultPhoto = contact.fotoPerfil || 'https://drive.google.com/file/d/1KeOPcyuhctKp1qJsNsfw-nlUuXzyU_hf/view?usp=drive_link';
+
   const [formData, setFormData] = useState<LandingFormData>({
     nombreProducto: currentProduct.nombre,
     categoria: currentProduct.categoria,
@@ -45,6 +50,7 @@ export const LandingBuilderView: React.FC<LandingBuilderViewProps> = ({
     bv: currentProduct.BV,
     publicoObjetivo: 'Personas interesadas en salud natural, vitalidad y bienestar preventivo',
     nombreVendedor: contact.nombre,
+    fotoPerfil: defaultPhoto,
     empresa: 'Health Green World (HGW)',
     codigoDistribuidor: contact.codigo,
     whatsapp: contact.whatsapp,
@@ -96,6 +102,25 @@ export const LandingBuilderView: React.FC<LandingBuilderViewProps> = ({
     }
   }, [selectedProduct]);
 
+  // Sync contact profile updates
+  useEffect(() => {
+    setFormData(prev => ({
+      ...prev,
+      nombreVendedor: contact.nombre || prev.nombreVendedor,
+      fotoPerfil: contact.fotoPerfil || prev.fotoPerfil,
+      codigoDistribuidor: contact.codigo || prev.codigoDistribuidor,
+      whatsapp: contact.whatsapp || prev.whatsapp,
+      linkWhatsapp: contact.enlaceWhatsapp || prev.linkWhatsapp,
+      email: contact.email || prev.email,
+      ciudad: contact.ciudad || prev.ciudad,
+      pais: contact.pais || prev.pais,
+      enlaceReferido: contact.enlaceReferido || prev.enlaceReferido,
+      videoTutorialRegistro: contact.videoTutorialRegistro || prev.videoTutorialRegistro,
+      videoOpcional1: contact.videoOpcional1 || prev.videoOpcional1,
+      videoOpcional2: contact.videoOpcional2 || prev.videoOpcional2
+    }));
+  }, [contact]);
+
   const handleProductSelectChange = (productId: string) => {
     const prod = products.find(p => p.id === productId);
     if (prod) {
@@ -105,6 +130,7 @@ export const LandingBuilderView: React.FC<LandingBuilderViewProps> = ({
 
   const masterPrompt = buildChatGPTLandingPrompt(formData);
   const generatedHTML = generateStandAloneLandingHTML(formData);
+  const directAvatar = getDirectImageUrl(formData.fotoPerfil);
 
   const copyPrompt = () => {
     navigator.clipboard.writeText(masterPrompt);
@@ -265,6 +291,54 @@ export const LandingBuilderView: React.FC<LandingBuilderViewProps> = ({
               />
             </div>
 
+            {/* Profile Picture of the Distributor (Requested) */}
+            <div className="sm:col-span-2 bg-emerald-50/60 p-3.5 rounded-2xl border border-emerald-200/80 space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-bold text-emerald-950 flex items-center gap-1.5">
+                  <User className="w-4 h-4 text-emerald-700" />
+                  <span>Foto de Perfil de la Distribuidora (Landing Page)</span>
+                </label>
+                <span className="text-[11px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md">
+                  Google Drive / Direct URL
+                </span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="relative shrink-0">
+                  <div className="w-12 h-12 rounded-full p-0.5 bg-gradient-to-tr from-[#0B3D2E] to-[#D4AF37] shadow-sm">
+                    {directAvatar ? (
+                      <img
+                        src={directAvatar}
+                        alt={formData.nombreVendedor}
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover rounded-full bg-white"
+                        onError={(e) => {
+                          (e.target as HTMLElement).style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <div className="w-full h-full rounded-full bg-emerald-900 text-white flex items-center justify-center font-bold text-xs">
+                        HGW
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <input
+                    type="text"
+                    value={formData.fotoPerfil || ''}
+                    onChange={(e) => setFormData({ ...formData, fotoPerfil: e.target.value })}
+                    placeholder="https://drive.google.com/file/d/1KeOPcyuhctKp1qJsNsfw-nlUuXzyU_hf/view?usp=drive_link"
+                    className="w-full bg-white border border-emerald-300 rounded-xl px-3 py-2 text-xs font-mono text-slate-900 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                  />
+                  <p className="text-[11px] text-slate-500 mt-1">
+                    Aparecerá en el encabezado, en la sección de asesora oficial con marco dorado y en el pie de página de la landing page.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             {/* WhatsApp */}
             <div className="sm:col-span-2">
               <label className="block text-xs font-bold text-slate-700 mb-1">WhatsApp de Pedidos</label>
@@ -324,23 +398,49 @@ export const LandingBuilderView: React.FC<LandingBuilderViewProps> = ({
           
           {/* Quick Preview Card */}
           <div className="bg-gradient-to-br from-[#0B3D2E] to-slate-900 text-white p-5 rounded-2xl border border-emerald-500/30 shadow-md">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-xl bg-white p-1 flex items-center justify-center shrink-0">
-                <img
-                  src={formData.imagenPrincipal}
-                  alt={formData.nombreProducto}
-                  className="max-h-8 max-w-full object-contain"
-                  referrerPolicy="no-referrer"
-                />
+            <div className="flex items-center justify-between gap-3 mb-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-white p-1 flex items-center justify-center shrink-0">
+                  <img
+                    src={formData.imagenPrincipal}
+                    alt={formData.nombreProducto}
+                    className="max-h-8 max-w-full object-contain"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <div>
+                  <span className="text-xs text-emerald-300 font-bold block">{formData.nombreProducto}</span>
+                  <span className="text-[11px] text-slate-300">Oferta: ${formData.precio.toFixed(2)} USD</span>
+                </div>
               </div>
-              <div>
-                <span className="text-xs text-emerald-300 font-bold block">{formData.nombreProducto}</span>
-                <span className="text-[11px] text-slate-300">Oferta: ${formData.precio.toFixed(2)} USD</span>
+
+              {/* Distributor mini avatar */}
+              <div className="flex items-center gap-1.5 bg-white/10 px-2.5 py-1 rounded-full border border-white/10 shrink-0">
+                <div className="w-6 h-6 rounded-full overflow-hidden bg-slate-200 border border-[#D4AF37]">
+                  {directAvatar ? (
+                    <img
+                      src={directAvatar}
+                      alt={formData.nombreVendedor}
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLElement).style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-emerald-950 text-[10px] text-white flex items-center justify-center font-bold">
+                      HGW
+                    </div>
+                  )}
+                </div>
+                <span className="text-[11px] font-medium text-emerald-200 truncate max-w-[90px]">
+                  {formData.nombreVendedor.split(' ')[0]}
+                </span>
               </div>
             </div>
 
             <p className="text-xs text-emerald-100/90 leading-relaxed mb-4">
-              La landing page incluirá el botón flotante de WhatsApp preconfigurado para contactar a <strong>{formData.nombreVendedor}</strong> (Cód: {formData.codigoDistribuidor}).
+              La landing page incluirá el botón flotante de WhatsApp y la sección de asesora oficial con foto para <strong>{formData.nombreVendedor}</strong> (Cód: {formData.codigoDistribuidor}).
             </p>
 
             <div className="grid grid-cols-2 gap-2">

@@ -171,7 +171,7 @@ export const App: React.FC = () => {
           
           {/* Admin panel tab (Protected for admin role) */}
           {currentTab === 'admin_users' && isAdmin && (
-            <AdminUsersView currentUser={authUser} />
+            <AdminUsersView currentAdminUser={authUser} currentUser={authUser} />
           )}
 
           {currentTab === 'dashboard' && (
@@ -240,6 +240,7 @@ export const App: React.FC = () => {
           {currentTab === 'settings' && (
             <SettingsView
               contact={contact}
+              authUser={authUser}
               onUpdateContact={handleUpdateContact}
             />
           )}

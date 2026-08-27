@@ -16,27 +16,71 @@ import {
   Image as ImageIcon,
   Video,
   UserPlus,
-  Copy
+  Copy,
+  Key,
+  Lock,
+  AlertCircle
 } from 'lucide-react';
-import { ContactData } from '../../types';
+import { ContactData, AuthUser } from '../../types';
 import { getDirectImageUrl } from '../../lib/imageUtils';
+import { AuthService } from '../../lib/authService';
 
 interface SettingsViewProps {
   contact: ContactData;
+  authUser?: AuthUser;
   onUpdateContact: (newContact: ContactData) => void;
 }
 
 export const SettingsView: React.FC<SettingsViewProps> = ({
   contact,
+  authUser,
   onUpdateContact
 }) => {
   const [formData, setFormData] = useState<ContactData>(contact);
   const [isSaved, setIsSaved] = useState(false);
   const [copiedRef, setCopiedRef] = useState(false);
 
+  // Password state
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passFeedback, setPassFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
   const defaultProfileUrl = 'https://drive.google.com/file/d/1KeOPcyuhctKp1qJsNsfw-nlUuXzyU_hf/view?usp=drive_link';
   const defaultReferralUrl = 'https://hgwpanama.com/registro?ref=Yamilka507';
   const defaultVideoTutorial = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'; // Replace with distributor tutorial
+
+  const handlePasswordChange = (e: React.FormEvent) => {
+    e.preventDefault();
+    setPassFeedback(null);
+
+    const currentUser = authUser || AuthService.getCurrentUser();
+    if (!currentUser) {
+      setPassFeedback({ type: 'error', message: 'No hay usuario autenticado.' });
+      return;
+    }
+
+    if (!currentPassword.trim() || !newPassword.trim()) {
+      setPassFeedback({ type: 'error', message: 'Por favor completa la contraseña actual y la nueva contraseña.' });
+      return;
+    }
+
+    if (newPassword.trim() !== confirmPassword.trim()) {
+      setPassFeedback({ type: 'error', message: 'La nueva contraseña y su confirmación no coinciden.' });
+      return;
+    }
+
+    const res = AuthService.updatePassword(currentUser.id, currentPassword, newPassword);
+    if (res.success) {
+      setPassFeedback({ type: 'success', message: res.message });
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+      setTimeout(() => setPassFeedback(null), 4000);
+    } else {
+      setPassFeedback({ type: 'error', message: res.message });
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -387,6 +431,88 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         </div>
 
       </form>
+
+      {/* SECTION: SECURITY & PASSWORD CHANGE */}
+      <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div>
+            <h3 className="font-heading font-bold text-base text-slate-900 flex items-center gap-2">
+              <Lock className="w-5 h-5 text-emerald-700" />
+              <span>Seguridad de la Cuenta & Cambio de Contraseña</span>
+            </h3>
+            <p className="text-xs text-slate-500">
+              Actualiza tu contraseña de acceso para mantener protegida tu cuenta.
+            </p>
+          </div>
+          {authUser && (
+            <span className="text-xs font-bold uppercase px-2.5 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-lg">
+              Rol: {authUser.rol}
+            </span>
+          )}
+        </div>
+
+        {passFeedback && (
+          <div className={`p-3.5 rounded-xl border text-xs font-bold flex items-center gap-2 ${
+            passFeedback.type === 'success' ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : 'bg-rose-50 text-rose-800 border-rose-200'
+          }`}>
+            {passFeedback.type === 'success' ? <Check className="w-4 h-4 text-emerald-600" /> : <AlertCircle className="w-4 h-4 text-rose-600" />}
+            <span>{passFeedback.message}</span>
+          </div>
+        )}
+
+        <form onSubmit={handlePasswordChange} className="space-y-4 max-w-xl">
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+              Contraseña Actual *
+            </label>
+            <input
+              type="password"
+              required
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              placeholder="Ingresa tu contraseña actual"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+            />
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                Nueva Contraseña *
+              </label>
+              <input
+                type="password"
+                required
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="Nueva contraseña"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                Confirmar Nueva Contraseña *
+              </label>
+              <input
+                type="password"
+                required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Repite la nueva contraseña"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="bg-slate-900 hover:bg-slate-800 text-white font-bold px-6 py-2.5 rounded-xl text-xs sm:text-sm shadow-md transition flex items-center gap-2 cursor-pointer active:scale-95"
+          >
+            <Key className="w-4 h-4 text-[#D4AF37]" />
+            <span>Actualizar Mi Contraseña</span>
+          </button>
+        </form>
+      </div>
 
     </div>
   );

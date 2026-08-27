@@ -145,6 +145,7 @@ export interface LandingFormData {
 
   // Información comercial
   nombreVendedor: string;
+  fotoPerfil?: string;
   empresa: string;
   codigoDistribuidor: string;
   whatsapp: string;
