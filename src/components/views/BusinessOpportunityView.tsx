@@ -65,14 +65,13 @@ export const BusinessOpportunityView: React.FC<BusinessOpportunityViewProps> = (
   });
 
   const stageTabs: Array<{ id: BusinessStage | 'all'; label: string; icon: React.ElementType; badge?: string; desc: string }> = [
-    { id: 'all', label: 'Todos los Copys', icon: Layers, desc: 'Ver todo el arsenal de prospección, cierres y herramientas' },
-    { id: 'prospeccion', label: '1. Prospección', icon: Target, badge: 'Atracción', desc: 'Ganchos para captar prospectos en frío y tibio' },
-    { id: 'presentacion', label: '2. Presentación', icon: Briefcase, badge: 'Ganancia Mutua', desc: 'Explicación del modelo, membresías y Zoom' },
-    { id: 'seguimiento', label: '3. Seguimiento', icon: MessageSquare, badge: 'Objeciones', desc: 'Pregunta de escala y manejo de tiempo/dinero' },
-    { id: 'cierre', label: '4. Cierre', icon: Award, badge: 'Afiliación', desc: 'Cierre doble opción, urgencia y llamada de 3 vías' },
-    { id: 'acompanamiento', label: '5. Acompañamiento', icon: Users, badge: 'Duplicación', desc: 'Plan 48 hrs, bienvenida y lista inteligente' },
-    { id: 'herramientas_trabajo', label: '6. Herramientas', icon: FileSpreadsheet, badge: 'Sistema', desc: 'Spa facial, catálogo digital y Backoffice' },
-    { id: 'herramientas_ia', label: '7. Herramientas con IA', icon: Bot, badge: 'Automatización', desc: 'TikTok, Reels, ChatGPT y WhatsApp Business' }
+    { id: 'all', label: 'Todos (300 Copys)', icon: Layers, desc: 'Ver todo el arsenal de prospección, cierres y herramientas con IA' },
+    { id: 'prospeccion', label: '1. Prospección (50)', icon: Target, badge: '50 Copys', desc: 'Ganchos AIDA para captar prospectos en frío y tibio' },
+    { id: 'presentacion', label: '2. Presentación (50)', icon: Briefcase, badge: '50 Copys', desc: 'Explicación del Plan de Ganancia Mutua 50% y Zoom' },
+    { id: 'seguimiento', label: '3. Seguimiento (50)', icon: MessageSquare, badge: '50 Copys', desc: 'Preguntas de escala y manejo profesional de objeciones' },
+    { id: 'cierre', label: '4. Cierre (50)', icon: Award, badge: '50 Copys', desc: 'Cierres de membresías Master/Senior y sentido de urgencia' },
+    { id: 'acompanamiento', label: '5. Acompañamiento (50)', icon: Users, badge: '50 Copys', desc: 'Plan de arranque rápido 48 hrs y duplicación' },
+    { id: 'herramientas_ia', label: '6. Herramientas con IA (50)', icon: Bot, badge: '50 Copys', desc: 'Automatización con ChatGPT, Reels, TikTok y WhatsApp' }
   ];
 
   const formatMessageWithContact = (rawMessage: string): string => {

@@ -63,7 +63,18 @@ export const HealthProtocolsView: React.FC<HealthProtocolsViewProps> = ({ contac
       .replace(/\[PAIS\]/g, contact.pais || 'Panamá e Internacional');
   };
 
-  const currentCopys = PROTOCOL_COPYS.filter(c => c.protocolId === selectedProtocolId);
+  const filteredCopys = PROTOCOL_COPYS.filter(c => {
+    if (c.protocolId !== selectedProtocolId) return false;
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase().trim();
+    return (
+      c.title.toLowerCase().includes(q) ||
+      c.hook.toLowerCase().includes(q) ||
+      c.body.toLowerCase().includes(q) ||
+      c.suggestedCombo.toLowerCase().includes(q) ||
+      c.tags.some(t => t.toLowerCase().includes(q))
+    );
+  });
 
   const handleCopyText = (text: string, id: string) => {
     const formatted = formatMessageWithContact(text);
@@ -324,18 +335,31 @@ export const HealthProtocolsView: React.FC<HealthProtocolsViewProps> = ({ contac
 
       {/* Ready-to-Use Copys for this Protocol */}
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="font-heading font-bold text-lg text-slate-900 flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-emerald-700" />
-            <span>Copys con Método AIDA Listos para Redes Sociales & WhatsApp</span>
-          </h3>
-          <span className="text-xs text-slate-500">
-            {currentCopys.length} variaciones especializadas
-          </span>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200/80">
+          <div>
+            <h3 className="font-heading font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-emerald-700" />
+              <span>Copys con Método AIDA Listos para Redes & WhatsApp ({filteredCopys.length} de 30)</span>
+            </h3>
+            <p className="text-xs text-slate-500">
+              Contenido persuasivo con llamado a la acción personalizado y botón para generar imagen Master con IA.
+            </p>
+          </div>
+
+          <div className="relative w-full sm:w-64">
+            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              placeholder="Buscar en este protocolo..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-8 pr-4 py-1.5 bg-slate-50 hover:bg-slate-100/70 focus:bg-white border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition"
+            />
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-5">
-          {currentCopys.map((copy) => {
+          {filteredCopys.map((copy) => {
             const isCopied = copiedId === copy.id;
 
             return (
