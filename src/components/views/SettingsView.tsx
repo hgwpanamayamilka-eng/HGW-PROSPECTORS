@@ -11,7 +11,9 @@ import {
   Tag, 
   Globe, 
   Mail,
-  Sparkles
+  Sparkles,
+  Camera,
+  Image as ImageIcon
 } from 'lucide-react';
 import { ContactData } from '../../types';
 
@@ -26,6 +28,8 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 }) => {
   const [formData, setFormData] = useState<ContactData>(contact);
   const [isSaved, setIsSaved] = useState(false);
+
+  const defaultProfileUrl = 'https://hgwpanama.com/wp-content/uploads/Foto-de-perfil-Yamilka-Batista-HGW.png';
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +47,8 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
       ciudad: 'Ciudad de Panamá',
       enlaceWhatsapp: 'https://wa.me/50767603578',
       email: 'contacto@yamilkabatista.com',
-      sitioWeb: 'https://hgw.yamilkabatista.com'
+      sitioWeb: 'https://hgw.yamilkabatista.com',
+      fotoPerfil: defaultProfileUrl
     };
     setFormData(defaults);
     onUpdateContact(defaults);
@@ -60,16 +65,66 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
       <div>
         <h2 className="font-heading text-2xl font-bold text-slate-900 flex items-center gap-2">
           <Settings className="w-6 h-6 text-emerald-700" />
-          Configuración del Distribuidor & WhatsApp
+          Configuración del Distribuidor & Foto de Perfil
         </h2>
         <p className="text-xs sm:text-sm text-slate-500">
-          Personaliza los datos de contacto que se insertan automáticamente en todos los copys, landing pages y cierres
+          Personaliza los datos de contacto y fotografía oficial que se insertan en todos los copys, cabeceras, landing pages y cierres
         </p>
       </div>
 
       {/* Form Card */}
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-5">
+      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs space-y-6">
         
+        {/* Photo Profile Section */}
+        <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 flex flex-col sm:flex-row items-center gap-4">
+          <div className="relative group shrink-0">
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#1F7A5A] to-[#0B3D2E] overflow-hidden border-2 border-emerald-500 shadow-md flex items-center justify-center text-white font-bold text-xl">
+              {formData.fotoPerfil ? (
+                <img
+                  src={formData.fotoPerfil}
+                  alt={formData.nombre}
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLElement).style.display = 'none';
+                  }}
+                />
+              ) : (
+                <span>YB</span>
+              )}
+            </div>
+            <div className="absolute -bottom-1 -right-1 bg-[#D4AF37] text-slate-950 p-1 rounded-full shadow-xs border border-white">
+              <Camera className="w-3.5 h-3.5" />
+            </div>
+          </div>
+
+          <div className="flex-1 w-full space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                <ImageIcon className="w-3.5 h-3.5 text-emerald-700" />
+                <span>URL de la Foto de Perfil Oficial</span>
+              </label>
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, fotoPerfil: defaultProfileUrl })}
+                className="text-[11px] font-bold text-emerald-700 hover:text-emerald-800 transition underline cursor-pointer"
+              >
+                Usar foto oficial de Yamilka Batista
+              </button>
+            </div>
+            <input
+              type="url"
+              value={formData.fotoPerfil || ''}
+              onChange={(e) => setFormData({ ...formData, fotoPerfil: e.target.value })}
+              placeholder="https://ejemplo.com/foto-de-perfil.png"
+              className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+            />
+            <p className="text-[11px] text-slate-500">
+              Se muestra en el Header, barra lateral, tarjetas de perfil y páginas de prospección.
+            </p>
+          </div>
+        </div>
+
         <div className="grid sm:grid-cols-2 gap-4">
           
           {/* Name */}
@@ -196,7 +251,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           <button
             type="button"
             onClick={handleReset}
-            className="text-xs font-bold text-slate-500 hover:text-slate-700 flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-slate-100 transition"
+            className="text-xs font-bold text-slate-500 hover:text-slate-700 flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-slate-100 transition cursor-pointer"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Restablecer Valores Predeterminados</span>
@@ -204,7 +259,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
           <button
             type="submit"
-            className="bg-[#0B3D2E] hover:bg-emerald-900 text-white font-bold px-6 py-2.5 rounded-xl text-xs sm:text-sm shadow-md transition flex items-center gap-2 active:scale-95"
+            className="bg-[#0B3D2E] hover:bg-emerald-900 text-white font-bold px-6 py-2.5 rounded-xl text-xs sm:text-sm shadow-md transition flex items-center gap-2 active:scale-95 cursor-pointer"
           >
             {isSaved ? <Check className="w-4 h-4 text-emerald-400" /> : <Save className="w-4 h-4 text-[#D4AF37]" />}
             <span>{isSaved ? '¡Configuración Guardada!' : 'Guardar Cambios'}</span>

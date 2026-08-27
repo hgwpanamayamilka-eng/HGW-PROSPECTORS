@@ -244,8 +244,20 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           {/* Official Profile Card */}
           <div className="bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 shadow-md">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#1F7A5A] to-[#0B3D2E] flex items-center justify-center font-heading font-black text-lg text-[#D4AF37]">
-                YB
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#1F7A5A] to-[#0B3D2E] flex items-center justify-center font-heading font-black text-lg text-[#D4AF37] overflow-hidden border-2 border-emerald-500/40 shadow-md shrink-0">
+                {contact.fotoPerfil ? (
+                  <img
+                    src={contact.fotoPerfil}
+                    alt={contact.nombre}
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLElement).style.display = 'none';
+                    }}
+                  />
+                ) : (
+                  <span>YB</span>
+                )}
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
@@ -253,6 +265,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   <ShieldCheck className="w-4 h-4 text-emerald-400" />
                 </div>
                 <span className="text-xs text-emerald-400 font-mono">Código: {contact.codigo}</span>
+                <span className="text-[11px] text-slate-400 block">{contact.ciudad}, {contact.pais}</span>
               </div>
             </div>
 

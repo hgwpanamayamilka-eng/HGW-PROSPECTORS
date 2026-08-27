@@ -21,15 +21,7 @@ export const App: React.FC = () => {
 
   // Default distributor profile (Yamilka Batista) with localStorage persistence
   const [contact, setContact] = useState<ContactData>(() => {
-    const saved = localStorage.getItem('hgw_contact_data');
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        console.error('Error parsing saved contact data', e);
-      }
-    }
-    return {
+    const defaultProfile: ContactData = {
       nombre: 'Yamilka Batista',
       whatsapp: '67603578',
       codigo: 'Yamilka507',
@@ -37,8 +29,24 @@ export const App: React.FC = () => {
       ciudad: 'Ciudad de Panamá',
       enlaceWhatsapp: 'https://wa.me/50767603578',
       email: 'contacto@yamilkabatista.com',
-      sitioWeb: 'https://hgw.yamilkabatista.com'
+      sitioWeb: 'https://hgw.yamilkabatista.com',
+      fotoPerfil: 'https://hgwpanama.com/wp-content/uploads/Foto-de-perfil-Yamilka-Batista-HGW.png'
     };
+
+    const saved = localStorage.getItem('hgw_contact_data');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        return {
+          ...defaultProfile,
+          ...parsed,
+          fotoPerfil: parsed.fotoPerfil || defaultProfile.fotoPerfil
+        };
+      } catch (e) {
+        console.error('Error parsing saved contact data', e);
+      }
+    }
+    return defaultProfile;
   });
 
   const handleUpdateContact = (newContact: ContactData) => {

@@ -207,6 +207,7 @@ export interface ContactData {
   codigo: string;
   pais?: string;
   ciudad?: string;
+  fotoPerfil?: string;
 }
 
 export type HistoryCategory = 'copys' | 'images' | 'landing' | 'quotes' | 'network';

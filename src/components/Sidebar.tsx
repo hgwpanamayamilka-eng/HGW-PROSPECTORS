@@ -138,8 +138,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div className="p-4 border-t border-slate-800/80 space-y-3">
         <div className="bg-slate-800/60 p-3 rounded-xl border border-slate-700/60">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#D4AF37] text-slate-950 font-extrabold flex items-center justify-center text-xs">
-              ★
+            <div className="w-10 h-10 rounded-full bg-[#D4AF37] text-slate-950 font-extrabold flex items-center justify-center text-xs overflow-hidden border-2 border-emerald-500/50 shrink-0">
+              {contact.fotoPerfil ? (
+                <img
+                  src={contact.fotoPerfil}
+                  alt={contact.nombre}
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLElement).style.display = 'none';
+                  }}
+                />
+              ) : (
+                <span>★</span>
+              )}
             </div>
             <div className="overflow-hidden">
               <span className="text-xs font-bold text-white block truncate">{contact.nombre}</span>
@@ -147,7 +159,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
           </div>
           <div className="mt-2.5 pt-2 border-t border-slate-700/40 flex items-center justify-between text-[11px]">
-            <span className="text-slate-400">WhatsApp Oficial:</span>
+            <span className="text-slate-400">WhatsApp:</span>
             <span className="text-white font-mono font-medium">{contact.whatsapp}</span>
           </div>
         </div>

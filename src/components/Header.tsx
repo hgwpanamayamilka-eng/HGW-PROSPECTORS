@@ -54,15 +54,27 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Official Badge */}
           <div 
             onClick={onOpenSettings}
-            className="hidden md:flex items-center gap-2.5 bg-emerald-50 hover:bg-emerald-100/80 border border-emerald-200/60 rounded-xl px-3.5 py-1.5 cursor-pointer transition"
-            title="Haz clic para editar los datos de contacto y WhatsApp"
+            className="hidden md:flex items-center gap-2.5 bg-emerald-50 hover:bg-emerald-100/80 border border-emerald-200/60 rounded-xl px-3 py-1.5 cursor-pointer transition group"
+            title="Haz clic para editar los datos de contacto y foto de perfil"
           >
-            <div className="w-8 h-8 rounded-lg bg-[#0B3D2E] text-white flex items-center justify-center font-bold text-xs shadow-xs">
-              YB
+            <div className="w-9 h-9 rounded-full bg-[#0B3D2E] text-white flex items-center justify-center font-bold text-xs shadow-xs overflow-hidden border-2 border-emerald-600/40 shrink-0">
+              {contact.fotoPerfil ? (
+                <img
+                  src={contact.fotoPerfil}
+                  alt={contact.nombre}
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLElement).style.display = 'none';
+                  }}
+                />
+              ) : (
+                <span>YB</span>
+              )}
             </div>
             <div className="text-left">
               <div className="flex items-center gap-1.5">
-                <span className="text-xs font-bold text-slate-800 leading-none">{contact.nombre}</span>
+                <span className="text-xs font-bold text-slate-800 leading-none group-hover:text-emerald-800 transition">{contact.nombre}</span>
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
               </div>
               <span className="text-[10px] text-emerald-800 font-semibold">Cód: {contact.codigo}</span>
