@@ -376,6 +376,93 @@ export const AuthService = {
     };
   },
 
+  // Setup / Initialize Administrator Master Password
+  setupAdminMasterPassword(identifier: string, newPass: string): { success: boolean; user?: AuthUser; message: string } {
+    const cleanId = identifier.trim().toLowerCase();
+    const cleanPass = newPass.trim();
+
+    if (!cleanPass || cleanPass.length < 3) {
+      return { success: false, message: 'La contraseña debe tener al menos 3 caracteres.' };
+    }
+
+    // Verify if identifier belongs to the authorized admin
+    const isAdminId = 
+      cleanId === 'info.yamilka@gmail.com' ||
+      cleanId === 'ybaguila1923@gmail.com' ||
+      cleanId === 'yamilka507' ||
+      cleanId === 'yamilka';
+
+    if (!isAdminId) {
+      return { 
+        success: false, 
+        message: 'El correo o código ingresado no corresponde a la cuenta de Administradora Principal (info.yamilka@gmail.com / ybaguila1923@gmail.com).' 
+      };
+    }
+
+    const users = this.getUsers();
+    let updatedAdmin: AuthUser | null = null;
+
+    // Update all admin records with the new password
+    const updatedUsers = users.map(u => {
+      if (
+        u.rol === 'admin' ||
+        u.email.toLowerCase() === 'info.yamilka@gmail.com' ||
+        u.email.toLowerCase() === 'ybaguila1923@gmail.com' ||
+        u.codigo.toLowerCase() === 'yamilka507'
+      ) {
+        const adminObj: AuthUser = {
+          ...u,
+          password: cleanPass,
+          estado: 'aprobado',
+          ultimoAcceso: new Date().toISOString().replace('T', ' ').substring(0, 19)
+        };
+        if (!updatedAdmin || u.email.toLowerCase() === cleanId) {
+          updatedAdmin = adminObj;
+        }
+        return adminObj;
+      }
+      return u;
+    });
+
+    if (!updatedAdmin) {
+      updatedAdmin = {
+        id: 'usr_admin_yamilka',
+        nombre: 'Yamilka Batista',
+        email: cleanId.includes('@') ? cleanId : ADMIN_EMAIL,
+        codigo: 'Yamilka507',
+        telefono: '67603578',
+        ciudad: 'Ciudad de Panamá',
+        pais: 'Panamá',
+        rol: 'admin',
+        estado: 'aprobado',
+        password: cleanPass,
+        fechaRegistro: new Date().toISOString().replace('T', ' ').substring(0, 19),
+        ultimoAcceso: new Date().toISOString().replace('T', ' ').substring(0, 19),
+        fotoPerfil: 'https://drive.google.com/file/d/1KeOPcyuhctKp1qJsNsfw-nlUuXzyU_hf/view?usp=drive_link',
+        notificadoEmailAdmin: true
+      };
+      updatedUsers.unshift(updatedAdmin);
+    }
+
+    this.saveUsers(updatedUsers);
+    this.setCurrentUser(updatedAdmin);
+
+    this.logAudit({
+      usuarioId: updatedAdmin.id,
+      usuarioNombre: updatedAdmin.nombre,
+      usuarioEmail: updatedAdmin.email,
+      usuarioCodigo: updatedAdmin.codigo,
+      accion: 'Configuración inicial de contraseña de Administradora',
+      detalles: `Contraseña maestra establecida para ${updatedAdmin.email}`
+    });
+
+    return {
+      success: true,
+      user: updatedAdmin,
+      message: `¡Contraseña de Administradora creada con éxito! Bienvenida ${updatedAdmin.nombre}.`
+    };
+  },
+
   // Update password for user
   updatePassword(userId: string, currentPass: string, newPass: string): { success: boolean; message: string } {
     const users = this.getUsers();
