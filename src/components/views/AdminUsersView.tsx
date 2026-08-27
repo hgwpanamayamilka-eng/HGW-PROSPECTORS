@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   ShieldAlert, 
   ShieldCheck, 
+  Shield,
   Users, 
   UserCheck, 
   UserX, 
@@ -81,16 +82,20 @@ export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser
   const handleApprove = (userId: string, userName: string) => {
     const success = AuthService.approveUser(userId);
     if (success) {
-      showToast(`¡Usuario ${userName} APROBADO exitosamente! Ahora puede ingresar.`);
+      showToast(`¡Usuario ${userName} APROBADO y AUTORIZADO con éxito!`);
       reloadData();
+    } else {
+      showToast('Error al autorizar usuario.', 'error');
     }
   };
 
   const handleReject = (userId: string, userName: string) => {
     const success = AuthService.rejectUser(userId);
     if (success) {
-      showToast(`Acceso para ${userName} ha sido REVOCADO / RECHAZADO.`, 'error');
+      showToast(`Solicitud de ${userName} RECHAZADA / Acceso suspendido.`);
       reloadData();
+    } else {
+      showToast('Error al procesar el rechazo.', 'error');
     }
   };
 
@@ -103,10 +108,14 @@ export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser
   };
 
   const handleDelete = (userId: string, userName: string) => {
-    if (confirm(`¿Estás seguro de eliminar permanentemente al usuario ${userName}?`)) {
-      AuthService.deleteUser(userId);
-      showToast(`Usuario ${userName} eliminado del sistema.`);
-      reloadData();
+    if (window.confirm(`¿Estás segura de eliminar permanentemente al usuario ${userName}? Esta acción no se puede deshacer.`)) {
+      const success = AuthService.deleteUser(userId);
+      if (success) {
+        showToast(`Usuario ${userName} eliminado del sistema.`);
+        reloadData();
+      } else {
+        showToast('No se puede eliminar a la administradora principal.', 'error');
+      }
     }
   };
 
@@ -238,7 +247,7 @@ export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-600">Pendientes de Autorización</span>
+            <span className="text-xs font-bold text-slate-600">Solicitudes Pendientes</span>
             <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-700 flex items-center justify-center font-bold">
               <Clock className="w-4 h-4" />
             </div>
@@ -246,7 +255,7 @@ export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser
           <div className="mt-2 flex items-baseline gap-2">
             <span className="text-2xl font-black text-slate-900">{pendingCount}</span>
             {pendingCount > 0 && (
-              <span className="text-[11px] font-bold text-amber-700 animate-pulse">¡Requiere tu acción!</span>
+              <span className="text-[11px] font-bold text-amber-700 animate-pulse">¡Aprobar / Rechazar!</span>
             )}
           </div>
         </div>
@@ -256,14 +265,14 @@ export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser
           className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs cursor-pointer hover:border-emerald-400 transition"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-600">Usuarios Aprobados</span>
+            <span className="text-xs font-bold text-slate-600">Usuarios Registrados</span>
             <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
               <UserCheck className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-2 flex items-baseline gap-2">
             <span className="text-2xl font-black text-slate-900">{approvedCount}</span>
-            <span className="text-[11px] text-emerald-700 font-semibold">Socios activos</span>
+            <span className="text-[11px] text-emerald-700 font-semibold">Distribuidores activos</span>
           </div>
         </div>
 
@@ -272,7 +281,7 @@ export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser
           className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs cursor-pointer hover:border-blue-400 transition"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-600">Avisos a {ADMIN_EMAIL}</span>
+            <span className="text-xs font-bold text-slate-600">Avisos a Administradora</span>
             <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
               <Mail className="w-4 h-4" />
             </div>
@@ -316,18 +325,30 @@ export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser
             }`}
           >
             <Clock className="w-3.5 h-3.5" />
-            <span>Pendientes de Autorizar ({pendingCount})</span>
+            <span>📋 Solicitudes de Registro ({pendingCount})</span>
           </button>
 
           <button
-            onClick={() => { setActiveSubTab('users'); setStatusFilter('todos'); }}
+            onClick={() => { setActiveSubTab('users'); setStatusFilter('aprobado'); }}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-pointer ${
-              activeSubTab === 'users'
+              activeSubTab === 'users' && statusFilter === 'aprobado'
                 ? 'bg-[#0B3D2E] text-white shadow-xs'
                 : 'text-slate-700 hover:bg-slate-100'
             }`}
           >
             <Users className="w-3.5 h-3.5" />
+            <span>👥 Usuarios Registrados (Activos) ({approvedCount})</span>
+          </button>
+
+          <button
+            onClick={() => { setActiveSubTab('users'); setStatusFilter('todos'); }}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-pointer ${
+              activeSubTab === 'users' && statusFilter === 'todos'
+                ? 'bg-slate-800 text-white shadow-xs'
+                : 'text-slate-700 hover:bg-slate-100'
+            }`}
+          >
+            <Shield className="w-3.5 h-3.5" />
             <span>Todos los Usuarios ({users.length})</span>
           </button>
 
@@ -352,12 +373,12 @@ export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser
             }`}
           >
             <Bell className="w-3.5 h-3.5" />
-            <span>Notificaciones por Email ({unreadNotifsCount})</span>
+            <span>Notificaciones ({unreadNotifsCount})</span>
           </button>
         </div>
 
         <div className="text-[11px] text-slate-500 font-medium px-3">
-          Administrador: <strong className="text-slate-800">{currentAdminUser.email}</strong>
+          Administradora: <strong className="text-slate-800">{activeAdmin?.email || ADMIN_EMAIL}</strong>
         </div>
       </div>
 
@@ -540,53 +561,80 @@ export const AdminUsersView: React.FC<AdminUsersViewProps> = ({ currentAdminUser
                       <td className="p-3 text-right">
                         <div className="flex items-center justify-end gap-1.5">
                           
-                          {/* Approve Button */}
-                          {user.estado !== 'aprobado' && (
+                          {/* Pending Requests: Prominent Approve and Reject buttons */}
+                          {user.estado === 'pendiente' && (
+                            <>
+                              <button
+                                onClick={() => handleApprove(user.id, user.nombre)}
+                                className="px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-sm transition cursor-pointer active:scale-95"
+                                title="Aprobar y Autorizar Acceso"
+                              >
+                                <Check className="w-3.5 h-3.5 text-emerald-200" />
+                                <span>Aprobar</span>
+                              </button>
+
+                              <button
+                                onClick={() => handleReject(user.id, user.nombre)}
+                                className="px-2.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs flex items-center gap-1 shadow-sm transition cursor-pointer active:scale-95"
+                                title="Rechazar Solicitud de Registro"
+                              >
+                                <X className="w-3.5 h-3.5 text-rose-200" />
+                                <span>Rechazar</span>
+                              </button>
+                            </>
+                          )}
+
+                          {/* Approved User Actions */}
+                          {user.estado === 'aprobado' && (
+                            <>
+                              {user.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase() && (
+                                <button
+                                  onClick={() => handleReject(user.id, user.nombre)}
+                                  className="p-1.5 text-amber-700 hover:bg-amber-100 rounded-lg transition cursor-pointer"
+                                  title="Suspender / Revocar acceso temporalmente"
+                                >
+                                  <UserX className="w-4 h-4" />
+                                </button>
+                              )}
+
+                              {/* Reset / Change Password Button */}
+                              <button
+                                onClick={() => handleOpenResetPassword(user)}
+                                className="p-1.5 text-amber-600 hover:bg-amber-50 rounded-lg transition cursor-pointer"
+                                title={`Gestionar / Restablecer Contraseña (Actual: ${user.password || '***'})`}
+                              >
+                                <Key className="w-4 h-4" />
+                              </button>
+
+                              {/* Email notification */}
+                              <a
+                                href={`mailto:${user.email}?subject=Bienvenido%20a%20HGW%20Marketing%20AI&body=Hola%20${encodeURIComponent(user.nombre)},%20tu%20cuenta%20ha%20sido%20autorizada%20con%20éxito.`}
+                                className="p-1.5 text-blue-700 hover:bg-blue-50 rounded-lg transition"
+                                title="Enviar correo"
+                              >
+                                <Send className="w-4 h-4" />
+                              </a>
+                            </>
+                          )}
+
+                          {/* Rejected User Action */}
+                          {user.estado === 'rechazado' && (
                             <button
                               onClick={() => handleApprove(user.id, user.nombre)}
                               className="px-2.5 py-1 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-lg text-xs flex items-center gap-1 shadow-xs transition cursor-pointer"
-                              title="Aprobar y permitir acceso"
+                              title="Re-Autorizar acceso"
                             >
                               <Check className="w-3.5 h-3.5" />
-                              <span>Autorizar</span>
+                              <span>Re-Autorizar</span>
                             </button>
                           )}
-
-                          {/* Reject Button */}
-                          {user.estado === 'aprobado' && user.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase() && (
-                            <button
-                              onClick={() => handleReject(user.id, user.nombre)}
-                              className="p-1.5 text-amber-700 hover:bg-amber-100 rounded-lg transition"
-                              title="Revocar acceso temporalmente"
-                            >
-                              <UserX className="w-4 h-4" />
-                            </button>
-                          )}
-
-                          {/* Reset / Change Password Button */}
-                          <button
-                            onClick={() => handleOpenResetPassword(user)}
-                            className="p-1.5 text-amber-600 hover:bg-amber-50 rounded-lg transition cursor-pointer"
-                            title={`Gestionar / Restablecer Contraseña (Actual: ${user.password || '***'})`}
-                          >
-                            <Key className="w-4 h-4" />
-                          </button>
-
-                          {/* Email notification */}
-                          <a
-                            href={`mailto:${user.email}?subject=Bienvenido%20a%20HGW%20Marketing%20AI&body=Hola%20${encodeURIComponent(user.nombre)},%20tu%20cuenta%20ha%20sido%20autorizada%20con%20éxito.`}
-                            className="p-1.5 text-blue-700 hover:bg-blue-50 rounded-lg transition"
-                            title="Enviar correo"
-                          >
-                            <Send className="w-4 h-4" />
-                          </a>
 
                           {/* Delete Button */}
                           {user.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase() && (
                             <button
                               onClick={() => handleDelete(user.id, user.nombre)}
-                              className="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition"
-                              title="Eliminar usuario"
+                              className="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition cursor-pointer"
+                              title="Eliminar permanentemente"
                             >
                               <Trash2 className="w-4 h-4" />
                             </button>
