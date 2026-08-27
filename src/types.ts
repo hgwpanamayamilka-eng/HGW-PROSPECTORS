@@ -271,6 +271,7 @@ export interface AdminNotification {
 
 export type BannerCategory =
   | 'bienvenida'
+  | 'cliente_vip'
   | 'ascenso_rango'
   | 'ascenso_membresia'
   | 'ganador_viajes'
@@ -285,6 +286,7 @@ export interface BannerFormData {
   driveFotoUrl?: string;
   rango?: string;
   membresia?: string;
+  productoFavorito?: string;
   paisCiudad?: string;
   patrocinador?: string;
   premioNombre?: string;

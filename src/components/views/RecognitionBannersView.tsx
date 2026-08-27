@@ -58,6 +58,7 @@ export const RecognitionBannersView: React.FC<RecognitionBannersViewProps> = ({
 
   const bannerCategories: { id: BannerCategory; label: string; icon: React.ElementType; color: string; desc: string }[] = [
     { id: 'bienvenida', label: 'Bienvenida de Equipo', icon: Users, color: 'from-emerald-700 to-teal-900', desc: 'Nuevo socio o socia en la organización' },
+    { id: 'cliente_vip', label: 'Bienvenida Clientes VIP HGW', icon: Sparkles, color: 'from-amber-600 to-emerald-900', desc: 'Nuevo cliente preferente o consumidor VIP' },
     { id: 'ascenso_rango', label: 'Ascenso de Rango', icon: Crown, color: 'from-amber-600 to-amber-900', desc: 'Plata, Oro, Platino, Diamante, Corona...' },
     { id: 'ascenso_membresia', label: 'Ascenso de Membresía', icon: Award, color: 'from-blue-700 to-indigo-900', desc: 'Pre-Junior, Junior, Senior, Master' },
     { id: 'ganador_viajes', label: 'Ganador(a) de Viajes', icon: Plane, color: 'from-cyan-600 to-blue-900', desc: 'Calificación a Convenciones y Cruceros' },
@@ -182,14 +183,20 @@ export const RecognitionBannersView: React.FC<RecognitionBannersViewProps> = ({
       </div>
 
       {/* Category Pills Bar */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 xl:grid-cols-8 gap-2">
         {bannerCategories.map((cat) => {
           const Icon = cat.icon;
           const isSelected = formData.tipo === cat.id;
           return (
             <button
               key={cat.id}
-              onClick={() => setFormData({ ...formData, tipo: cat.id })}
+              onClick={() => {
+                let defaultMsg = formData.mensajePersonalizado;
+                if (cat.id === 'cliente_vip' && (!defaultMsg || defaultMsg.includes('constancia') || defaultMsg.includes('socio'))) {
+                  defaultMsg = '¡Gracias por elegir cuidar tu salud y vitalidad con los productos premium de Health Green World!';
+                }
+                setFormData({ ...formData, tipo: cat.id, mensajePersonalizado: defaultMsg });
+              }}
               className={`p-2.5 rounded-xl border text-left transition flex flex-col justify-between cursor-pointer ${
                 isSelected
                   ? 'bg-[#0B3D2E] text-white border-[#0B3D2E] shadow-md ring-2 ring-emerald-500/50'
@@ -287,13 +294,13 @@ export const RecognitionBannersView: React.FC<RecognitionBannersViewProps> = ({
             {/* Honoree Name */}
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                Nombre del Homenajeado / Líder
+                {formData.tipo === 'cliente_vip' ? 'Nombre del Cliente VIP' : 'Nombre del Homenajeado / Líder'}
               </label>
               <input
                 type="text"
                 value={formData.nombreHomenajeado}
                 onChange={(e) => setFormData({ ...formData, nombreHomenajeado: e.target.value })}
-                placeholder="Ej. Yamilka Batista"
+                placeholder={formData.tipo === 'cliente_vip' ? 'Ej. María Rodríguez' : 'Ej. Yamilka Batista'}
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
               />
             </div>
@@ -364,6 +371,30 @@ export const RecognitionBannersView: React.FC<RecognitionBannersViewProps> = ({
             </div>
 
             {/* Dynamic Specific Inputs by Category */}
+            {formData.tipo === 'cliente_vip' && (
+              <div className="space-y-3 p-3 bg-amber-50/70 rounded-xl border border-amber-200/80 animate-in fade-in">
+                <div className="flex items-center gap-1.5 text-amber-900 font-bold text-xs">
+                  <Sparkles className="w-4 h-4 text-amber-600" />
+                  <span>Configuración de Bienvenida a Cliente VIP HGW</span>
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold uppercase tracking-wider text-amber-950 mb-1">
+                    Línea / Productos de Preferencia del Cliente
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.productoFavorito || ''}
+                    onChange={(e) => setFormData({ ...formData, productoFavorito: e.target.value })}
+                    placeholder="Ej. Línea de Arándanos & Café con Ganoderma / Jabón de Turmalina"
+                    className="w-full bg-white border border-amber-200 rounded-xl px-3 py-2 text-xs font-medium text-slate-900 focus:ring-2 focus:ring-amber-500 focus:outline-hidden shadow-xs"
+                  />
+                  <p className="text-[10px] text-amber-800/80 mt-1">
+                    Aparecerá referenciado en el prompt de diseño del afiche de bienvenida.
+                  </p>
+                </div>
+              </div>
+            )}
+
             {formData.tipo === 'ascenso_rango' && (
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
@@ -435,13 +466,13 @@ export const RecognitionBannersView: React.FC<RecognitionBannersViewProps> = ({
               </div>
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
-                  Patrocinador / Equipo
+                  {formData.tipo === 'cliente_vip' ? 'Asesor de Bienestar / Patrocinador' : 'Patrocinador / Equipo'}
                 </label>
                 <input
                   type="text"
                   value={formData.patrocinador || ''}
                   onChange={(e) => setFormData({ ...formData, patrocinador: e.target.value })}
-                  placeholder="Ej. Equipo Diamantes HGW"
+                  placeholder={formData.tipo === 'cliente_vip' ? 'Ej. Yamilka Batista · Distribuidora HGW' : 'Ej. Equipo Diamantes HGW'}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-900"
                 />
               </div>
@@ -534,8 +565,13 @@ export const RecognitionBannersView: React.FC<RecognitionBannersViewProps> = ({
                 </p>
 
                 <div className="pt-1 flex flex-wrap items-center gap-3 text-[11px] text-emerald-300/90 font-medium">
-                  <span>📍 {formData.paisCiudad}</span>
-                  {formData.patrocinador && <span>🤝 Patrocinador: {formData.patrocinador}</span>}
+                  {formData.paisCiudad && <span>📍 {formData.paisCiudad}</span>}
+                  {formData.productoFavorito && <span>🌿 {formData.productoFavorito}</span>}
+                  {formData.patrocinador && (
+                    <span>
+                      🤝 {formData.tipo === 'cliente_vip' ? 'Asesor' : 'Patrocinador'}: {formData.patrocinador}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

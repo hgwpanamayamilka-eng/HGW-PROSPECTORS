@@ -69,6 +69,29 @@ export const App: React.FC = () => {
     return defaultProfile;
   });
 
+  // Listen to /admin route or hash change
+  useEffect(() => {
+    const checkRoute = () => {
+      if (typeof window !== 'undefined') {
+        const path = window.location.pathname.toLowerCase();
+        const hash = window.location.hash.toLowerCase();
+        const search = window.location.search.toLowerCase();
+        if ((path === '/admin' || path.endsWith('/admin') || hash === '#admin' || hash.includes('admin') || search.includes('admin')) && authUser?.rol === 'admin') {
+          setCurrentTab('admin_users');
+        }
+      }
+    };
+
+    checkRoute();
+    window.addEventListener('popstate', checkRoute);
+    window.addEventListener('hashchange', checkRoute);
+
+    return () => {
+      window.removeEventListener('popstate', checkRoute);
+      window.removeEventListener('hashchange', checkRoute);
+    };
+  }, [authUser]);
+
   const handleUpdateContact = (newContact: ContactData) => {
     setContact(newContact);
     localStorage.setItem('hgw_contact_data', JSON.stringify(newContact));

@@ -34,6 +34,17 @@ export function buildMasterBannerPrompt(data: BannerFormData): BannerPromptResul
       backgroundDescriptionEn = 'Elegant deep emerald green background (#0B3D2E) with luxury gold bokeh sparkles (#D4AF37), subtle gold confetti, floating light beams, and modern geometric luxury glassmorphic shapes.';
       break;
 
+    case 'cliente_vip':
+      bannerTitleEs = '¡BIENVENIDO(A) A NUESTRA COMUNIDAD CLIENTE VIP HGW!';
+      bannerTitleEn = 'WELCOME TO OUR HGW VIP CUSTOMER COMMUNITY!';
+      bannerSubEs = `Priorizando tu salud, bienestar integral y estilo de vida con la nutrición y tecnología natural de Health Green World.`;
+      bannerSubEn = `Prioritizing your health, holistic wellness, and lifestyle with Health Green World premium natural nutrition and technology.`;
+      badgeEs = 'CLIENTE VIP HGW';
+      badgeEn = 'HGW VIP CUSTOMER';
+      backgroundDescriptionEs = 'Fondo luminoso y sofisticado de bienestar y salud natural en verde esmeralda fresco (#0B3D2E, #1F7A5A) con resplandor dorado (#D4AF37), destellos de luz pura, hojas botánicas translúcidas de arándano y turmalina estilizadas en 3D, y un distinguido sello de oro "CLIENTE VIP".';
+      backgroundDescriptionEn = 'Bright, sophisticated natural health & wellness backdrop in fresh emerald green and gold (#D4AF37), floating crystal sparkles, soft bokeh, 3D stylized botanical elements, and a prestigious embossed golden "HGW VIP CUSTOMER" badge.';
+      break;
+
     case 'ascenso_rango':
       bannerTitleEs = `¡FELICITACIONES POR TU NUEVO RANGO ${data.rango?.toUpperCase() || 'DIAMANTE'}!`;
       bannerTitleEn = `CONGRATULATIONS ON YOUR NEW RANK: ${data.rango?.toUpperCase() || 'DIAMOND'}!`;
@@ -111,7 +122,8 @@ export function buildMasterBannerPrompt(data: BannerFormData): BannerPromptResul
     ? `\n- HONOREE PHOTO REFERENCE (GOOGLE DRIVE HIGH-RES): ${data.driveFotoUrl}\n* Place the honoree's face and body cleanly inside the central recognition frame with studio lighting and ultra-sharp professional portrait finish.`
     : '\n- HONOREE PORTRAIT: Ultra-sharp professional business portrait of an inspiring smiling leader dressed in elegant attire, radiating confidence and success.';
 
-  const sponsorTextEs = data.patrocinador ? `\n- Patrocinador / Líder Ascendente: ${data.patrocinador}` : '';
+  const sponsorTextEs = data.patrocinador ? `\n- Patrocinador / Asesor de Bienestar: ${data.patrocinador}` : '';
+  const productTextEs = data.productoFavorito ? `\n- Línea / Producto de Interés: ${data.productoFavorito}` : '';
   const cityTextEs = data.paisCiudad ? `\n- Ciudad / País: ${data.paisCiudad}` : '';
   const customMessageEs = data.mensajePersonalizado ? `\n- Mensaje Especial: "${data.mensajePersonalizado}"` : '';
 
@@ -123,11 +135,11 @@ INFORMACIÓN DEL BANNER:
 =======================
 1. TÍTULO PRINCIPAL: "${bannerTitleEs}"
 2. TIPO DE RECONOCIMIENTO: ${badgeEs}
-3. HOMENAJEADO(A): ${data.nombreHomenajeado || 'Líder Destacado(a)'}
+3. HOMENAJEADO(A) / CLIENTE: ${data.nombreHomenajeado || 'Cliente VIP Destacado(a)'}
 ${data.rango ? `4. RANGO ALCANZADO: ${data.rango}` : ''}
 ${data.membresia ? `5. MEMBRESÍA: ${data.membresia}` : ''}
 ${data.premioNombre ? `6. PREMIO / LOGRO: ${data.premioNombre}` : ''}
-${sponsorTextEs}${cityTextEs}${customMessageEs}
+${productTextEs}${sponsorTextEs}${cityTextEs}${customMessageEs}
 7. EMPRESA: Health Green World (HGW) - Multinacional de Salud y Bienestar
 8. FORMATO DEL LIENZO: ${formatAspect}
 
