@@ -112,15 +112,21 @@ export function buildMasterBannerPrompt(data: BannerFormData): BannerPromptResul
       break;
   }
 
-  const photoRefTextEs = data.driveFotoUrl
-    ? `\n- FOTOGRAFÍA DEL HOMENAJEADO(A) (ENLACE GOOGLE DRIVE DE ALTA RESOLUCIÓN): ${data.driveFotoUrl}\n* Integrar el rostro y figura del homenajeado(a) de forma nítida, profesional y con iluminación de estudio fotográfico sobre el marco de reconocimiento.`
-    : data.fotoHomenajeado
-      ? `\n- FOTOGRAFÍA DEL HOMENAJEADO(A): ${data.fotoHomenajeado}`
-      : '\n- FOTOGRAFÍA: Retrato fotográfico profesional de un líder o socia con sonrisa auténtica, porte elegante y traje formal/semiformal de negocios.';
+  const isClienteVip = data.tipo === 'cliente_vip';
 
-  const photoRefTextEn = data.driveFotoUrl
-    ? `\n- HONOREE PHOTO REFERENCE (GOOGLE DRIVE HIGH-RES): ${data.driveFotoUrl}\n* Place the honoree's face and body cleanly inside the central recognition frame with studio lighting and ultra-sharp professional portrait finish.`
-    : '\n- HONOREE PORTRAIT: Ultra-sharp professional business portrait of an inspiring smiling leader dressed in elegant attire, radiating confidence and success.';
+  const photoRefTextEs = isClienteVip
+    ? `\n- DISEÑO SIN FOTO PERSONAL: Este banner de Cliente VIP NO requiere fotografía de persona. La composición visual central destaca el nombre del cliente con tipografía dorada en relieve, un resplandeciente sello metálico "CLIENTE VIP HGW", laureles dorados y una presentación estética 3D de bienestar con productos naturales HGW (línea de arándanos, café saludable, turmalina) y hojas botánicas frescas.`
+    : data.driveFotoUrl
+      ? `\n- FOTOGRAFÍA DEL HOMENAJEADO(A) (ENLACE GOOGLE DRIVE DE ALTA RESOLUCIÓN): ${data.driveFotoUrl}\n* Integrar el rostro y figura del homenajeado(a) de forma nítida, profesional y con iluminación de estudio fotográfico sobre el marco de reconocimiento.`
+      : data.fotoHomenajeado
+        ? `\n- FOTOGRAFÍA DEL HOMENAJEADO(A): ${data.fotoHomenajeado}`
+        : '\n- FOTOGRAFÍA: Retrato fotográfico profesional de un líder o socia con sonrisa auténtica, porte elegante y traje formal/semiformal de negocios.';
+
+  const photoRefTextEn = isClienteVip
+    ? `\n- COMPOSITION WITHOUT PERSONAL PHOTO: No personal photo required. The central visual element is a glowing embossed golden "HGW VIP CUSTOMER" emblem, luxury 3D typography of the customer name, elegant laurel leaves, and an aesthetic still-life showcase of premium botanical health & wellness nutrition products.`
+    : data.driveFotoUrl
+      ? `\n- HONOREE PHOTO REFERENCE (GOOGLE DRIVE HIGH-RES): ${data.driveFotoUrl}\n* Place the honoree's face and body cleanly inside the central recognition frame with studio lighting and ultra-sharp professional portrait finish.`
+      : '\n- HONOREE PORTRAIT: Ultra-sharp professional business portrait of an inspiring smiling leader dressed in elegant attire, radiating confidence and success.';
 
   const sponsorTextEs = data.patrocinador ? `\n- Patrocinador / Asesor de Bienestar: ${data.patrocinador}` : '';
   const productTextEs = data.productoFavorito ? `\n- Línea / Producto de Interés: ${data.productoFavorito}` : '';

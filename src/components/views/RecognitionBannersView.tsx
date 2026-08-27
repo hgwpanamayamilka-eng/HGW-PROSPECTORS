@@ -305,70 +305,87 @@ export const RecognitionBannersView: React.FC<RecognitionBannersViewProps> = ({
               />
             </div>
 
-            {/* Photo & Google Drive URL Box */}
-            <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-3">
-              <div className="flex items-center justify-between">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-                  <UserCheck className="w-4 h-4 text-emerald-700" />
-                  <span>Foto del Homenajeado</span>
-                </label>
-                <button
-                  type="button"
-                  onClick={() => setFormData({
-                    ...formData,
-                    driveFotoUrl: 'https://drive.google.com/file/d/1KeOPcyuhctKp1qJsNsfw-nlUuXzyU_hf/view?usp=drive_link',
-                    fotoHomenajeado: 'https://hgwpanama.com/wp-content/uploads/Foto-de-perfil-Yamilka-Batista-HGW.png'
-                  })}
-                  className="text-[10px] font-bold text-emerald-700 hover:text-emerald-800 underline"
-                >
-                  Cargar foto de Yamilka
-                </button>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="w-16 h-16 rounded-xl bg-slate-200 border border-slate-300 overflow-hidden flex items-center justify-center shrink-0">
-                  {directPhotoUrl ? (
-                    <img
-                      src={directPhotoUrl}
-                      alt={formData.nombreHomenajeado}
-                      className="w-full h-full object-cover"
-                      referrerPolicy="no-referrer"
-                      onError={(e) => {
-                        (e.currentTarget as HTMLElement).style.display = 'none';
-                      }}
-                    />
-                  ) : (
-                    <Users className="w-6 h-6 text-slate-400" />
-                  )}
+            {/* Photo & Google Drive URL Box (Hidden for VIP Customers) */}
+            {formData.tipo === 'cliente_vip' ? (
+              <div className="bg-amber-50/80 p-3.5 rounded-xl border border-amber-200/90 flex items-start gap-3 animate-in fade-in">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-[#D4AF37] text-slate-950 flex items-center justify-center shrink-0 shadow-xs">
+                  <Sparkles className="w-5 h-5 text-slate-950" />
                 </div>
-                <div className="flex-1 space-y-1.5">
-                  <label className="block text-[10px] uppercase font-bold text-slate-500">
-                    Enlace de Google Drive / URL de la Foto:
+                <div className="space-y-1">
+                  <div className="text-xs font-bold text-amber-950 flex items-center gap-1.5">
+                    <span>Sin foto personal requerida</span>
+                    <span className="px-1.5 py-0.2 bg-amber-200/80 text-amber-900 text-[10px] rounded font-bold uppercase">100% Automático</span>
+                  </div>
+                  <p className="text-[11px] text-amber-900/90 leading-relaxed">
+                    Los banners para <strong>Clientes VIP</strong> no necesitan fotografía de la persona. La Inteligencia Artificial creará un arte publicitario de bienvenida con el nombre del cliente, un sello dorado en relieve <strong>CLIENTE VIP HGW</strong> y elementos botánicos de salud natural.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-3">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                    <UserCheck className="w-4 h-4 text-emerald-700" />
+                    <span>Foto del Homenajeado</span>
                   </label>
-                  <input
-                    type="url"
-                    value={formData.driveFotoUrl || ''}
-                    onChange={(e) => setFormData({ ...formData, driveFotoUrl: e.target.value })}
-                    placeholder="https://drive.google.com/file/d/... o URL directa"
-                    className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-mono text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
-                  />
-                </div>
-              </div>
-
-              {formData.driveFotoUrl && (
-                <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1">
-                  <span className="truncate max-w-[200px] font-mono text-[10px]">{formData.driveFotoUrl}</span>
                   <button
                     type="button"
-                    onClick={copyDriveUrl}
-                    className="px-2 py-0.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded text-[10px] flex items-center gap-1 transition"
+                    onClick={() => setFormData({
+                      ...formData,
+                      driveFotoUrl: 'https://drive.google.com/file/d/1KeOPcyuhctKp1qJsNsfw-nlUuXzyU_hf/view?usp=drive_link',
+                      fotoHomenajeado: 'https://hgwpanama.com/wp-content/uploads/Foto-de-perfil-Yamilka-Batista-HGW.png'
+                    })}
+                    className="text-[10px] font-bold text-emerald-700 hover:text-emerald-800 underline"
                   >
-                    {copiedDrive ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
-                    <span>{copiedDrive ? 'Copiado' : 'Copiar enlace'}</span>
+                    Cargar foto de Yamilka
                   </button>
                 </div>
-              )}
-            </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="w-16 h-16 rounded-xl bg-slate-200 border border-slate-300 overflow-hidden flex items-center justify-center shrink-0">
+                    {directPhotoUrl ? (
+                      <img
+                        src={directPhotoUrl}
+                        alt={formData.nombreHomenajeado}
+                        className="w-full h-full object-cover"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLElement).style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <Users className="w-6 h-6 text-slate-400" />
+                    )}
+                  </div>
+                  <div className="flex-1 space-y-1.5">
+                    <label className="block text-[10px] uppercase font-bold text-slate-500">
+                      Enlace de Google Drive / URL de la Foto:
+                    </label>
+                    <input
+                      type="url"
+                      value={formData.driveFotoUrl || ''}
+                      onChange={(e) => setFormData({ ...formData, driveFotoUrl: e.target.value })}
+                      placeholder="https://drive.google.com/file/d/... o URL directa"
+                      className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-mono text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                    />
+                  </div>
+                </div>
+
+                {formData.driveFotoUrl && (
+                  <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1">
+                    <span className="truncate max-w-[200px] font-mono text-[10px]">{formData.driveFotoUrl}</span>
+                    <button
+                      type="button"
+                      onClick={copyDriveUrl}
+                      className="px-2 py-0.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded text-[10px] flex items-center gap-1 transition"
+                    >
+                      {copiedDrive ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
+                      <span>{copiedDrive ? 'Copiado' : 'Copiar enlace'}</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Dynamic Specific Inputs by Category */}
             {formData.tipo === 'cliente_vip' && (
@@ -533,7 +550,13 @@ export const RecognitionBannersView: React.FC<RecognitionBannersViewProps> = ({
             <div className="relative z-10 flex flex-col sm:flex-row items-center gap-6">
               <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-tr from-[#D4AF37] to-amber-200 p-1 shadow-2xl shrink-0">
                 <div className="w-full h-full rounded-xl overflow-hidden bg-slate-950 flex items-center justify-center">
-                  {directPhotoUrl ? (
+                  {formData.tipo === 'cliente_vip' ? (
+                    <div className="w-full h-full bg-gradient-to-b from-emerald-950 to-[#0B3D2E] flex flex-col items-center justify-center p-2 text-center">
+                      <Sparkles className="w-8 h-8 text-[#D4AF37]" />
+                      <span className="text-[9px] font-black text-amber-200 uppercase tracking-widest mt-1">CLIENTE VIP</span>
+                      <span className="text-[8px] text-emerald-300 font-semibold">HGW</span>
+                    </div>
+                  ) : directPhotoUrl ? (
                     <img
                       src={directPhotoUrl}
                       alt={formData.nombreHomenajeado}
