@@ -20,7 +20,7 @@ const INITIAL_USERS: AuthUser[] = [
     pais: 'Panamá',
     rol: 'admin',
     estado: 'aprobado',
-    password: 'admin',
+    password: 'ClaveYiba507g',
     fechaRegistro: '2026-01-15 08:30:00',
     ultimoAcceso: '2026-08-26 17:50:00',
     fotoPerfil: 'https://drive.google.com/file/d/1KeOPcyuhctKp1qJsNsfw-nlUuXzyU_hf/view?usp=drive_link',
@@ -36,7 +36,7 @@ const INITIAL_USERS: AuthUser[] = [
     pais: 'Panamá',
     rol: 'admin',
     estado: 'aprobado',
-    password: 'admin',
+    password: 'ClaveYiba507g',
     fechaRegistro: '2026-01-15 08:30:00',
     ultimoAcceso: '2026-08-26 17:52:00',
     fotoPerfil: 'https://drive.google.com/file/d/1KeOPcyuhctKp1qJsNsfw-nlUuXzyU_hf/view?usp=drive_link',
@@ -178,7 +178,30 @@ export const AuthService = {
         localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(INITIAL_USERS));
         return INITIAL_USERS;
       }
-      return JSON.parse(data);
+      const users: AuthUser[] = JSON.parse(data);
+      
+      // Ensure admin accounts exist and have default password updated if needed
+      let needsSave = false;
+      const updated = users.map(u => {
+        if (
+          u.email.toLowerCase() === ADMIN_EMAIL.toLowerCase() ||
+          u.email.toLowerCase() === ADMIN_BACKUP_EMAIL.toLowerCase() ||
+          u.codigo.toLowerCase() === 'yamilka507'
+        ) {
+          if (!u.password || u.password === 'admin' || u.password === '123') {
+            needsSave = true;
+            return { ...u, password: 'ClaveYiba507g', estado: 'aprobado' as const, rol: 'admin' as const };
+          }
+        }
+        return u;
+      });
+
+      if (needsSave) {
+        localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updated));
+        return updated;
+      }
+
+      return users;
     } catch (e) {
       console.error('Error fetching users', e);
       return INITIAL_USERS;
