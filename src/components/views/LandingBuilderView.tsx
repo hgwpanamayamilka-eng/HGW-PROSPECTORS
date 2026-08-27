@@ -63,7 +63,8 @@ export const LandingBuilderView: React.FC<LandingBuilderViewProps> = ({
     colorPrincipal: '#0B3D2E',
     colorSecundario: '#D4AF37',
     estilo: 'SaaS Premium / E-commerce de Alto Nivel, limpio y Mobile First',
-    imagenPrincipal: currentProduct.imagen
+    imagenPrincipal: currentProduct.imagen,
+    driveUrl: currentProduct.driveUrl || currentProduct.imagen
   });
 
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -85,7 +86,8 @@ export const LandingBuilderView: React.FC<LandingBuilderViewProps> = ({
         precio: selectedProduct.precio,
         precioAnterior: selectedProduct.precio * 1.3,
         bv: selectedProduct.BV,
-        imagenPrincipal: selectedProduct.imagen
+        imagenPrincipal: selectedProduct.imagen,
+        driveUrl: selectedProduct.driveUrl || selectedProduct.imagen
       }));
     }
   }, [selectedProduct]);

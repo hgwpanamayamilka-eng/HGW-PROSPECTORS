@@ -45,8 +45,10 @@ INFORMACIÓN EXACTA Y REAL PROPORCIONADA:
 - Color Primario: ${data.colorPrincipal || '#0B3D2E'} (Verde HGW)
 - Color Secundario: ${data.colorSecundario || '#D4AF37'} (Dorado Premium)
 - Estilo: ${data.estilo || 'SaaS Premium / E-commerce de Alto Nivel, limpio, Mobile First y moderno'}
-- Imagen del Producto: ${data.imagenPrincipal}
+- Imagen del Producto (Vista Web): ${data.imagenPrincipal}
+${data.driveUrl ? `- Enlace Oficial de Google Drive del Producto (Activo Original en Alta Resolución): ${data.driveUrl}` : ''}
 ${data.imagenesAdicionales ? `- Imágenes Adicionales: ${data.imagenesAdicionales}` : ''}
+- REGLA DE IMÁGENES: Usa el activo fotográfico del producto (${data.driveUrl || data.imagenPrincipal}) como imagen principal y hero del producto, y complementa con imágenes de personas sonrientes, familias o profesionales que reflejen el estilo de vida saludable y los beneficios de HGW.
 
 REGLAS Y ESTRUCTURA OBLIGATORIA DE LA LANDING PAGE:
 ===================================================

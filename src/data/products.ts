@@ -3,7 +3,7 @@ import { Product } from '../types';
 export const INITIAL_PRODUCTS: Product[] = [
   {
     id: 'blueberry-candy',
-    nombre: 'Blueberry Candy',
+    nombre: 'Blueberry Candy (Caramelos de Arándano)',
     categoria: 'Serie Candys HGW',
     descripcion_corta: 'Caramelos duros elaborados con polvo de arándano natural, prácticos y deliciosos para disfrutar en cualquier momento.',
     descripcion: 'Los Caramelos de Arándano HGW son una forma práctica, deliciosa y conveniente de disfrutar el sabor y los antioxidantes de los arándanos en cualquier momento del día. Elaborados con polvo de arándano seleccionado, conservan sus bondades nutricionales y aportan antocianinas que favorecen la salud visual y el bienestar celular.',
@@ -20,7 +20,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 4.00,
     BV: 2.00,
     materia_prima: 'Arándanos de alta calidad',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Blueberry-Candy-_-Caramelos-de-arandano.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1RnzqoZ3FUGrRYH5X5Yo_WxGDL7opwwfE',
+    driveUrl: 'https://drive.google.com/file/d/1RnzqoZ3FUGrRYH5X5Yo_WxGDL7opwwfE/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1eTFs4b9a7wEIsAkODOfnbDNoVFtQctAD/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1-iUyftIyXYkGf6LzMDyeQyrnD8U0i6H4/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Aporte natural de antioxidantes provenientes del arándano.',
       'Ideal para disfrutar un dulce saludable en cualquier momento.',
@@ -51,7 +56,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 8.00,
     BV: 4.00,
     materia_prima: 'Arándanos seleccionados',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Blueberry-Fruit-Tea-Jam-_-Te-de-arandanos-mermelada.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1_5DlGwk1pxeaVa0aBnv_hdN7gRNcsLSB',
+    driveUrl: 'https://drive.google.com/file/d/1_5DlGwk1pxeaVa0aBnv_hdN7gRNcsLSB/view?usp=drivesdk',
     claims_permitidos: [
       'Deliciosa opción gourmet con propiedades antioxidantes naturales.',
       'Perfecto complemento para desayunos balanceados.',
@@ -82,7 +88,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 20.00,
     BV: 12.00,
     materia_prima: 'Péptidos de colágeno y arándanos',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Blueberry-Collagen-Peptide-_-Peptido-de-colageno-de-arandano.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1YO8lm6tWUdNmeZkFXrOfVCKu5YVG9_xI',
+    driveUrl: 'https://drive.google.com/file/d/1YO8lm6tWUdNmeZkFXrOfVCKu5YVG9_xI/view?usp=drivesdk',
     claims_permitidos: [
       'Nutrición avanzada para el cuidado de la piel, uñas y cabello.',
       'Contribuye al mantenimiento de la movilidad y confort articular.',
@@ -113,7 +120,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 16.00,
     BV: 9.60,
     materia_prima: 'Mezcla botánica oriental',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Pro-Shaping-Tea-_-Te-moldeador-profesional.png',
+    imagen: 'https://lh3.googleusercontent.com/d/11PunA1eraGhCqxkz4m4zwgTohgLhfj8b',
+    driveUrl: 'https://drive.google.com/file/d/11PunA1eraGhCqxkz4m4zwgTohgLhfj8b/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/10KQgXbUMA46qqEQV6AMueytWegZ8G4CK/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Infusión herbal digestiva y tonificante.',
       'Ideal para acompañar dietas y programas de bienestar físico.',
@@ -144,7 +155,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 17.00,
     BV: 8.50,
     materia_prima: 'Concentrado de frutos rojos',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Berry-Juice-HIGH-VC-_-Zumo-de-frutos-rojos-ALTO-EN-VC.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1soRruTg-3cQ5NccJZrza5fzfM4Hrl9gA',
+    driveUrl: 'https://drive.google.com/file/d/1soRruTg-3cQ5NccJZrza5fzfM4Hrl9gA/view?usp=drivesdk',
     claims_permitidos: [
       'Excelente fuente de vitamina C y antioxidantes.',
       'Refuerzo nutricional para toda la familia.',
@@ -157,7 +169,7 @@ export const INITIAL_PRODUCTS: Product[] = [
   },
   {
     id: 'fresh-drink-chang-jingjing',
-    nombre: 'Fresh Drink Chang JingJing (Limpiador de Colon)',
+    nombre: 'Fresh Drink Chang JingJing (Limpiador Digestivo)',
     categoria: 'Bebidas Funcionales',
     descripcion_corta: 'Bebida verde instantánea a base de hierba de cebada, bayas de goji, regaliz y diente de león para el bienestar intestinal.',
     descripcion: 'Fresh Drink Chang JingJing HGW es una selecta mezcla herbal verde para la limpieza digestiva profunda y amigable. Formulada con pasto de cebada rico en clorofila, bayas de goji, diente de león, regaliz y crisantemo, ayuda a regular el tránsito intestinal, depurar toxinas y balancear el pH del organismo.',
@@ -174,7 +186,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 9.00,
     BV: 5.40,
     materia_prima: 'Mezcla verde botánica y fitonutrientes',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Fresh-Drink-Chang-JingJing-_-Bebida-Fresca-Chang-JingJing.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1sxM3-0WqqI13ADKvU5QG25AMozh3BgD0',
+    driveUrl: 'https://drive.google.com/file/d/1sxM3-0WqqI13ADKvU5QG25AMozh3BgD0/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1c3SMUWaUWIMsfVFywOPSaa0bQAJzdNnY/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1UFx0FZ6Inbru3b_gGpBgiIeNzxV8vu0C/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Bebida verde con fibra natural para apoyar la regularidad digestiva.',
       'Efecto depurativo y alcalinizante suave.',
@@ -204,7 +221,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 26.00,
     BV: 5.20,
     materia_prima: 'Arándanos selectos de Canadá',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Blueberry-Wine-_-Vino-de-arandanos.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1XdBwlYSMfgEZe6jlzc2xh0tHCM1TSVxA',
+    driveUrl: 'https://drive.google.com/file/d/1XdBwlYSMfgEZe6jlzc2xh0tHCM1TSVxA/view?usp=drivesdk',
     claims_permitidos: [
       'Vino frutal elaborado con arándanos de alta calidad.',
       'Elegante opción con antioxidantes para brindar con salud.'
@@ -234,7 +252,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 16.00,
     BV: 8.00,
     materia_prima: 'Café gourmet y extracto de trébol rojo',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Trebol-Coffee-_-Cafe-Trebol.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1d3kM-6Gqm0DcSwS2cfuuYkZ10036b8Br',
+    driveUrl: 'https://drive.google.com/file/d/1d3kM-6Gqm0DcSwS2cfuuYkZ10036b8Br/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1Ko69VZDes855GTD4ROi8MQC8O6NwzyPH/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Bebida reconfortante con extractos herbales para el bienestar de la mujer.',
       'Alternativa cremosa al café tradicional con fitonutrientes naturales.'
@@ -264,7 +286,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 16.00,
     BV: 9.60,
     materia_prima: 'Cordyceps Sinensis y café selecto',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Cordyceps-Coffee-Cream-_-Cafe-cordyceps-con-Crema.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1GjEut1ue2NkzQjnH2jc8JRpHc4ZkeqY3',
+    driveUrl: 'https://drive.google.com/file/d/1GjEut1ue2NkzQjnH2jc8JRpHc4ZkeqY3/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1N3un1TV1b14yE0Me8Ufy9xb1VPYxVngr/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1XxOvaE4NGKKMyGTzrgdfZJgGfeOk3xae/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Café funcional energizante para el rendimiento diario.',
       'Tradicional hongo adaptógeno para mayor vitalidad y resistencia.',
@@ -294,7 +321,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 14.00,
     BV: 7.00,
     materia_prima: 'Café arábigo y té negro fermentado',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/BlackTea-Coffee-_-Cafe-Te-Negro.png',
+    imagen: 'https://lh3.googleusercontent.com/d/17YD4LnY_THurfVpCOA1uX1ThnT6ilvec',
+    driveUrl: 'https://drive.google.com/file/d/17YD4LnY_THurfVpCOA1uX1ThnT6ilvec/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1YHCsgPxdILXLPyzlU2_-9tFWfh98MhVZ/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Combinación sin azúcar para mayor lucidez y productividad.',
       'Bebida liviana con antioxidantes naturales.'
@@ -323,7 +354,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 14.00,
     BV: 7.00,
     materia_prima: 'Cordyceps Sinensis y café arabiga',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Coffee-Ceps-_-Cafe-cordyceps-sin-azucar.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1qyyUVAmR4z45gMHXfzdc6gjYYaauk2ob',
+    driveUrl: 'https://drive.google.com/file/d/1qyyUVAmR4z45gMHXfzdc6gjYYaauk2ob/view?usp=drivesdk',
     claims_permitidos: [
       'Café negro funcional libre de azúcares y grasas.',
       'Soporte adaptógeno natural para la vitalidad diaria.'
@@ -351,7 +383,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 16.00,
     BV: 9.60,
     materia_prima: 'Arándano canadiense y café arábica',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Blueberry-Coffee-_-Cafe-de-arandanos.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1b2KTKEMfvEnWG_iG9_Zv9FuYGo07R-bW',
+    driveUrl: 'https://drive.google.com/file/d/1b2KTKEMfvEnWG_iG9_Zv9FuYGo07R-bW/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1BL58MS4C_t1yzzh-iFoKB8VUhlIQLrcY/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Café antioxidante enriquecido con arándanos reales.',
       'Nutrición y energía en cada taza para el día a día.'
@@ -380,7 +416,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 18.00,
     BV: 9.00,
     materia_prima: 'Leche de Nueva Zelanda, té negro y arándanos',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Lactiberry-_-Te-Negro-con-Arandanos-y-Lacteo.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1LPWR1rp6l6bNZfF6dVqn59hoUp4IO7vB',
+    driveUrl: 'https://drive.google.com/file/d/1LPWR1rp6l6bNZfF6dVqn59hoUp4IO7vB/view?usp=drivesdk',
     claims_permitidos: [
       'Bebida nutritiva y saciante con antioxidantes y proteínas lácteas.',
       'Excelente sabor cremoso para disfrutar caliente.'
@@ -409,7 +446,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 16.00,
     BV: 8.00,
     materia_prima: 'Ashwagandha india y café gourmet',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Ashwaganda-Coffee-_-Cafe-de-Ashwagandha.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1-J5Hhsv4TSrY7nKAbwS2jwxDE1EoBPMw',
+    driveUrl: 'https://drive.google.com/file/d/1-J5Hhsv4TSrY7nKAbwS2jwxDE1EoBPMw/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1_qaxS2jw74lFbjMHsOmhkxmhFW2koh0V/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Café adaptógeno para acompañar jornadas intensas de trabajo o estudio.',
       'Contribuye al manejo natural del estrés y la fatiga mental.'
@@ -438,7 +479,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 16.00,
     BV: 9.60,
     materia_prima: 'Ganoderma Lucidum (Reishi)',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Ganoderma-Soluble-Coffee-_-Cafe-soluble-de-Ganoderma.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1N1VLXoYFPxS4Jur4xzYBduxwenHUwm8s',
+    driveUrl: 'https://drive.google.com/file/d/1N1VLXoYFPxS4Jur4xzYBduxwenHUwm8s/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/14SVaSZNV1hhG2rWOC7srf2u2fdBJNaSN/view?usp=drivesdk',
+      'https://drive.google.com/file/d/10OxyVm5niPw-3OqGfmLEDjcxxKNHtuww/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Café con el legendario hongo Reishi para apoyar las defensas.',
       'Sabor suave y aromático con beneficios adaptógenos.'
@@ -468,7 +514,13 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 25.00,
     BV: 15.00,
     materia_prima: 'Proteína vegetal de soya y arándanos',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Proteina-de-soja-con-arandanos-en-polvo.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1sXrkO5cC8ETS71nPmX00rWo7SY2BX4k6',
+    driveUrl: 'https://drive.google.com/file/d/1sXrkO5cC8ETS71nPmX00rWo7SY2BX4k6/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/14wSgWkSHp-gZplrOiFO0h5TyXqGXEpy0/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1U2u6tff07Xtr3JlYkmP9zSZvkoqapP-L/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1gC9WMwtRCjx3L0XKn1UuNGYY3QCLURZg/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Excelente suplemento proteico vegetal para complementar la dieta diaria.',
       'Apoyo en planes de actividad física y saciedad saludable.'
@@ -481,7 +533,7 @@ export const INITIAL_PRODUCTS: Product[] = [
   },
   {
     id: 'ganoderma-candy',
-    nombre: 'Ganoderma Candy',
+    nombre: 'Ganoderma Candy (Caramelos de Ganoderma)',
     categoria: 'Serie Candys HGW',
     descripcion_corta: 'Caramelos duros enriquecidos con extracto de Ganoderma Lucidum para disfrutar las propiedades del Reishi en formato dulce.',
     descripcion: 'Ganoderma Candy HGW ofrece una manera práctica y sabrosa de consumir extracto de Ganoderma lucidum durante la jornada. Un caramelo funcional que complementa las defensas y proporciona un momento de placer saludable en cualquier lugar.',
@@ -496,7 +548,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 5.80,
     BV: 2.90,
     materia_prima: 'Ganoderma Lucidum',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Ganoderma-Candy-_-Caramelos-de-Ganoderma.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1HQHBV5uwqiP9c9Vm4zCsdZoPymiy5q09',
+    driveUrl: 'https://drive.google.com/file/d/1HQHBV5uwqiP9c9Vm4zCsdZoPymiy5q09/view?usp=drivesdk',
     claims_permitidos: [
       'Caramelos funcionales con extracto de Ganoderma.',
       'Disfruta de las bondades del Reishi en un dulce práctico.'
@@ -523,7 +576,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 4.00,
     BV: 2.00,
     materia_prima: 'Probióticos y leche descremada',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Biolacti-Candy-_-Caramelo-Biolacti.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1rwI9Shy4hp1oHAAHsmcGYrdgkKsC41MS',
+    driveUrl: 'https://drive.google.com/file/d/1rwI9Shy4hp1oHAAHsmcGYrdgkKsC41MS/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1zUg42gcrv42BM_MCHkS9wTCBzWge3PsC/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Complemento con probióticos para el cuidado diario de la flora digestiva.',
       'Caramelo práctico con delicioso sabor lácteo.'
@@ -550,7 +607,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 4.00,
     BV: 2.00,
     materia_prima: 'Mandarina y mezcla herbal',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Gestifruit-Candy-_-Caramelo-Gestifruta.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1goszEagtDMq7K1G9A7u9IXcDVU7IDqAO',
+    driveUrl: 'https://drive.google.com/file/d/1goszEagtDMq7K1G9A7u9IXcDVU7IDqAO/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/15rKusJJbgUAzB6Yu8vH9FSGSSbfQVkbK/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1kNbj0DzhZj2xecPgte9lgONmTbd2q9Kd/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Caramelo refrescante con extractos botánicos y vitamina C.',
       'Sabor natural a mandarina para consentirte sanamente.'
@@ -578,7 +640,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 4.00,
     BV: 2.00,
     materia_prima: 'Colágeno hidrolizado y Ginseng',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Peptipro-Candy-_-Caramelo-Peptipro.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1gHxY-UX5puIPcxK6R135h2MX3bEBGska',
+    driveUrl: 'https://drive.google.com/file/d/1gHxY-UX5puIPcxK6R135h2MX3bEBGska/view?usp=drivesdk',
     claims_permitidos: [
       'Caramelos funcionales con colágeno y ginseng para tu rutina de belleza y energía.',
       'Fórmula práctica para disfrutar en cualquier lugar.'
@@ -607,13 +670,76 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 4.00,
     BV: 2.00,
     materia_prima: 'Moringa y uva',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Moruva-Candy-_-Dulces-Moruva.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1gbrmhS136n1Pej_K26zLQalBM_dDS_4V',
+    driveUrl: 'https://drive.google.com/file/d/1gbrmhS136n1Pej_K26zLQalBM_dDS_4V/view?usp=drivesdk',
     claims_permitidos: [
       'Dulce botánico con antioxidantes de moringa y uva.',
       'Acompañamiento nutritivo y sabroso para tu jornada.'
     ],
     claims_no_permitidos: [
       'Cura la diabetes o hipertensión.'
+    ]
+  },
+  {
+    id: 'herbal-fresh-candy',
+    nombre: 'Herbal Fresh Candy HGW (Caramelo Herbal Refrescante)',
+    categoria: 'Serie Candys HGW',
+    descripcion_corta: 'Caramelo duro con extractos herbales refrescantes para cuidar la garganta, brindar aliento limpio y frescura.',
+    descripcion: 'Herbal Fresh Candy HGW es un caramelo botánico elaborado con extractos seleccionados que brindan un alivio inmediato a la garganta y una sensación de frescura bucal prolongada.',
+    beneficios: [
+      'Frescura intensa para la garganta y aliento limpio.',
+      'Fórmula con extractos botánicos naturales.',
+      'Envase práctico de 60 unidades fácil de transportar.'
+    ],
+    ingredientes: ['Extractos herbales naturales', 'Menta', 'Sorbitol', 'Jarabe vegetal'],
+    presentacion: 'Frasco con 60 unidades (30 g)',
+    precio: 5.80,
+    precio_distribuidor: 4.00,
+    BV: 2.00,
+    materia_prima: 'Extractos herbales y menta',
+    imagen: 'https://lh3.googleusercontent.com/d/1og_3IQNAgPXBsql5AO_ImYNRqoAblMkV',
+    driveUrl: 'https://drive.google.com/file/d/1og_3IQNAgPXBsql5AO_ImYNRqoAblMkV/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1Ocrmo8B5Ghx0gbiminuU22TYkMUOaiLu/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1tsoE60ELuphASUcfxcV0yv51QfViGjqy/view?usp=drivesdk'
+    ],
+    claims_permitidos: [
+      'Caramelos refrescantes con extractos herbales.',
+      'Ideal para cuidar la garganta y refrescar el aliento.'
+    ],
+    claims_no_permitidos: [
+      'Cura infecciones bacterianas de garganta.'
+    ]
+  },
+  {
+    id: 'coffee-candy',
+    nombre: 'Coffee Candy HGW (Caramelos de Café)',
+    categoria: 'Serie Candys HGW',
+    descripcion_corta: 'Caramelos con auténtico extracto de café para un toque de energía, sabor gourmet y concentración durante el día.',
+    descripcion: 'Coffee Candy HGW concentra el sabor y la vitalidad del café gourmet en un práctico caramelo. Ideal para conductores, estudiantes y trabajadores que necesitan una dosis rápida de frescura y atención.',
+    beneficios: [
+      'Auténtico sabor a café gourmet con cafeína natural.',
+      'Ayuda a mantener la atención y despejar la mente.',
+      'Presentación de bolsillo en frasco de 60 unidades.'
+    ],
+    ingredientes: ['Extracto de café tostado', 'Jarabe de glucosa', 'Azúcar', 'Aromas naturales'],
+    presentacion: 'Frasco con 60 unidades (30 g)',
+    precio: 5.80,
+    precio_distribuidor: 4.00,
+    BV: 2.00,
+    materia_prima: 'Café tostado selecto',
+    imagen: 'https://lh3.googleusercontent.com/d/11s3bTucHLGU1SnORVRSj62KWk4_9q5UH',
+    driveUrl: 'https://drive.google.com/file/d/11s3bTucHLGU1SnORVRSj62KWk4_9q5UH/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1SmLTYYOVnqjQTMQ4imp7oe2T40cf4JEc/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1Kan7CVIAsQyZPzmNNJPOqyuNGPtP6DDe/view?usp=drivesdk'
+    ],
+    claims_permitidos: [
+      'Caramelos con sabor a café para recargar el día.',
+      'Sabor delicioso y estimulante.'
+    ],
+    claims_no_permitidos: [
+      'Sustituto de tratamientos para la narcolepsia.'
     ]
   },
   {
@@ -634,7 +760,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 28.00,
     BV: 11.20,
     materia_prima: 'Cacao puro y arándano',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Choco-Blue-_-Chocolate-con-Arandanos.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1jVJZz8JiIhGSd3ryDxGvHFLFhFo1t1_E',
+    driveUrl: 'https://drive.google.com/file/d/1jVJZz8JiIhGSd3ryDxGvHFLFhFo1t1_E/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/15u-upP9Ikr5wT3NaXBhuqxYnu5i6V6aI/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1bz46PTKOarDxdQbT9un0bz5nP7NK5CTy/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Bebida achocolatada nutritiva con arándanos para toda la familia.',
       'Placer reconfortante con antioxidantes naturales.'
@@ -661,7 +792,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 28.00,
     BV: 11.20,
     materia_prima: 'Cacao y Ganoderma Lucidum',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Choco-Gano-_-Chocolate-con-Ganoderma.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1U9wWgRhWaGPs27VaNXD00SILOIs2RoT-',
+    driveUrl: 'https://drive.google.com/file/d/1U9wWgRhWaGPs27VaNXD00SILOIs2RoT-/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/14nDoRq2jYsuMPdEUwY6E6JRtEtnlk5Bt/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1IJxApdBbMM3PVAGtPLjQMxQdwbeEwYlQ/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Chocolate funcional con Ganoderma para nutrir tus mañanas y tardes.',
       'Rico sabor con propiedades antioxidantes y defensivas.'
@@ -689,7 +825,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 17.00,
     BV: 8.50,
     materia_prima: 'Spirulina Platensis y Ginseng Americano',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Spirulina-Plus-Capsule-_-Spirulina-en-Capsula.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1SADmRbxl3z9_CEBgDHuLc2O7nQR79rJR',
+    driveUrl: 'https://drive.google.com/file/d/1SADmRbxl3z9_CEBgDHuLc2O7nQR79rJR/view?usp=drivesdk',
     claims_permitidos: [
       'Superalimento concentrado con vitaminas, minerales y proteínas.',
       'Apoyo nutricional integral para personas activas o convalecientes.',
@@ -718,7 +855,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 6.00,
     BV: 3.00,
     materia_prima: 'Turmalina natural y fibra técnica',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Tourmaline-Healthcare-Insoles-_-Plantillas-de-turmalina-para-el-cuidado-de-la-salud.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1nhF-NyKBXeXUxqOOaZPE9-XWpqs5C9y_',
+    driveUrl: 'https://drive.google.com/file/d/1nhF-NyKBXeXUxqOOaZPE9-XWpqs5C9y_/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1YEQ5pfuudlaMJjjvow20fN6wrtNgUi6E/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Plantillas para confort y bienestar al caminar.',
       'Tecnología de turmalina natural sin cables ni baterías.'
@@ -745,7 +886,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 39.00,
     BV: 15.60,
     materia_prima: 'Piedra de turmalina bioactiva',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Tourmaline-Self-Heating-Knee-Protector-_-Protector-de-rodilla-autocalentable-de-turmalina.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1mmdH5ouNcl7Oy4qwA-xmez1Fy6whE66g',
+    driveUrl: 'https://drive.google.com/file/d/1mmdH5ouNcl7Oy4qwA-xmez1Fy6whE66g/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1u5cYYuK1H7Veb-fGVPsekXzbDIvExJLv/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1iMY7Z8V6G72SF3e4IjL0d9Ge-D0dPEoJ/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Soporte térmico natural para rodillas cansadas o rígidas.',
       'Sensación de calor suave y mayor estabilidad al caminar.'
@@ -773,7 +919,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 48.00,
     BV: 19.20,
     materia_prima: 'Nanoturmalina y piedras magnéticas',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Tourmaline-Waist-Protector-_-Protector-de-cintura-de-turmalina.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1r3aUhi5333obLfnW20I8_VQGch-joevd',
+    driveUrl: 'https://drive.google.com/file/d/1r3aUhi5333obLfnW20I8_VQGch-joevd/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1BFUS4vusJt949hJCOehQSftMAywoqSpx/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1PwJi9q9lCwzCFFh_EF590VwNkxOboDgi/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Faja con tecnología de calor natural para confort lumbar.',
       'Soporte firme para actividades cotidianas o largas horas sentado.'
@@ -801,13 +952,46 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 11.00,
     BV: 4.40,
     materia_prima: 'Turmalina natural',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Tourmaline-Self-Heating-Neck-Protector-_-Protector-de-cuello-autocalentable-de-turmalina.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1bhhZCig3sZYn_9qdLUHO0NXW8QN-M5VD',
+    driveUrl: 'https://drive.google.com/file/d/1bhhZCig3sZYn_9qdLUHO0NXW8QN-M5VD/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1gtwL3ulyWc8iWeu_0H0NAei-JZxQOk1T/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1CvrdxAX3gxetirnpHAVyfqCrpRSQ9Ol0/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Accesorio de confort térmico para el cuello y cervicales.',
       'Ayuda a relajar la musculatura tensa tras largas jornadas.'
     ],
     claims_no_permitidos: [
       'Cura la espondilosis cervical o dolores neurológicos severos.'
+    ]
+  },
+  {
+    id: 'toalla-sanitaria-dia',
+    nombre: 'Toalla Sanitaria con Turmalina Uso Día',
+    categoria: 'Cuidado Personal e Higiene Femenina',
+    descripcion_corta: 'Toalla femenina diurna con banda aniónica de turmalina, diseño anatómico y absorción rápida para días activos.',
+    descripcion: 'Enjoyable Day Use HGW ofrece la protección perfecta para el día. Diseñada con canales de absorción rápida, alas laterales de fijación segura y banda aniónica de turmalina para garantizar libertad de movimiento, frescura y comodidad en todo momento.',
+    beneficios: [
+      'Diseño diurno anatómico con alas de sujeción.',
+      'Banda aniónica con turmalina para control de frescura.',
+      'Capa de algodón suave que no irrita la piel.',
+      'Alta capacidad de absorción con sensación seca.'
+    ],
+    ingredientes: ['Celulosa', 'Tela no tejida de algodón', 'Banda de turmalina', 'Película transpirable'],
+    presentacion: 'Paquete con 10 unidades',
+    precio: 5.00,
+    precio_distribuidor: 3.50,
+    BV: 1.70,
+    materia_prima: 'Algodón y turmalina',
+    imagen: 'https://lh3.googleusercontent.com/d/1xQZJzQQGP7Xf1HdcIZsbaoHMEdgteXm8',
+    driveUrl: 'https://drive.google.com/file/d/1xQZJzQQGP7Xf1HdcIZsbaoHMEdgteXm8/view?usp=drivesdk',
+    claims_permitidos: [
+      'Máxima comodidad y protección diurna con tecnología de aniones.',
+      'Cuidado femenino delicado y transpirable.'
+    ],
+    claims_no_permitidos: [
+      'Cura cólicos médicos severos o enfermedades endometriales.'
     ]
   },
   {
@@ -828,7 +1012,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 3.20,
     BV: 1.60,
     materia_prima: 'Algodón y banda de turmalina aniónica',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Toalla-Sanitaria-Noche-_-Toalla-Sanitaria-con-Turmalina-Uso-Noche.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1vmPomxc2GqLY-TlcYHaZhsg9TVo_2t9T',
+    driveUrl: 'https://drive.google.com/file/d/1vmPomxc2GqLY-TlcYHaZhsg9TVo_2t9T/view?usp=drivesdk',
     claims_permitidos: [
       'Higiene íntima femenina superior con tecnología de aniones.',
       'Comodidad, suavidad y protección nocturna sin irritaciones.'
@@ -855,7 +1040,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 3.50,
     BV: 1.70,
     materia_prima: 'Algodón y turmalina aniónica',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Protector-Diario-_-Protector-intimo-Diario-con-turmalina.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1BG5WNt0-W9QqvtKGE8P6EvwicZbAlcGA',
+    driveUrl: 'https://drive.google.com/file/d/1BG5WNt0-W9QqvtKGE8P6EvwicZbAlcGA/view?usp=drivesdk',
     claims_permitidos: [
       'Protección e higiene diaria con confort y frescura prolongada.',
       'Hipoalergénico y suave con la piel íntima.'
@@ -865,30 +1051,30 @@ export const INITIAL_PRODUCTS: Product[] = [
     ]
   },
   {
-    id: 'toalla-sanitaria-dia',
-    nombre: 'Toalla Sanitaria con Turmalina Uso Día',
+    id: 'pen-gel-intimo',
+    nombre: 'Pen Gel Íntimo Femenino HGW',
     categoria: 'Cuidado Personal e Higiene Femenina',
-    descripcion_corta: 'Toalla femenina diurna con banda aniónica de turmalina, diseño anatómico y absorción rápida para días activos.',
-    descripcion: 'Enjoyable Day Use HGW ofrece la protección perfecta para el día. Diseñada con canales de absorción rápida, alas laterales de fijación segura y banda aniónica de turmalina para garantizar libertad de movimiento, frescura y comodidad en todo momento.',
+    descripcion_corta: 'Gel íntimo botánico formulado para el cuidado, hidratación, equilibrio del pH y confort en la zona íntima.',
+    descripcion: 'Pen Gel HGW es una fórmula ginecológica suave con extractos botánicos naturales diseñada para la higiene, equilibrio y bienestar de la zona íntima femenina.',
     beneficios: [
-      'Diseño diurno anatómico con alas de sujeción.',
-      'Banda aniónica con turmalina para control de frescura.',
-      'Capa de algodón suave que no irrita la piel.',
-      'Alta capacidad de absorción con sensación seca.'
+      'Equilibrio óptimo del pH íntimo.',
+      'Hidratación y sensación de alivio y frescura.',
+      'Fórmula botánica suave y no irritante.'
     ],
-    ingredientes: ['Celulosa', 'Tela no tejida de algodón', 'Banda de turmalina', 'Película transpirable'],
-    presentacion: 'Paquete con 10 unidades',
-    precio: 5.00,
-    precio_distribuidor: 3.50,
-    BV: 1.70,
-    materia_prima: 'Algodón y turmalina',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Toalla-Sanitaria-Dia-_-Toalla-Sanitaria-con-Turmalina-Uso-Dia.png',
+    ingredientes: ['Extractos botánicos purificados', 'Ácido láctico', 'Glicerina vegetal', 'Agua desionizada'],
+    presentacion: 'Caja con aplicadores individuales',
+    precio: 18.00,
+    precio_distribuidor: 12.50,
+    BV: 6.00,
+    materia_prima: 'Extractos botánicos calmantes',
+    imagen: 'https://lh3.googleusercontent.com/d/1erQ4yMHlxpIgMwmp5cHUmQM3nbKgxaEp',
+    driveUrl: 'https://drive.google.com/file/d/1erQ4yMHlxpIgMwmp5cHUmQM3nbKgxaEp/view?usp=drivesdk',
     claims_permitidos: [
-      'Máxima comodidad y protección diurna con tecnología de aniones.',
-      'Cuidado femenino delicado y transpirable.'
+      'Higiene y cuidado íntimo suave y reconfortante.',
+      'Favorece el balance y la hidratación de la zona delicada.'
     ],
     claims_no_permitidos: [
-      'Cura cólicos médicos severos o enfermedades endometriales.'
+      'Cura enfermedades de transmisión sexual o infecciones graves.'
     ]
   },
   {
@@ -909,7 +1095,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 6.00,
     BV: 1.20,
     materia_prima: 'Acrílico cosmético',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Press-On-Nails-_-Unas-acrilicas-Postizas.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1bF3G97NO_XRwR41uWi26lMvNq5qTz3hh',
+    driveUrl: 'https://drive.google.com/file/d/1bF3G97NO_XRwR41uWi26lMvNq5qTz3hh/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/15sCBYw7djn_eJqvUZvRQZVlccsp4Gxv5/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1OrnKTe8u3eFqkYJ7ucQ6C3BcNiBHVRm6/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Uñas listas para lucir elegantes al instante.',
       'Fácil colocación y remoción sin dañar la uña natural.'
@@ -936,7 +1127,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 35.00,
     BV: 21.00,
     materia_prima: 'Turmalina negra y minerales bioenergéticos',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Colgante-Piedra-Energetica-_-Colgante-Piedra-Energetica.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1HAB5j8wJlW3qAg2p99Ukhkxwl4yJtonJ',
+    driveUrl: 'https://drive.google.com/file/d/1HAB5j8wJlW3qAg2p99Ukhkxwl4yJtonJ/view?usp=drivesdk',
     claims_permitidos: [
       'Colgante artesanal con piedras naturales de turmalina.',
       'Accesorio elegante para bienestar y equilibrio personal.'
@@ -963,7 +1155,14 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 28.00,
     BV: 16.80,
     materia_prima: 'Turmalina natural pulida',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Collar-de-Tourmalina-_-Collar-de-Tourmalina.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1wdDMN4XlpJN2sGED96RH7ZT0kaTr8E6v',
+    driveUrl: 'https://drive.google.com/file/d/1wdDMN4XlpJN2sGED96RH7ZT0kaTr8E6v/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1CZ53tY_uYxJjb8Pw6nbCF5YGqIWQgPq3/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1uSwUjCcNSCyMHAz0x5mvdNlexv_bB-qf/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1m-oJwyYh2s_UYxHSSSg4NFK2AzddhMtw/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1AdAnRMxKqvJVNSnS0EkCoz4c6m1VcK99/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Joyería artesanal con turmalina auténtica.',
       'Accesorio distintivo para bienestar emocional y elegancia.'
@@ -989,7 +1188,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 14.00,
     BV: 8.40,
     materia_prima: 'Turmalina natural',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Pulsera-de-Tourmalina-_-Pulsera-de-Tourmalina.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1pd6CAgYuRKp6xDSPcJEoHyCbHnGJOMV7',
+    driveUrl: 'https://drive.google.com/file/d/1pd6CAgYuRKp6xDSPcJEoHyCbHnGJOMV7/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1Gmvn2ELPTl3Kwwf4I0E1isvjMEu_Co3o/view?usp=drivesdk',
+      'https://drive.google.com/file/d/1WxbDGgZ24YVUPpLXNIesw3sLbRV666KV/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Accesorio de moda y bienestar con piedras naturales.',
       'Diseño unisex cómodo y adaptable.'
@@ -1017,7 +1221,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 65.00,
     BV: 32.50,
     materia_prima: 'Acero inoxidable y cristales de turmalina',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Tourmaline-Thermo-WATERSON-_-Turmalina-Termo-WATERSON.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1l7wJQ4JAWdbXk_w6ja4MwHZlDaYU7kzs',
+    driveUrl: 'https://drive.google.com/file/d/1l7wJQ4JAWdbXk_w6ja4MwHZlDaYU7kzs/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/18UGgBcYt4YgxAqspXR-VljEwsUD3j6_H/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Termo mineralizador portátil para una hidratación de mejor calidad.',
       'Elegante diseño térmico para oficina, viajes y entrenamiento.'
@@ -1045,7 +1253,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 18.00,
     BV: 7.20,
     materia_prima: 'Acero inoxidable grado alimentario',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Coffee-Cup-_-Taza-termica-para-Cafe.png',
+    imagen: 'https://lh3.googleusercontent.com/d/13XUtP3lzi8O_XbPqj7w3xdA2777aEaDB',
+    driveUrl: 'https://drive.google.com/file/d/13XUtP3lzi8O_XbPqj7w3xdA2777aEaDB/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1-IIhkesEGnujzpgAtpahGO3seu0iLIPK/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'El compañero perfecto para tus bebidas calientes o frías HGW.',
       'Resistente, reutilizable y elegante.'
@@ -1071,7 +1283,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 42.00,
     BV: 8.40,
     materia_prima: 'Componentes eléctricos y acero inoxidable',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Hervidor-Electrico-_-Hervidor-Electrico.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1-vuN0OfqCUQQO3TubNXP6YCOqGLvrBA6',
+    driveUrl: 'https://drive.google.com/file/d/1-vuN0OfqCUQQO3TubNXP6YCOqGLvrBA6/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1-YT5Gg-QCyHoSn25_7KCSuWwXrbQ5l_S/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Preparación rápida y segura de tus bebidas HGW.',
       'Herramienta indispensable para demostraciones y consumo diario.'
@@ -1096,7 +1312,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 22.00,
     BV: 8.80,
     materia_prima: 'Materiales térmicos grado alimenticio',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Vaso-Termico-_-Vaso-Termico.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1LwTIe6Qc6lilWXTPdhk_9MVfVkgujnlW',
+    driveUrl: 'https://drive.google.com/file/d/1LwTIe6Qc6lilWXTPdhk_9MVfVkgujnlW/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/17F-ngbKdmnHNGbQEYqgkmupnjc37F8VD/view?usp=drivesdk'
+    ],
     claims_permitidos: ['Práctico y seguro para bebidas frías o calientes.'],
     claims_no_permitidos: []
   },
@@ -1118,7 +1338,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 62.00,
     BV: 18.60,
     materia_prima: 'Turmalina y magnetos',
-    imagen: 'https://yamilkahgwpanama.shop/wp-content/uploads/2026/07/Tourmaline-Magnet-Pillow-_-Almohada-magnetica-de-turmalina.png',
+    imagen: 'https://lh3.googleusercontent.com/d/1fpUgxErX0MQhzbjJ2u2U-wdeZYXpJmhr',
+    driveUrl: 'https://drive.google.com/file/d/1fpUgxErX0MQhzbjJ2u2U-wdeZYXpJmhr/view?usp=drivesdk',
     claims_permitidos: [
       'Almohada anatómica para un descanso cervical placentero y confortable.',
       'Tecnología magnética y de turmalina para mayor relax.'
@@ -1146,13 +1367,48 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 5.00,
     BV: 3.00,
     materia_prima: 'Extracto de turmalina negra',
-    imagen: 'https://drive.google.com/file/d/1y-4nNnYCpibPY445jWvimVl0KSv5N9L6/view?usp=drivesdk',
+    imagen: 'https://lh3.googleusercontent.com/d/1y-4nNnYCpibPY445jWvimVl0KSv5N9L6',
+    driveUrl: 'https://drive.google.com/file/d/1y-4nNnYCpibPY445jWvimVl0KSv5N9L6/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1a4DGuy5n0IxYv3Qz6d5GbuCqfvVDrQaq/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Higiene bucal avanzada con minerales purificadores.',
       'Aliento fresco y encías saludables.'
     ],
     claims_no_permitidos: [
       'Cura la periodontitis avanzada o regenera dientes caídos.'
+    ]
+  },
+  {
+    id: 'pasta-dental-turmalina-blanca',
+    nombre: 'Pasta Dental con Turmalina Blanca HGW',
+    categoria: 'Cuidado Personal e Higiene Bucal',
+    descripcion_corta: 'Pasta dental blanqueadora suave con turmalina blanca y minerales para brillo natural y protección del esmalte.',
+    descripcion: 'La Pasta Dental con Turmalina Blanca HGW combina extracto de turmalina blanca purificada y agentes abrillantadores naturales para remover manchas superficiales causadas por café o té, manteniendo el esmalte fuerte y el aliento fresco.',
+    beneficios: [
+      'Efecto blanqueador suave sin dañar el esmalte dental.',
+      'Extracto de turmalina blanca para higiene integral.',
+      'Control de sarro y frescura bucal prolongada.',
+      'Ideal para uso diario de toda la familia.'
+    ],
+    ingredientes: ['Extracto de turmalina blanca', 'Carbonato de calcio', 'Sílice hidratada', 'Menta refrescante'],
+    presentacion: 'Tubo de 120 g',
+    precio: 8.00,
+    precio_distribuidor: 5.00,
+    BV: 3.00,
+    materia_prima: 'Turmalina blanca purificada',
+    imagen: 'https://lh3.googleusercontent.com/d/18Hc8CNusf3omof2f8XG0LwbWcMVE4Hz5',
+    driveUrl: 'https://drive.google.com/file/d/18Hc8CNusf3omof2f8XG0LwbWcMVE4Hz5/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1yUYF947AKl6sHQzr3r1J0osTaKhwLFVg/view?usp=drivesdk'
+    ],
+    claims_permitidos: [
+      'Blanqueamiento dental suave y aliento fresco.',
+      'Protección diaria con minerales naturales.'
+    ],
+    claims_no_permitidos: [
+      'Blanqueamiento químico abrasivo en 1 segundo.'
     ]
   },
   {
@@ -1173,7 +1429,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     precio_distribuidor: 5.00,
     BV: 2.50,
     materia_prima: 'Probióticos y extractos herbales',
-    imagen: 'https://drive.google.com/file/d/1TGMwLpJczROw8WB3T2SVdCiELpEni6QB/view?usp=drivesdk',
+    imagen: 'https://lh3.googleusercontent.com/d/1TGMwLpJczROw8WB3T2SVdCiELpEni6QB',
+    driveUrl: 'https://drive.google.com/file/d/1TGMwLpJczROw8WB3T2SVdCiELpEni6QB/view?usp=drivesdk',
+    imagenes_adicionales: [
+      'https://drive.google.com/file/d/1anfcSThO1ZWfpsVPTCUDuaEqepcb0K6h/view?usp=drivesdk'
+    ],
     claims_permitidos: [
       'Dentífrico con probióticos para un cuidado oral equilibrado.',
       'Ideal para el uso diario de toda la familia.'
@@ -1202,6 +1462,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     BV: 50.00,
     materia_prima: 'Oportunidad de Negocio HGW',
     imagen: 'https://hgwpanama.com/wp-content/uploads/2026/08/rango-plata-hgw.webp',
+    driveUrl: 'https://drive.google.com/file/d/1qiIrjqio2z9qomLGY5y0iO3lPmqTop5b/view?usp=drivesdk',
     claims_permitidos: [
       'Comienza tu negocio independiente con baja inversión.',
       'Plan de Ganancia Mutua innovador con respaldo internacional en más de 69 países.'
@@ -1230,6 +1491,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     BV: 600.00,
     materia_prima: 'Oportunidad de Liderazgo HGW',
     imagen: 'https://hgwpanama.com/wp-content/uploads/2026/08/Rango-Diamante-300x300-1.webp',
+    driveUrl: 'https://drive.google.com/file/d/1qiIrjqio2z9qomLGY5y0iO3lPmqTop5b/view?usp=drivesdk',
     claims_permitidos: [
       'Posición óptima para constructores de redes y líderes de negocio.',
       'Máximo margen comercial de reventa (hasta 60% de utilidad).'

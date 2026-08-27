@@ -4,7 +4,17 @@ export function buildMasterImagePrompt(product: Product, config: ImagePromptConf
   const stylesText = config.styles.length > 0 ? config.styles.join(', ') : 'FOTO PUBLICITARIA PREMIUM, ELEGANTE, BIENESTAR';
   const formatText = config.format === '1:1' ? '1:1 Square (Full Bleed canvas for Instagram / Facebook Feed / WhatsApp status)' : '9:16 Vertical (Full Bleed canvas for TikTok / Instagram Reels / Stories / YouTube Shorts)';
 
-  const promptEnglish = `Create a premium commercial advertising image using the uploaded product image as the exact visual reference.
+  const driveReference = product.driveUrl || config.driveUrl || config.imageReferenceUrl || product.imagen;
+
+  const peopleDirectiveEnglish = config.incluirPersonas !== false
+    ? `* Human Subject & Interaction Integration: Include realistic, expressive human models/people interacting naturally with the product or reflecting its core emotional benefit (${config.tipoPersona || 'Happy radiant person enjoying the wellness benefits, healthy energetic lifestyle, genuine smile, authentic emotions'}). The person must look sophisticated, healthy, and visually aligned with the marketing message/copy.`
+    : '* Human Presence: Clean minimalist product-first focus with subtle lifestyle elements.';
+
+  const peopleDirectiveSpanish = config.incluirPersonas !== false
+    ? `* Integración de Personas Reales: Incluir modelos humanos/personas auténticas y expresivas interactuando con el producto (${config.tipoPersona || 'Persona feliz, radiante y saludable disfrutando del producto con una sonrisa genuina'}). La persona debe reflejar directamente el mensaje persuasivo del copy publicitario y el beneficio de bienestar.`
+    : '* Enfoque: Énfasis puro en el producto con escenario publicitario limpio.';
+
+  const promptEnglish = `Create a premium commercial advertising image using the uploaded product reference image.
 
 PRODUCT FIDELITY IS THE HIGHEST PRIORITY:
 Preserve exactly:
@@ -18,6 +28,11 @@ Preserve exactly:
 * shape, cap, container and sealing materials,
 * visible text and official logos,
 * brand visual identity.
+* Official High-Res Product Asset Reference: ${driveReference}
+
+HUMAN MODELS & LIFESTYLE STORYTELLING (PEOPLE RELATED TO THE COPY):
+${peopleDirectiveEnglish}
+* Add realistic people reflecting the marketing copy: vibrant vitality, wellness, healthy skin, focus, or family harmony according to the product benefits.
 
 STRICT NEGATIVE CONSTRAINTS (DO NOT):
 * Do NOT redesign the product or recreate it from scratch.
@@ -35,18 +50,18 @@ STRICT NEGATIVE CONSTRAINTS (DO NOT):
 ADVERTISING COMPOSITION & ENVIRONMENT:
 * Product Featured: "${product.nombre}" (${product.categoria}).
 * Visual Art Direction Styles: ${stylesText}.
-* Environment & Background Atmosphere: ${config.ambiente || `High-end commercial studio staging related to ${product.categoria} with organic textures, elegant marble pedestal, soft natural botanicals and subtle atmospheric backlight`}.
+* Environment & Background Atmosphere: ${config.ambiente || `High-end commercial lifestyle setting related to ${product.categoria} with organic textures, elegant interior, soft natural botanicals and warm cinematic lighting`}.
 * Target Audience & Mood: ${config.publico || 'Discerning wellness consumers, network marketing professionals and modern families'}.
 * Text overlay on background graphic (if present): "${config.textoEnImagen || product.nombre}".
 * Call to action banner note: "${config.ctaTexto || 'Descubre el bienestar HGW'}".
 * Number of main product units featured: ${config.cantidadProductos || '1 single centered hero product container'}.
 
 TECHNICAL PHOTOGRAPHY SPECS:
-* Premium commercial product photography, 8k resolution look.
-* Photorealistic studio strobe lighting with soft key light and subtle rim light.
+* Premium commercial lifestyle and product photography, 8k resolution look.
+* Photorealistic studio strobe lighting with soft key light, gentle natural skin tones, and subtle rim light.
 * Natural soft ground shadows and physically accurate glossy reflections.
-* High-end art director composition with shallow depth of field (f/2.8 macro bokeh).
-* Crisp, tactile surface textures on packaging cardboard, matte glass and metallic accents.
+* High-end art director composition with shallow depth of field (f/2.8 bokeh).
+* Crisp, tactile surface textures on packaging cardboard, matte glass, healthy skin and metallic accents.
 * Full-bleed background filling 100% of the canvas area seamlessly without margins or watermarks.
 
 Aspect Ratio: ${config.format} (${formatText}).`;
@@ -55,15 +70,22 @@ Aspect Ratio: ${config.format} (${formatText}).`;
 
 FIDELIDAD TOTAL AL PRODUCTO ORIGINAL:
 * Conserva exactamente el empaque, logotipo de HGW, nombre del producto, colores originales, tipografía de la etiqueta, proporciones del envase y tapa.
+* Enlace de Referencia Oficial de Google Drive: ${driveReference}
 * NO modificar, rediseñar, deformar, ni sustituir el producto por uno inventado.
-* Entorno y Fondo: ${config.ambiente || `Escenario publicitario premium acorde a ${product.categoria}, con iluminación de estudio, pedestal de lujo y elementos naturales sutiles`}.
+
+INTEGRACIÓN DE PERSONAS RELACIONADAS AL COPY:
+${peopleDirectiveSpanish}
+* Incluir modelos reales en situaciones cotidianas o de éxito que refuercen los beneficios comunicados en el texto publicitario.
+
+ENTORNO Y ESTILO:
+* Entorno y Fondo: ${config.ambiente || `Escenario publicitario premium y estilo de vida acorde a ${product.categoria}, con iluminación cinematográfica y detalles botánicos/hogar elegante`}.
 * Estilos combinados: ${stylesText}.
 * Formato seleccionado: ${config.format} (${config.format === '1:1' ? 'Cuadrado 1:1 para Feed de Instagram/Facebook/WhatsApp' : 'Vertical 9:16 para Reels/TikTok/Stories'}).
 * Composición a sangrado completo (Full Bleed), sin bordes blancos, sin marcas de agua y sin espacios vacíos.`;
 
-  const negativePrompt = 'distorted product, deformed packaging, wrong logo, altered brand name, blurry text, cartoon, low resolution, white borders, empty borders, cropped packaging, bad proportions, watermark, fake ingredients on box, artificial mockup errors';
+  const negativePrompt = 'distorted product, deformed packaging, wrong logo, altered brand name, blurry text, cartoon, low resolution, white borders, empty borders, cropped packaging, bad proportions, watermark, fake ingredients on box, artificial mockup errors, unnatural human anatomy, extra limbs';
 
-  const instructions = 'Copia y pega este prompt maestro en Midjourney, DALL-E 3, Google Imagen, Ideogram o cualquier generador de IA. Recuerda adjuntar la imagen original del producto como referencia visual para garantizar la máxima fidelidad de marca.';
+  const instructions = 'Copia y pega este prompt maestro en ChatGPT, Gemini, Midjourney o DALL-E. Adjunta el enlace o archivo de Google Drive del producto para que la IA replique el envase exacto e incorpore las personas en la escena.';
 
   return {
     promptEnglish,
@@ -71,6 +93,7 @@ FIDELIDAD TOTAL AL PRODUCTO ORIGINAL:
     format: config.format,
     stylesUsed: config.styles,
     productName: product.nombre,
+    driveUrl: product.driveUrl || config.driveUrl,
     instructions,
     negativePrompt
   };

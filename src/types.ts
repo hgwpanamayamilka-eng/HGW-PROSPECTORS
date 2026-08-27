@@ -12,6 +12,7 @@ export interface Product {
   BV: number;
   informacion_adicional?: string;
   imagen: string;
+  driveUrl?: string;
   imagenes_adicionales?: string[];
   claims_permitidos: string[];
   claims_no_permitidos: string[];
@@ -96,6 +97,7 @@ export interface ImagePromptConfig {
   productId: string;
   imageReferenceUrl?: string;
   customImageBase64?: string;
+  driveUrl?: string;
   format: ImageFormat;
   styles: ImageStyle[];
   ambiente: string;
@@ -103,6 +105,8 @@ export interface ImagePromptConfig {
   textoEnImagen: string;
   ctaTexto: string;
   cantidadProductos: string;
+  incluirPersonas?: boolean;
+  tipoPersona?: string;
 }
 
 export interface GeneratedImagePromptResult {
@@ -111,6 +115,7 @@ export interface GeneratedImagePromptResult {
   format: ImageFormat;
   stylesUsed: string[];
   productName: string;
+  driveUrl?: string;
   instructions: string;
   negativePrompt: string;
   generatedImageUrl?: string;
@@ -126,10 +131,11 @@ export interface LandingFormData {
   presentacion: string;
   precio: number;
   precioAnterior: number;
-  oferta: string;
+  oferta?: string;
   descuento: string;
   bv: number;
   publicoObjetivo: string;
+  driveUrl?: string;
 
   // Información comercial
   nombreVendedor: string;
@@ -139,7 +145,7 @@ export interface LandingFormData {
   telefono: string;
   email: string;
   paginaWeb: string;
-  direccion: string;
+  direccion?: string;
   ciudad: string;
   pais: string;
 
@@ -147,7 +153,7 @@ export interface LandingFormData {
   ctaPrincipal: string;
   ctaSecundario: string;
   linkWhatsapp: string;
-  linkCompra: string;
+  linkCompra?: string;
   garantia: string;
   tiempoPromocion: string;
   testimonios: string;
@@ -158,7 +164,7 @@ export interface LandingFormData {
   colorSecundario: string;
   estilo: string;
   imagenPrincipal: string;
-  imagenesAdicionales: string;
+  imagenesAdicionales?: string;
 }
 
 export type QuoteCategory =
