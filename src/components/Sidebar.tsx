@@ -15,7 +15,10 @@ import {
   Award,
   LogOut,
   ShieldAlert,
-  ShieldCheck
+  ShieldCheck,
+  Briefcase,
+  HeartPulse,
+  Bot
 } from 'lucide-react';
 import { ContactData, AuthUser } from '../types';
 import { getDirectImageUrl } from '../lib/imageUtils';
@@ -29,6 +32,8 @@ export type TabType =
   | 'banners'
   | 'landing'
   | 'quotes'
+  | 'business_opportunity'
+  | 'health_protocols'
   | 'mlm'
   | 'offices'
   | 'settings'
@@ -67,6 +72,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'dashboard', label: 'Panel de Control', icon: LayoutDashboard },
     { id: 'catalog', label: 'Catálogo de Productos', badge: '12', icon: ShoppingBag },
     { id: 'copys', label: 'Generador de 30 Copys', badge: 'IA', icon: FileText },
+    { id: 'business_opportunity', label: 'Oportunidad & Sistema IA', badge: 'Prospección', icon: Briefcase },
+    { id: 'health_protocols', label: 'Protocolos de Salud', badge: 'Coadyuvante', icon: HeartPulse },
     { id: 'images', label: 'Prompts de Imágenes', badge: 'Fidelidad', icon: ImageIcon },
     { id: 'banners', label: 'Banners de Reconocimiento', badge: 'Gala HGW', icon: Award },
     { id: 'landing', label: 'Landing Page HTML', badge: '29 Sec', icon: LayoutTemplate },

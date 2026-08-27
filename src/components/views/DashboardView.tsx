@@ -16,7 +16,10 @@ import {
   ExternalLink, 
   PhoneCall,
   Award,
-  UserPlus
+  UserPlus,
+  Briefcase,
+  HeartPulse,
+  Bot
 } from 'lucide-react';
 import { Product, ContactData } from '../../types';
 import { TabType } from '../Sidebar';
@@ -96,12 +99,60 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           </div>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           
-          {/* Card 1: Recognition Banners (NEW) */}
+          {/* Card 1: Business Opportunity & AI */}
+          <div 
+            onClick={() => onNavigate('business_opportunity')}
+            className="group bg-white p-5 rounded-2xl border-2 border-emerald-400/80 shadow-xs hover:shadow-lg hover:border-emerald-600 cursor-pointer transition flex flex-col justify-between"
+          >
+            <div>
+              <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-900 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <Briefcase className="w-5 h-5 text-emerald-800" />
+              </div>
+              <div className="flex items-center gap-1 mb-1">
+                <h4 className="font-heading font-bold text-sm sm:text-base text-slate-900 group-hover:text-emerald-800 transition">
+                  Oportunidad & Sistema IA
+                </h4>
+              </div>
+              <p className="text-xs text-slate-500 leading-relaxed mb-4">
+                Prospección, presentación Ganancia Mutua, seguimiento, cierres, onboarding y herramientas de IA.
+              </p>
+            </div>
+            <div className="flex items-center gap-1 text-xs font-bold text-emerald-800 pt-2 border-t border-slate-100">
+              <span>Abrir Sistema de Negocio</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+
+          {/* Card 2: Health Protocols */}
+          <div 
+            onClick={() => onNavigate('health_protocols')}
+            className="group bg-white p-5 rounded-2xl border-2 border-teal-300/80 shadow-xs hover:shadow-lg hover:border-teal-500 cursor-pointer transition flex flex-col justify-between"
+          >
+            <div>
+              <div className="w-10 h-10 rounded-xl bg-teal-100 text-teal-900 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <HeartPulse className="w-5 h-5 text-teal-800" />
+              </div>
+              <div className="flex items-center gap-1 mb-1">
+                <h4 className="font-heading font-bold text-sm sm:text-base text-slate-900 group-hover:text-teal-800 transition">
+                  Protocolos de Salud
+                </h4>
+              </div>
+              <p className="text-xs text-slate-500 leading-relaxed mb-4">
+                Colon, cólicos menstruales, inflamación, salud visual, hígado, riñones, defensas y desafíos crónicos.
+              </p>
+            </div>
+            <div className="flex items-center gap-1 text-xs font-bold text-teal-800 pt-2 border-t border-slate-100">
+              <span>Ver Protocolos Coadyuvantes</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+
+          {/* Card 3: Recognition Banners */}
           <div 
             onClick={() => onNavigate('banners')}
-            className="group bg-white p-5 rounded-2xl border-2 border-amber-300/80 shadow-xs hover:shadow-lg hover:border-amber-400 cursor-pointer transition flex flex-col justify-between"
+            className="group bg-white p-5 rounded-2xl border border-amber-300/80 shadow-xs hover:shadow-lg hover:border-amber-400 cursor-pointer transition flex flex-col justify-between"
           >
             <div>
               <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
@@ -122,7 +173,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
           </div>
 
-          {/* Card 2: Copys */}
+          {/* Card 4: Copys */}
           <div 
             onClick={() => onNavigate('copys')}
             className="group bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-lg hover:border-emerald-500/40 cursor-pointer transition flex flex-col justify-between"
@@ -132,10 +183,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 <FileText className="w-5 h-5 text-emerald-700" />
               </div>
               <h4 className="font-heading font-bold text-sm sm:text-base text-slate-900 mb-1 group-hover:text-emerald-700 transition">
-                30 Copys Psicológicos
+                30 Copys por Producto
               </h4>
               <p className="text-xs text-slate-500 leading-relaxed mb-4">
-                Genera 30 textos persuasivos con hooks, desarrollo, beneficios y CTA personalizado.
+                Genera 30 textos persuasivos con hooks adaptados, desarrollo, beneficios y CTA.
               </p>
             </div>
             <div className="flex items-center gap-1 text-xs font-bold text-emerald-700 pt-2 border-t border-slate-100">

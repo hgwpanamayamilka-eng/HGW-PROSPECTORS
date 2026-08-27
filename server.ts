@@ -29,8 +29,10 @@ app.post('/api/generate-copys', async (req, res) => {
       const prompt = `Actúa como un copywriter experto en ventas y redes de mercadeo para Health Green World (HGW).
 Genera EXACTAMENTE 30 copys persuasivos diferentes y numerados para el siguiente producto:
 - Nombre: ${product.nombre}
+- Categoría: ${product.categoria}
 - Beneficios: ${product.beneficios?.join(', ')}
 - Ingredientes: ${product.ingredientes?.join(', ')}
+- Presentación: ${product.presentacion}
 - Precio: $${product.precio} | BV: ${product.BV}
 - Público: ${config.targetAudience}
 - Red Social: ${config.socialNetwork}
@@ -38,13 +40,16 @@ Genera EXACTAMENTE 30 copys persuasivos diferentes y numerados para el siguiente
 - Tono: ${config.tone}
 - Contacto: ${contact?.nombre || 'Distribuidor HGW'} (WhatsApp: ${contact?.whatsapp || '67603578'}, Código: ${contact?.codigo || 'Yamilka507'})
 
+REGLA OBLIGATORIA PARA LOS GANCHOS (HOOKS):
+Cada uno de los 30 ganchos ("hook") DEBE ESTAR 100% ENFOCADO Y PERSONALIZADO EN EL PRODUCTO "${product.nombre}", sus ingredientes específicos y sus beneficios exactos. Queda PROHIBIDO usar ganchos genéricos o hablar de otro producto distinto al indicado.
+
 Devuelve un JSON válido con la siguiente estructura:
 {
   "copys": [
     {
       "numero": 1,
       "estrategia": "Nombre de la estrategia psicológica",
-      "hook": "Gancho magnético",
+      "hook": "Gancho magnético enfocado 100% en ${product.nombre}",
       "desarrollo": "Cuerpo persuasivo",
       "beneficio": "Beneficios clave",
       "cta": "Llamado a la acción con WhatsApp",

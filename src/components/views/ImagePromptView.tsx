@@ -67,10 +67,10 @@ export const ImagePromptView: React.FC<ImagePromptViewProps> = ({
 
   const defaultTitlePresets = [
     `¡Descubre el Poder de ${currentProduct.nombre}!`,
-    '100% Orgánico, Certificado y Natural',
-    'Bienestar, Energía y Juventud con HGW',
-    '¡Transforma tu Salud y Estilo de Vida!',
-    'Máxima Vitalidad y Nutrición Celular'
+    currentProduct.beneficios[0] ? `✨ ${currentProduct.beneficios[0]}` : '100% Orgánico, Certificado y Natural',
+    currentProduct.beneficios[1] ? `🌿 ${currentProduct.beneficios[1]}` : 'Bienestar, Energía y Juventud con HGW',
+    `¡Transforma tu Bienestar con ${currentProduct.nombre}!`,
+    `Nutrición Pura y Resultados Reales (${currentProduct.presentacion})`
   ];
 
   const [config, setConfig] = useState<ImagePromptConfig>({

@@ -8,6 +8,8 @@ import { ImagePromptView } from './components/views/ImagePromptView';
 import { LandingBuilderView } from './components/views/LandingBuilderView';
 import { QuotesView } from './components/views/QuotesView';
 import { MLMView } from './components/views/MLMView';
+import { BusinessOpportunityView } from './components/views/BusinessOpportunityView';
+import { HealthProtocolsView } from './components/views/HealthProtocolsView';
 import { OfficesView } from './components/views/OfficesView';
 import { SettingsView } from './components/views/SettingsView';
 import { RecognitionBannersView } from './components/views/RecognitionBannersView';
@@ -142,6 +144,8 @@ export const App: React.FC = () => {
       case 'dashboard': return 'Panel de Control';
       case 'catalog': return 'Catálogo de Productos';
       case 'copys': return 'Generador de 30 Copys';
+      case 'business_opportunity': return 'Oportunidad de Negocio & Sistema IA';
+      case 'health_protocols': return 'Protocolos de Salud Coadyuvante';
       case 'images': return 'Prompts de Imágenes';
       case 'banners': return 'Banners de Reconocimiento Oficial';
       case 'landing': return 'Creador de Landing Pages';
@@ -222,6 +226,14 @@ export const App: React.FC = () => {
               onSelectProduct={setSelectedProduct}
               contact={contact}
             />
+          )}
+
+          {currentTab === 'business_opportunity' && (
+            <BusinessOpportunityView contact={contact} />
+          )}
+
+          {currentTab === 'health_protocols' && (
+            <HealthProtocolsView contact={contact} />
           )}
 
           {currentTab === 'images' && (
