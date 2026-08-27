@@ -70,7 +70,11 @@ export interface CopyGenerationConfig {
 
 export interface GeneratedCopy {
   numero: number;
-  hook: string;
+  hook: string; // Atención (A)
+  atencion?: string;
+  interes?: string; // Interés (I)
+  deseo?: string; // Deseo (D)
+  accion?: string; // Acción (A / CTA)
   desarrollo: string;
   beneficio: string;
   cta: string;

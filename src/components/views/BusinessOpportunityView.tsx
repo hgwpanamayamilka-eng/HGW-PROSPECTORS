@@ -22,16 +22,20 @@ import {
   X,
   ExternalLink,
   MessageSquare,
-  Compass
+  Compass,
+  ImageIcon
 } from 'lucide-react';
-import { ContactData } from '../../types';
+import { ContactData, GeneratedImagePromptResult, ImageFormat, Product } from '../../types';
 import { 
   BusinessStage, 
   BusinessOpportunityConfig, 
   buildBusinessOpportunityMasterPrompt, 
-  PREBUILT_BUSINESS_COPYS,
+  PREBUILT_BUSINESS_COPYS, 
   GeneratedBusinessCopy 
 } from '../../lib/prompts/businessOpportunityPrompts';
+import { HGW_PRODUCTS } from '../../data/products';
+import { buildMasterImagePromptForBusiness } from '../../lib/prompts/imagePrompts';
+import { MasterImagePromptModal } from '../modals/MasterImagePromptModal';
 
 interface BusinessOpportunityViewProps {
   contact: ContactData;
@@ -43,6 +47,11 @@ export const BusinessOpportunityView: React.FC<BusinessOpportunityViewProps> = (
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [showMasterPromptModal, setShowMasterPromptModal] = useState(false);
   const [copiedMasterPrompt, setCopiedMasterPrompt] = useState(false);
+
+  // Master Image Prompt Modal State
+  const [selectedCopyForImage, setSelectedCopyForImage] = useState<GeneratedBusinessCopy | null>(null);
+  const [imageModalFormat, setImageModalFormat] = useState<ImageFormat>('1:1');
+  const [imagePromptResult, setImagePromptResult] = useState<GeneratedImagePromptResult | null>(null);
 
   const [customConfig, setCustomConfig] = useState<BusinessOpportunityConfig>({
     stage: 'prospeccion',
@@ -106,6 +115,32 @@ export const BusinessOpportunityView: React.FC<BusinessOpportunityViewProps> = (
     navigator.clipboard.writeText(masterPromptText);
     setCopiedMasterPrompt(true);
     setTimeout(() => setCopiedMasterPrompt(false), 2000);
+  };
+
+  const handleOpenImagePrompt = (copy: GeneratedBusinessCopy) => {
+    setSelectedCopyForImage(copy);
+    const result = buildMasterImagePromptForBusiness(
+      copy.stageLabel,
+      copy.hook,
+      copy.targetProfile,
+      contact,
+      imageModalFormat
+    );
+    setImagePromptResult(result);
+  };
+
+  const handleFormatChange = (format: ImageFormat) => {
+    setImageModalFormat(format);
+    if (selectedCopyForImage) {
+      const result = buildMasterImagePromptForBusiness(
+        selectedCopyForImage.stageLabel,
+        selectedCopyForImage.hook,
+        selectedCopyForImage.targetProfile,
+        contact,
+        format
+      );
+      setImagePromptResult(result);
+    }
   };
 
   return (
@@ -238,15 +273,20 @@ export const BusinessOpportunityView: React.FC<BusinessOpportunityViewProps> = (
           return (
             <div 
               key={copy.id}
-              className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-xs hover:shadow-md transition flex flex-col justify-between space-y-4"
+              className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-xs hover:shadow-md transition flex flex-col justify-between space-y-4"
             >
-              <div className="space-y-3">
+              <div className="space-y-3.5">
                 {/* Card Header */}
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <span className="inline-block bg-emerald-50 text-emerald-800 border border-emerald-200/60 text-[11px] font-bold px-2.5 py-0.5 rounded-lg mb-1.5 uppercase tracking-wide">
-                      {copy.stageLabel}
-                    </span>
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <span className="inline-block bg-emerald-50 text-emerald-800 border border-emerald-200/60 text-[11px] font-bold px-2.5 py-0.5 rounded-lg uppercase tracking-wide">
+                        {copy.stageLabel}
+                      </span>
+                      <span className="text-[10px] font-bold bg-amber-50 text-amber-900 border border-amber-200/60 px-2 py-0.5 rounded-md uppercase">
+                        AIDA
+                      </span>
+                    </div>
                     <h3 className="font-heading font-bold text-base text-slate-900 leading-snug">
                       {copy.title}
                     </h3>
@@ -263,20 +303,25 @@ export const BusinessOpportunityView: React.FC<BusinessOpportunityViewProps> = (
                   <span><strong>Dirigido a:</strong> {copy.targetProfile}</span>
                 </div>
 
-                {/* Hook Highlight */}
-                <div className="bg-slate-50 border-l-3 border-[#0B3D2E] p-3 rounded-r-xl space-y-1">
-                  <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-800 block">
-                    Gancho Magnético (Hook)
+                {/* [A] ATENCIÓN (Hook Highlight) */}
+                <div className="bg-slate-50 border-l-4 border-[#0B3D2E] border-y border-r border-slate-200/60 p-3.5 rounded-2xl space-y-1">
+                  <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-900 bg-emerald-100/80 px-1.5 py-0.5 rounded inline-block">
+                    [A] ATENCIÓN · GANCHO HOOK
                   </span>
                   <p className="text-xs font-semibold text-slate-800 leading-relaxed italic">
                     "{copy.hook}"
                   </p>
                 </div>
 
-                {/* Body Text Preview */}
-                <p className="text-xs text-slate-600 leading-relaxed line-clamp-4 whitespace-pre-line">
-                  {copy.body}
-                </p>
+                {/* [I & D] Body Text Preview */}
+                <div className="space-y-1">
+                  <span className="text-[10px] uppercase font-bold text-blue-900 bg-blue-50 px-1.5 py-0.5 rounded inline-block">
+                    [I & D] INTERÉS & DESEO (GANANCIA MUTUA & MODELO HGW)
+                  </span>
+                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-4 whitespace-pre-line pl-1">
+                    {copy.body}
+                  </p>
+                </div>
 
                 {/* Key Points */}
                 {copy.keyPoints && copy.keyPoints.length > 0 && (
@@ -290,6 +335,16 @@ export const BusinessOpportunityView: React.FC<BusinessOpportunityViewProps> = (
                   </div>
                 )}
 
+                {/* [A] ACCIÓN · CTA */}
+                <div className="bg-amber-50/60 p-2.5 rounded-xl border border-amber-200/60 space-y-0.5">
+                  <span className="text-[10px] uppercase font-bold text-amber-900 block">
+                    [A] ACCIÓN · CTA PERSONALIZADO
+                  </span>
+                  <p className="text-xs text-slate-800 font-semibold">
+                    {copy.cta}
+                  </p>
+                </div>
+
                 {/* Tags */}
                 <div className="flex flex-wrap gap-1.5 pt-1">
                   {copy.tags.map((tag, tIdx) => (
@@ -301,10 +356,12 @@ export const BusinessOpportunityView: React.FC<BusinessOpportunityViewProps> = (
               </div>
 
               {/* Action Buttons */}
-              <div className="pt-3 border-t border-slate-100 flex items-center gap-2">
+              <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-center gap-2">
+                
+                {/* Copy Text Button */}
                 <button
                   onClick={() => handleCopyText(copy.fullMessage, copy.id)}
-                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition active:scale-95 ${
+                  className={`flex-1 w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold transition active:scale-95 ${
                     isCopied
                       ? 'bg-emerald-600 text-white'
                       : 'bg-[#0B3D2E] hover:bg-emerald-900 text-white'
@@ -314,9 +371,20 @@ export const BusinessOpportunityView: React.FC<BusinessOpportunityViewProps> = (
                   <span>{isCopied ? '¡Copiado con tus datos!' : 'Copiar Copy Completo'}</span>
                 </button>
 
+                {/* Prompt Master Image Generator Button */}
+                <button
+                  onClick={() => handleOpenImagePrompt(copy)}
+                  className="w-full sm:w-auto px-3 py-2.5 rounded-xl text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-300/80 transition flex items-center justify-center gap-1.5 active:scale-95 shadow-2xs"
+                  title="Crear Prompt Master de Imagen para este copy de oportunidad"
+                >
+                  <ImageIcon className="w-3.5 h-3.5 text-amber-700" />
+                  <span>Prompt Master Imagen IA</span>
+                </button>
+
+                {/* Direct WhatsApp Share */}
                 <button
                   onClick={() => handleSendWhatsApp(copy.fullMessage)}
-                  className="bg-emerald-500 hover:bg-emerald-600 text-white p-2 rounded-xl transition active:scale-95"
+                  className="bg-emerald-500 hover:bg-emerald-600 text-white p-2.5 rounded-xl transition active:scale-95 shrink-0"
                   title="Compartir directo en WhatsApp"
                 >
                   <Send className="w-4 h-4" />
@@ -353,7 +421,7 @@ export const BusinessOpportunityView: React.FC<BusinessOpportunityViewProps> = (
                 </div>
                 <div>
                   <h3 className="font-heading font-bold text-slate-900 text-lg">
-                    Prompt Maestro con IA para Negocio HGW
+                    Prompt Maestro AIDA con IA para Negocio HGW
                   </h3>
                   <p className="text-xs text-slate-500">
                     Listo para copiar y pegar en ChatGPT, Google Gemini o Claude
@@ -440,6 +508,18 @@ export const BusinessOpportunityView: React.FC<BusinessOpportunityViewProps> = (
 
           </div>
         </div>
+      )}
+
+      {/* Master Image Prompt Modal for Business Opportunity */}
+      {selectedCopyForImage && imagePromptResult && (
+        <MasterImagePromptModal
+          isOpen={!!selectedCopyForImage}
+          onClose={() => setSelectedCopyForImage(null)}
+          title={`Prompt Master de Imagen: Negocio HGW (${selectedCopyForImage.stageLabel})`}
+          subtitle={`Basado en el Copy "${selectedCopyForImage.title}"`}
+          imagePromptResult={imagePromptResult}
+          onFormatChange={handleFormatChange}
+        />
       )}
 
     </div>

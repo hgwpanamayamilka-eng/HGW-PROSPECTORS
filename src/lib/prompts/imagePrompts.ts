@@ -1,4 +1,4 @@
-import { Product, ImagePromptConfig, GeneratedImagePromptResult } from '../../types';
+import { Product, ImagePromptConfig, GeneratedImagePromptResult, ContactData, GeneratedCopy } from '../../types';
 
 export function buildMasterImagePrompt(product: Product, config: ImagePromptConfig): GeneratedImagePromptResult {
   const stylesText = config.styles.length > 0 ? config.styles.join(', ') : 'FOTOGRAFÍA PUBLICITARIA COMERCIAL, ESTUDIO ELEGANTE, BIENESTAR';
@@ -138,3 +138,121 @@ Aspect Ratio: ${config.format} (${formatText}).`;
     negativePrompt
   };
 }
+
+/**
+ * Builds a tailored Master Image Prompt directly from a specific generated copy
+ */
+export function buildMasterImagePromptForCopy(
+  product: Product, 
+  copy: GeneratedCopy, 
+  contact?: ContactData,
+  format: '1:1' | '9:16' = '1:1'
+): GeneratedImagePromptResult {
+  const config: ImagePromptConfig = {
+    productId: product.id,
+    format,
+    styles: ['FOTO PUBLICITARIA PREMIUM', 'LUJO', 'BIENESTAR'],
+    ambiente: `Escenario publicitario premium de alta gama para ${product.categoria}, con pedestal de mármol/madera fina, iluminación suave cinematográfica y elementos botánicos frescos que complementan a ${product.nombre}`,
+    publico: 'Consumidores de bienestar, salud y nutrición natural',
+    tituloImagen: copy.hook.length > 60 ? copy.hook.slice(0, 57) + '...' : copy.hook,
+    estiloTitulo: 'oro_lujo',
+    textoEnImagen: product.nombre,
+    ctaTexto: 'Pruébalo Hoy',
+    cantidadProductos: '1 unidad principal destacada al centro',
+    incluirPersonas: true,
+    tipoPersona: `Persona radiante y saludable transmitiendo el beneficio: "${copy.beneficio.split('\n')[0]?.replace(/^[🔹•\s]+/, '') || 'bienestar total'}"`,
+    driveUrl: product.driveUrl || product.imagen,
+    incluirContacto: true,
+    contactoNombre: contact?.nombre || 'Asesora Oficial HGW',
+    contactoTelefono: contact?.whatsapp || '',
+    contactoWeb: contact?.sitioWeb || contact?.enlaceWhatsapp || ''
+  };
+
+  return buildMasterImagePrompt(product, config);
+}
+
+/**
+ * Builds a tailored Master Image Prompt directly for a health protocol
+ */
+export function buildMasterImagePromptForProtocol(
+  protocolTitle: string,
+  protocolAngle: string,
+  suggestedCombo: string,
+  primaryProduct: Product,
+  contact?: ContactData,
+  format: '1:1' | '9:16' = '1:1'
+): GeneratedImagePromptResult {
+  const config: ImagePromptConfig = {
+    productId: primaryProduct.id,
+    format,
+    styles: ['FOTO PUBLICITARIA PREMIUM', 'BIENESTAR', 'NATURAL / ORGÁNICO'],
+    ambiente: `Ambiente médico/botánico de alta calidad, limpio, luminoso y profesional enfocado en el protocolo "${protocolTitle}", con iluminación natural, elementos orgánicos y atmósfera de confort`,
+    publico: 'Personas que buscan bienestar integral, digestivo y hábitos saludables',
+    tituloImagen: `Protocolo Coadyuvante: ${protocolTitle}`,
+    estiloTitulo: 'esmeralda_moderno',
+    textoEnImagen: `${primaryProduct.nombre} • Combo: ${suggestedCombo}`,
+    ctaTexto: 'Consulta el Protocolo',
+    cantidadProductos: 'Combo de productos HGW presentados armónicamente',
+    incluirPersonas: true,
+    tipoPersona: 'Persona saludable y relajada con una expresión de alivio y vitalidad en un ambiente de hogar luminoso',
+    driveUrl: primaryProduct.driveUrl || primaryProduct.imagen,
+    incluirContacto: true,
+    contactoNombre: contact?.nombre || 'Asesora de Bienestar HGW',
+    contactoTelefono: contact?.whatsapp || '',
+    contactoWeb: contact?.sitioWeb || contact?.enlaceWhatsapp || ''
+  };
+
+  return buildMasterImagePrompt(primaryProduct, config);
+}
+
+/**
+ * Builds a tailored Master Image Prompt for business opportunity copys
+ */
+export function buildMasterImagePromptForBusiness(
+  stageTitle: string,
+  copyHook: string,
+  targetProfile: string,
+  contact?: ContactData,
+  format: '1:1' | '9:16' = '1:1'
+): GeneratedImagePromptResult {
+  const dummyBusinessProduct: Product = {
+    id: 'hgw-business',
+    nombre: 'Oportunidad de Negocio HGW - Plan de Ganancia Mutua',
+    categoria: 'Negocio y Emprendimiento',
+    descripcion_corta: 'Sistema de Expansión Global con Plan de Ganancia Mutua 50% y herramientas con Inteligencia Artificial.',
+    descripcion: 'Oportunidad de distribución independiente con HGW.',
+    beneficios: ['Ganancia mutua 50%', 'Membresías accesibles', 'Herramientas con IA'],
+    ingredientes: ['Liderazgo', 'Tecnología', 'Comunidad Global'],
+    presentacion: 'Membresías Pre-Junior, Junior, Senior y Master',
+    precio: 0,
+    precio_distribuidor: 0,
+    BV: 0,
+    imagen: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&auto=format&fit=crop&q=80',
+    driveUrl: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&auto=format&fit=crop&q=80',
+    claims_permitidos: ['Ganancia Mutua 50%', 'Comisiones justas'],
+    claims_no_permitidos: ['Garantía de dinero sin trabajar']
+  };
+
+  const config: ImagePromptConfig = {
+    productId: dummyBusinessProduct.id,
+    format,
+    styles: ['LUJO', 'ELEGANTE', 'TECNOLÓGICO'],
+    ambiente: 'Oficina ejecutiva moderna de alta gama con ventanales iluminados, atmósfera de éxito y tecnología, tonos verde esmeralda y acentos dorados sutiles',
+    publico: targetProfile || 'Emprendedores, profesionales y líderes de redes de mercadeo',
+    tituloImagen: copyHook.length > 55 ? copyHook.slice(0, 52) + '...' : copyHook,
+    estiloTitulo: 'oro_lujo',
+    textoEnImagen: 'HGW • Plan Ganancia Mutua 50%',
+    ctaTexto: 'Únete a Nuestro Equipo',
+    cantidadProductos: 'Kit de bienvenida corporativo HGW y agenda ejecutiva',
+    incluirPersonas: true,
+    tipoPersona: 'Emprendedor/a o líder moderno y carismático con vestimenta business-casual elegante, proyectando confianza, éxito y liderazgo',
+    driveUrl: dummyBusinessProduct.imagen,
+    incluirContacto: true,
+    contactoNombre: contact?.nombre || 'Líder / Socia Oficial HGW',
+    contactoTelefono: contact?.whatsapp || '',
+    contactoWeb: contact?.sitioWeb || contact?.enlaceWhatsapp || ''
+  };
+
+  return buildMasterImagePrompt(dummyBusinessProduct, config);
+}
+

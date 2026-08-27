@@ -19,9 +19,10 @@ import {
   Layers, 
   ExternalLink,
   ChevronRight,
-  Stethoscope
+  Stethoscope,
+  ImageIcon
 } from 'lucide-react';
-import { ContactData } from '../../types';
+import { ContactData, GeneratedImagePromptResult, ImageFormat, Product } from '../../types';
 import { 
   HealthProtocolType, 
   HealthProtocolInfo, 
@@ -30,6 +31,9 @@ import {
   HealthProtocolCopy,
   buildHealthProtocolMasterPrompt 
 } from '../../lib/prompts/healthProtocolPrompts';
+import { HGW_PRODUCTS } from '../../data/products';
+import { buildMasterImagePromptForProtocol } from '../../lib/prompts/imagePrompts';
+import { MasterImagePromptModal } from '../modals/MasterImagePromptModal';
 
 interface HealthProtocolsViewProps {
   contact: ContactData;
@@ -41,6 +45,11 @@ export const HealthProtocolsView: React.FC<HealthProtocolsViewProps> = ({ contac
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [showMasterPromptModal, setShowMasterPromptModal] = useState(false);
   const [copiedMasterPrompt, setCopiedMasterPrompt] = useState(false);
+
+  // Master Image Prompt Modal state
+  const [selectedCopyForImage, setSelectedCopyForImage] = useState<HealthProtocolCopy | null>(null);
+  const [imageModalFormat, setImageModalFormat] = useState<ImageFormat>('1:1');
+  const [imagePromptResult, setImagePromptResult] = useState<GeneratedImagePromptResult | null>(null);
 
   const protocolsList = Object.values(HEALTH_PROTOCOLS);
   const currentProtocol: HealthProtocolInfo = HEALTH_PROTOCOLS[selectedProtocolId];
@@ -75,6 +84,43 @@ export const HealthProtocolsView: React.FC<HealthProtocolsViewProps> = ({ contac
     navigator.clipboard.writeText(masterPromptText);
     setCopiedMasterPrompt(true);
     setTimeout(() => setCopiedMasterPrompt(false), 2000);
+  };
+
+  // Find primary product for the protocol
+  const findPrimaryProduct = (): Product => {
+    const firstRec = currentProtocol.recommendedProducts[0]?.toLowerCase() || '';
+    const found = HGW_PRODUCTS.find(p => firstRec.includes(p.nombre.toLowerCase()) || p.nombre.toLowerCase().includes(firstRec.split(' ')[0]));
+    return found || HGW_PRODUCTS[0];
+  };
+
+  const handleOpenImagePrompt = (copy: HealthProtocolCopy) => {
+    setSelectedCopyForImage(copy);
+    const primaryProd = findPrimaryProduct();
+    const result = buildMasterImagePromptForProtocol(
+      currentProtocol.shortTitle,
+      copy.angle,
+      copy.suggestedCombo,
+      primaryProd,
+      contact,
+      imageModalFormat
+    );
+    setImagePromptResult(result);
+  };
+
+  const handleFormatChange = (format: ImageFormat) => {
+    setImageModalFormat(format);
+    if (selectedCopyForImage) {
+      const primaryProd = findPrimaryProduct();
+      const result = buildMasterImagePromptForProtocol(
+        currentProtocol.shortTitle,
+        selectedCopyForImage.angle,
+        selectedCopyForImage.suggestedCombo,
+        primaryProd,
+        contact,
+        format
+      );
+      setImagePromptResult(result);
+    }
   };
 
   return (
@@ -281,7 +327,7 @@ export const HealthProtocolsView: React.FC<HealthProtocolsViewProps> = ({ contac
         <div className="flex items-center justify-between">
           <h3 className="font-heading font-bold text-lg text-slate-900 flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-emerald-700" />
-            <span>Copys Listos para Redes Sociales & WhatsApp de este Protocolo</span>
+            <span>Copys con Método AIDA Listos para Redes Sociales & WhatsApp</span>
           </h3>
           <span className="text-xs text-slate-500">
             {currentCopys.length} variaciones especializadas
@@ -295,16 +341,21 @@ export const HealthProtocolsView: React.FC<HealthProtocolsViewProps> = ({ contac
             return (
               <div 
                 key={copy.id}
-                className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-xs hover:shadow-md transition flex flex-col justify-between space-y-4"
+                className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-xs hover:shadow-md transition flex flex-col justify-between space-y-4"
               >
-                <div className="space-y-3">
+                <div className="space-y-3.5">
                   
                   {/* Card Header */}
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <span className="inline-block bg-emerald-50 text-emerald-800 border border-emerald-200/60 text-[10px] font-bold px-2 py-0.5 rounded-md mb-1 uppercase tracking-wide">
-                        {copy.angle}
-                      </span>
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <span className="inline-block bg-emerald-50 text-emerald-800 border border-emerald-200/60 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide">
+                          {copy.angle}
+                        </span>
+                        <span className="text-[10px] font-bold bg-amber-50 text-amber-900 border border-amber-200/60 px-2 py-0.5 rounded-md uppercase">
+                          AIDA
+                        </span>
+                      </div>
                       <h4 className="font-heading font-bold text-base text-slate-900 leading-snug">
                         {copy.title}
                       </h4>
@@ -315,25 +366,40 @@ export const HealthProtocolsView: React.FC<HealthProtocolsViewProps> = ({ contac
                     </span>
                   </div>
 
-                  {/* Hook Box */}
-                  <div className="bg-slate-50 border-l-3 border-[#0B3D2E] p-3 rounded-r-xl space-y-1">
-                    <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-800 block">
-                      Gancho Persuasivo
+                  {/* [A] ATENCIÓN (Hook Box) */}
+                  <div className="bg-slate-50 border-l-4 border-[#0B3D2E] border-y border-r border-slate-200/60 p-3 rounded-2xl space-y-1">
+                    <span className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-900 bg-emerald-100/80 px-1.5 py-0.5 rounded inline-block">
+                      [A] ATENCIÓN · GANCHO HOOK
                     </span>
                     <p className="text-xs font-semibold text-slate-800 leading-relaxed italic">
                       "{copy.hook}"
                     </p>
                   </div>
 
-                  {/* Body Text */}
-                  <p className="text-xs text-slate-600 leading-relaxed whitespace-pre-line">
-                    {copy.body}
-                  </p>
+                  {/* [I & D] Body Text */}
+                  <div className="space-y-1">
+                    <span className="text-[10px] uppercase font-bold text-blue-900 bg-blue-50 px-1.5 py-0.5 rounded inline-block">
+                      [I & D] INTERÉS & DESEO (BENEFICIOS COADYUVANTES)
+                    </span>
+                    <p className="text-xs text-slate-600 leading-relaxed whitespace-pre-line pl-1">
+                      {copy.body}
+                    </p>
+                  </div>
 
                   {/* Suggested Combo Tag */}
                   <div className="bg-emerald-50/80 border border-emerald-200/60 rounded-xl px-3 py-1.5 text-xs text-emerald-950 flex items-center gap-1.5">
                     <ShoppingBag className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
-                    <span><strong>Combo:</strong> {copy.suggestedCombo}</span>
+                    <span><strong>Combo Sugerido:</strong> {copy.suggestedCombo}</span>
+                  </div>
+
+                  {/* [A] CTA */}
+                  <div className="bg-amber-50/60 p-2.5 rounded-xl border border-amber-200/60 space-y-0.5">
+                    <span className="text-[10px] uppercase font-bold text-amber-900 block">
+                      [A] ACCIÓN · CTA PERSONALIZADO
+                    </span>
+                    <p className="text-xs text-slate-800 font-semibold">
+                      {copy.cta}
+                    </p>
                   </div>
 
                   {/* Tags */}
@@ -348,22 +414,35 @@ export const HealthProtocolsView: React.FC<HealthProtocolsViewProps> = ({ contac
                 </div>
 
                 {/* Card Action Buttons */}
-                <div className="pt-3 border-t border-slate-100 flex items-center gap-2">
+                <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-center gap-2">
+                  
+                  {/* Copy Text Button */}
                   <button
                     onClick={() => handleCopyText(copy.fullMessage, copy.id)}
-                    className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition active:scale-95 ${
+                    className={`flex-1 w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold transition active:scale-95 ${
                       isCopied
                         ? 'bg-emerald-600 text-white'
                         : 'bg-[#0B3D2E] hover:bg-emerald-900 text-white'
                     }`}
                   >
                     {isCopied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5 text-[#D4AF37]" />}
-                    <span>{isCopied ? '¡Copiado con tu WhatsApp!' : 'Copiar Mensaje Completo'}</span>
+                    <span>{isCopied ? '¡Copiado con tu WhatsApp!' : 'Copiar Copy Completo'}</span>
                   </button>
 
+                  {/* Prompt Master Image Generator Button */}
+                  <button
+                    onClick={() => handleOpenImagePrompt(copy)}
+                    className="w-full sm:w-auto px-3 py-2.5 rounded-xl text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-300/80 transition flex items-center justify-center gap-1.5 active:scale-95 shadow-2xs"
+                    title="Crear Prompt Master de Imagen para este protocolo"
+                  >
+                    <ImageIcon className="w-3.5 h-3.5 text-amber-700" />
+                    <span>Prompt Master Imagen IA</span>
+                  </button>
+
+                  {/* Send Direct WhatsApp */}
                   <button
                     onClick={() => handleSendWhatsApp(copy.fullMessage)}
-                    className="bg-emerald-500 hover:bg-emerald-600 text-white p-2 rounded-xl transition active:scale-95"
+                    className="bg-emerald-500 hover:bg-emerald-600 text-white p-2.5 rounded-xl transition active:scale-95 shrink-0"
                     title="Compartir directo en WhatsApp"
                   >
                     <Send className="w-4 h-4" />
@@ -391,7 +470,7 @@ export const HealthProtocolsView: React.FC<HealthProtocolsViewProps> = ({ contac
                     Prompt Maestro IA: {currentProtocol.shortTitle}
                   </h3>
                   <p className="text-xs text-slate-500">
-                    Diseñado para generar nuevos copys 100% éticos y coadyuvantes en ChatGPT, Gemini o Claude
+                    Diseñado para generar nuevos copys 100% éticos y coadyuvantes con el Método AIDA
                   </p>
                 </div>
               </div>
@@ -433,6 +512,18 @@ export const HealthProtocolsView: React.FC<HealthProtocolsViewProps> = ({ contac
 
           </div>
         </div>
+      )}
+
+      {/* Master Image Prompt Modal for Protocol */}
+      {selectedCopyForImage && imagePromptResult && (
+        <MasterImagePromptModal
+          isOpen={!!selectedCopyForImage}
+          onClose={() => setSelectedCopyForImage(null)}
+          title={`Prompt Master de Imagen: Protocolo ${currentProtocol.shortTitle}`}
+          subtitle={`Basado en el Copy "${selectedCopyForImage.title}" (${selectedCopyForImage.angle})`}
+          imagePromptResult={imagePromptResult}
+          onFormatChange={handleFormatChange}
+        />
       )}
 
     </div>

@@ -1,7 +1,7 @@
 import { Product, CopyGenerationConfig, GeneratedCopy, ContactData } from '../../types';
 
 export function buildMasterCopyPrompt(product: Product, config: CopyGenerationConfig, contact?: ContactData): string {
-  return `Actúa como un copywriter experto en marketing de respuesta directa, psicología del consumidor, ventas sociales y contenido viral para negocios de salud, bienestar y redes de mercadeo.
+  return `Actúa como un copywriter de élite experto en marketing de respuesta directa, psicología del consumidor y el MÉTODO AIDA (Atención, Interés, Deseo, Acción) para negocios de salud, bienestar y redes de mercadeo de Health Green World (HGW).
 
 Analiza cuidadosamente el producto seleccionado:
 - NOMBRE DEL PRODUCTO: ${product.nombre}
@@ -23,25 +23,26 @@ CONFIGURACIÓN DE LA CAMPAÑA:
 - LONGITUD DESEADA: ${config.length}
 ${contact ? `- DATOS DE CONTACTO: ${contact.nombre} | WhatsApp: ${contact.whatsapp} | Enlace: ${contact.enlaceWhatsapp || `https://wa.me/${contact.whatsapp.replace(/\D/g, '')}`} | Código Distribuidor: ${contact.codigo}` : ''}
 
-REGLAS DE ORO OBLIGATORIAS:
-1. REGLA SUPREMA PARA LOS GANCHOS (HOOKS): Cada uno de los 30 ganchos ("Hook") DEBE ESTAR 100% ENFOCADO, PERSONALIZADO Y CONTEXTUALIZADO EN EL PRODUCTO SELECCIONADO ("${product.nombre}"), sus ingredientes específicos (${product.ingredientes.join(', ')}), sus beneficios reales (${product.beneficios.join(' | ')}) y el problema o deseo que soluciona. 
-¡QUEDA ESTRICTAMENTE PROHIBIDO USAR GANCHOS GENÉRICOS O INAPROPIADOS PARA EL PRODUCTO (por ejemplo, hablar de café si el producto es colágeno, toallas higiénicas, jabón, pasta dental, suplemento o mermelada)!
-2. No inventes propiedades médicas, curaciones mágicas, ni garantices resultados de salud no verificados.
-3. Utiliza un lenguaje natural, persuasivo, ético y altamente conversacional.
-4. Genera EXACTAMENTE 30 copys completamente DIFERENTES entre sí, numerados del 1 al 30.
-5. Cada uno de los 30 copys debe aplicar una estrategia psicológica diferente de la siguiente lista:
-   [1. Curiosidad intrigante, 2. Problema-Solución directo, 3. Beneficio transformador, 4. Storytelling cotidiano, 5. Pregunta provocadora, 6. Ruptura de mito común, 7. Error frecuente que comete la gente, 8. Comparación inteligente, 9. Educación de valor, 10. Sentido de urgencia / escasez, 11. Exclusividad y estatus, 12. Prueba social / recomendación, 13. Identificación y empatía, 14. Aspiración de estilo de vida, 15. Transformación de hábitos, 16. Derribo de objeción de precio, 17. Pregunta frecuente (FAQ), 18. Antes / Después conceptual, 19. Formato lista / Checklist, 20. Reto personal de 7 o 21 días, 21. Consejo de experto amigable, 22. Advertencia positiva, 23. Ventana de oportunidad de ahorro, 24. CTA directo y sin rodeos, 25. Analogía sorprendente, 26. Enfoque regalo / autorecompensa, 27. Momentos del día (Rutina matutina/nocturna), 28. Fórmula PAS (Problema, Agitación, Solución), 29. Fórmula AIDA (Atención, Interés, Deseo, Acción), 30. Testimonio vivencial y cierre].
+REGLAS DE ORO OBLIGATORIAS & MÉTODO AIDA:
+1. REGLA SUPREMA PARA LA ATENCIÓN (HOOKS): Cada uno de los 30 ganchos DEBE ESTAR 100% ENFOCADO, PERSONALIZADO Y CONTEXTUALIZADO EN EL PRODUCTO SELECCIONADO ("${product.nombre}"), sus ingredientes específicos (${product.ingredientes.join(', ')}), sus beneficios reales (${product.beneficios.join(' | ')}) y el problema o deseo que soluciona. 
+¡PROHIBIDO USAR GANCHOS GENÉRICOS O INAPROPIADOS PARA EL PRODUCTO!
+2. MÉTODO AIDA EN CADA COPY:
+   - [A] ATENCIÓN (Hook): Gancho magnético de 1-2 líneas que detiene el scroll de inmediato.
+   - [I] INTERÉS: Conexión empática con la necesidad real, explicando la pureza de sus ingredientes (${product.ingredientes.slice(0, 2).join(', ')}) y la tecnología botánica de HGW.
+   - [D] DESEO: Presentación de los beneficios transformadores, el bienestar palpable y el respaldo de más de 30 años de ciencia.
+   - [A] ACCIÓN (CTA): Llamado a la acción inequívoco, urgente y persuasivo con enlace directo a WhatsApp y código de socia.
+3. No inventes propiedades médicas, curaciones mágicas, ni garantices resultados de salud no verificados.
+4. Genera EXACTAMENTE 30 copys completamente DIFERENTES entre sí, numerados del 1 al 30, cubriendo todas las estrategias psicológicas.
 
-ESTRUCTURA DE CADA COPY:
-Cada copy debe incluir obligatoriamente:
-- Número de copy y Nombre de la Estrategia Psicológica.
-- Hook (Gancho inicial magnético de 1-2 líneas 100% enfocado en ${product.nombre}).
-- Desarrollo (Cuerpo persuasivo y empático hablando de ${product.nombre} y sus bondades).
-- Beneficio (El valor central basado estrictamente en la información oficial del producto).
-- CTA (Llamado a la acción claro, adaptado a WhatsApp o la red elegida con los datos de contacto).
-- Hashtags (3-5 hashtags específicos y relevantes).
+ESTRUCTURA DE CADA COPY (AIDA):
+- Número y Nombre de la Estrategia Psicológica.
+- [A] ATENCIÓN: Gancho magnético enfocado en ${product.nombre}.
+- [I] INTERÉS: Argumentación empática, ciencia e ingredientes de valor.
+- [D] DESEO: Beneficios tangibles y bienestar comprobado.
+- [A] ACCIÓN (CTA): Llamado a la acción irresistible a WhatsApp con los datos de contacto.
+- Hashtags (3-5 hashtags específicos).
 
-Entrega exactamente los 30 copys estructurados.`;
+Entrega exactamente los 30 copys estructurados con el Método AIDA.`;
 }
 
 function cleanBenefitText(b?: string): string {
@@ -49,7 +50,7 @@ function cleanBenefitText(b?: string): string {
   return b.replace(/^(\d+\.?|-|\*|•|🔹)\s*/, '').replace(/\.$/, '');
 }
 
-// Deterministic generator fallback for immediate generation of 30 distinct psychological copys tailored to the selected product
+// Deterministic generator fallback for immediate generation of 30 distinct psychological copys tailored to the selected product using AIDA
 export function generateLocal30Copys(product: Product, config: CopyGenerationConfig, contact: ContactData): GeneratedCopy[] {
   const b1 = cleanBenefitText(product.beneficios[0]) || product.descripcion_corta;
   const b2 = cleanBenefitText(product.beneficios[1]) || b1;
@@ -191,43 +192,53 @@ export function generateLocal30Copys(product: Product, config: CopyGenerationCon
     const secondBenefit = product.beneficios[(index + 1) % product.beneficios.length] || 'Fórmula natural de máxima calidad respaldada por HGW.';
     const ingredient = product.ingredientes[index % product.ingredientes.length] || product.materia_prima || 'ingredientes seleccionados';
 
-    let dev = '';
+    // AIDA: Interés
+    let interest = '';
     switch (index % 5) {
       case 0:
-        dev = `${product.nombre} ha sido formulado especialmente para ${config.targetAudience.toLowerCase()}, combinando ${ingredient.toLowerCase()} con los más altos estándares de calidad internacional. ${product.descripcion_corta}`;
+        interest = `${product.nombre} combina extractos botánicos de ${ingredient.toLowerCase()} con los más altos estándares de pureza y tecnología verde de HGW. ${product.descripcion_corta}`;
         break;
       case 1:
-        dev = `Conoce todas las propiedades de ${product.nombre}, una opción diseñada para quienes buscan calidad, comodidad y resultados reales en su día a día. Presentación práctica: ${product.presentacion}.`;
+        interest = `Diseñado especialmente para personas activas que valoran su salud y buscan una alternativa natural, segura y de alta absorción (${product.presentacion}).`;
         break;
       case 2:
-        dev = `Si estás buscando una alternativa natural respaldada por más de 30 años de investigación global, ${product.nombre} es la elección ideal. Su formulación contiene ${product.ingredientes.slice(0, 3).join(', ')}.`;
+        interest = `Con más de 30 años de investigación global y respaldo científico en más de 69 países, su fórmula contiene ${product.ingredientes.slice(0, 3).join(', ')}.`;
         break;
       case 3:
-        dev = `Incorporar ${product.nombre} a tus hábitos diarios es muy sencillo y conveniente. Ya sea en casa, en el trabajo o durante tus actividades, disfrutarás de una experiencia superior con ingredientes de primer nivel.`;
+        interest = `Fácil de integrar en tu rutina diaria, ofreciendo practicidad, excelente tolerancia y la garantía de ingredientes orgánicos certificados.`;
         break;
       default:
-        dev = `${product.descripcion_corta} Disfruta de un producto seguro, confiable y con excelente aceptación en toda la comunidad HGW.`;
+        interest = `${product.descripcion_corta} Respaldado por certificaciones internacionales y la preferencia de miles de consumidores en América Latina.`;
         break;
     }
 
-    const cta = `${config.ctaType}: Escríbeme directo a WhatsApp al ${contact.whatsapp} o haz clic en el enlace de mi perfil: ${waUrl} (Código de socia: ${contact.codigo})`;
+    // AIDA: Deseo
+    const desire = `✨ Beneficios clave para ti:\n• ${firstBenefit}\n• ${secondBenefit}\n• Presentación: ${product.presentacion} lista para tu consumo diario.`;
+
+    // AIDA: Acción / CTA
+    const actionCTA = `📲 ${config.ctaType}:\nEscríbeme por WhatsApp al ${contact.whatsapp} o ingresa a mi enlace directo: ${waUrl}\n(Código de socia: ${contact.codigo} - Asesora oficial: ${contact.nombre})`;
 
     const hashtags = [
       `#HGW${product.nombre.replace(/[^a-zA-Z0-9]/g, '')}`,
       `#HGWMarketing`,
       `#${product.categoria.replace(/[^a-zA-Z0-9]/g, '')}`,
       `#SaludYBienestar`,
-      `#EmprendimientoHGW`
+      `#MetodoAIDA`
     ];
 
     return {
       numero: num,
       hook: strat.hook,
-      desarrollo: dev,
+      atencion: strat.hook,
+      interes: interest,
+      deseo: desire,
+      accion: actionCTA,
+      desarrollo: `${interest}\n\n${desire}`,
       beneficio: `🔹 ${firstBenefit}\n🔹 ${secondBenefit}`,
-      cta: cta,
+      cta: actionCTA,
       hashtags: hashtags,
       estrategia: strat.name
     };
   });
 }
+

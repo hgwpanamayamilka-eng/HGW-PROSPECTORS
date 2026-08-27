@@ -81,9 +81,9 @@ ${config.customOpportunityAngle ? `- Enfoque Estratégico Especial: ${config.cus
 - Adapta el lenguaje para que sea 100% ético, sin promesas irreales de riqueza mágica, sino enfocado en desarrollo de habilidades, apalancamiento y libertad financiera real.`;
 }
 
-// 28+ High-Converting Pre-Built Business Copys across all 7 stages
+// 35+ High-Converting Pre-Built Business Copys across all 7 stages
 export const PREBUILT_BUSINESS_COPYS: GeneratedBusinessCopy[] = [
-  // 1. PROSPECCIÓN
+  // 1. PROSPECCIÓN (5 copys)
   {
     id: 'prosp-1',
     stage: 'prospeccion',
@@ -136,8 +136,21 @@ export const PREBUILT_BUSINESS_COPYS: GeneratedBusinessCopy[] = [
     fullMessage: `¿Buscas un producto de alta rotación que la gente compre, recompre y recomiende con gusto? 🌿📦\n\nEl secreto de un negocio rentable no está en inventar la rueda, sino en comercializar productos que la gente YA necesita y consume a diario: café saludable, colágeno, cuidado femenino con turmalina, probióticos y nutrición antienvejecimiento.\n\nCon márgenes de ganancia directa de hasta el 50% al 100% y sin mínimos forzosos de recompra.\n\n📲 Solicita tu catálogo con precios de socio aquí: [WHATSAPP_LINK] (Código [CODIGO])`,
     tags: ['#VentasDirectas', '#CatalogoHGW', '#AltaRotacion', '#SaludNatural']
   },
+  {
+    id: 'prosp-5',
+    stage: 'prospeccion',
+    stageLabel: 'Prospección',
+    title: 'Jóvenes Emprendedores & Creadores Digitales',
+    targetProfile: 'Jóvenes de 18 a 35 años interesados en monetizar redes sociales',
+    hook: 'Tu celular pasa horas en tu mano: ¿te está costando dinero o te está generando ingresos?',
+    body: 'Aprende a monetizar TikTok, Instagram y WhatsApp recomendando marcas internacionales en constante crecimiento. En HGW te entregamos todas las herramientas digitales, embudos con Inteligencia Artificial y capacitaciones gratuitas para que arranques tu franquicia digital sin riesgos de inventario.',
+    keyPoints: ['Modelo 100% digital', 'Uso de IA para prospección', 'Comisiones semanales en dólares'],
+    cta: 'Envíame un DM o mensaje por WhatsApp y te envío el video introductorio de 3 minutos.',
+    fullMessage: `Tu celular pasa horas en tu mano: ¿te está costando dinero o te está generando ingresos? 📱💰\n\nAprende a monetizar TikTok, Instagram y WhatsApp recomendando marcas internacionales en constante crecimiento. En HGW te entregamos todas las herramientas digitales, embudos con Inteligencia Artificial y capacitaciones gratuitas para que arranques tu franquicia digital sin riesgos de inventario.\n\n⚡ Requisitos: Ganas de aprender y tu teléfono celular.\n📲 Escríbeme y te paso el video explicativo de 3 minutos: [WHATSAPP_LINK] (Líder [NOMBRE])`,
+    tags: ['#JovenesEmprendedores', '#MonetizaTusRedes', '#NegociosDigitales']
+  },
 
-  // 2. PRESENTACIÓN DE NEGOCIO
+  // 2. PRESENTACIÓN DE NEGOCIO (5 copys)
   {
     id: 'pres-1',
     stage: 'presentacion',
@@ -177,8 +190,34 @@ export const PREBUILT_BUSINESS_COPYS: GeneratedBusinessCopy[] = [
     fullMessage: `¿Con cuánto se inicia en HGW? Descubre la membresía ideal para ti 💎📋\n\nUna de las grandes ventajas de HGW es su accesibilidad. Puedes comenzar con una membresía pequeña y hacer upgrade acumulando compras sin límite de tiempo:\n\n1️⃣ **Pre-Junior**: Ideal para consumir con descuento y empezar a recomendar.\n2️⃣ **Junior**: Para generar ganancias rápidas de venta directa y bonos de inicio.\n3️⃣ **Senior**: Diseñada para quienes quieren construir equipo sólido.\n4️⃣ **Master**: La membresía élite con el 100% de los beneficios, máximos topes de ganancia y bonos globales.\n\n✨ ¿Cuál se ajusta mejor a tu visión actual? Escríbeme y armamos tu combo de bienvenida: [WHATSAPP_LINK] (Código patrocinador: [CODIGO])`,
     tags: ['#MembresiasHGW', '#PreJunior', '#MasterHGW', '#InversionInteligente']
   },
+  {
+    id: 'pres-4',
+    stage: 'presentacion',
+    stageLabel: 'Presentación',
+    title: 'Por Qué HGW es la Empresa de Mayor Expansión en América Latina',
+    targetProfile: 'Líderes de la industria que buscan solidez corporativa',
+    hook: 'Más de 30 años de respaldo científico global y la expansión más agresiva en Latinoamérica 🌎',
+    body: 'Health Green World (HGW) no es una empresa improvisada. Con laboratorios propios de investigación botánica, presencia consolidada en más de 69 países y registros sanitarios al día en toda la región, ofrece el piso más firme para construir un patrimonio duradero para tu familia.',
+    keyPoints: ['Fábricas y patentes propias', 'Respaldo científico internacional', 'Pioneros en Latinoamérica'],
+    cta: 'Escríbeme para enviarte la ficha corporativa completa.',
+    fullMessage: `Más de 30 años de respaldo científico global y la expansión más agresiva en Latinoamérica 🌎🌿\n\nHealth Green World (HGW) no es una empresa improvisada. Con laboratorios propios de investigación botánica, presencia consolidada en más de 69 países y registros sanitarios al día en toda la región, ofrece el piso más firme para construir un patrimonio duradero para tu familia.\n\n🚀 Sé pionero/a en tu ciudad o país y posiciónate al frente de la ola.\n📲 Contáctame aquí: [WHATSAPP_LINK] (Código distribuidor: [CODIGO])`,
+    tags: ['#SolidezCorporativa', '#PionerosHGW', '#ExpansiónLatam']
+  },
+  {
+    id: 'pres-5',
+    stage: 'presentacion',
+    stageLabel: 'Presentación',
+    title: 'Video Resumen de 3 Minutos: Modelo HGW Explicado',
+    targetProfile: 'Prospectos con poco tiempo que prefieren formato audiovisual',
+    hook: '¿Tienes 3 minutos? Este corto video te explicará exactamente cómo funciona HGW 🎥⚡',
+    body: 'Te comparto una cápsula ejecutiva donde verás: qué es HGW, nuestros productos estrella de alta rotación, cómo funciona el Plan de Ganancia Mutua y cómo registrarte hoy mismo.',
+    keyPoints: ['Explicación dinámica en 3 minutos', 'Visual y conciso', 'Ideal para ver en el celular'],
+    cta: 'Pídeme el enlace directo del video por WhatsApp.',
+    fullMessage: `¿Tienes 3 minutos? Este corto video te explicará exactamente cómo funciona HGW 🎥⚡\n\nTe comparto una cápsula ejecutiva donde verás: qué es HGW, nuestros productos estrella de alta rotación, cómo funciona el Plan de Ganancia Mutua y cómo registrarte hoy mismo.\n\n📲 Pídeme el link directo del video respondiendo a este mensaje: [WHATSAPP_LINK]`,
+    tags: ['#VideoExplicativo', '#HGWEn3Minutos', '#OportunidadClara']
+  },
 
-  // 3. SEGUIMIENTO (FOLLOW-UP)
+  // 3. SEGUIMIENTO (FOLLOW-UP) (5 copys)
   {
     id: 'seg-1',
     stage: 'seguimiento',
@@ -231,8 +270,21 @@ export const PREBUILT_BUSINESS_COPYS: GeneratedBusinessCopy[] = [
     fullMessage: `La buena noticia es que aquí no necesitas ser un vendedor tradicional... 🤝🌿\n\nEl verdadero éxito en HGW se basa en **recomendar con autenticidad** productos que tú misma usas y amas (como el café saludable, el colágeno o las toallas de turmalina). Cuando sientes el beneficio en tu cuerpo, compartirlo con amigos y familiares surge de forma completamente natural.\n\nAdemás, contamos con un sistema educativo paso a paso donde te enseñamos desde cero cómo usar WhatsApp, redes sociales e inteligencia artificial.\n\n📲 Escríbeme y te muestro las herramientas que recibirás al unirte: [WHATSAPP_LINK]`,
     tags: ['#EducacionGratis', '#VentasSinPresion', '#AprendeDesdeCero']
   },
+  {
+    id: 'seg-5',
+    stage: 'seguimiento',
+    stageLabel: 'Seguimiento',
+    title: 'Manejo de Objeción: "Déjame consultarlo con mi pareja"',
+    targetProfile: 'Prospectos que quieren evaluar la decisión en familia',
+    hook: '¡Me parece excelente! Tomar decisiones en equipo con la pareja es lo más inteligente 👫',
+    body: 'Para que tu pareja tenga la información de primera mano y no con dudas a medias, ¿qué tal si organizamos una breve llamada de 15 minutos hoy o mañana donde les explico a ambos cómo funciona el modelo y resolvemos sus inquietudes financieras juntos?',
+    keyPoints: ['Respeto a la decisión familiar', 'Presentación conjunta sin sesgos', 'Claridad total'],
+    cta: 'Dime si les queda mejor hoy en la noche o mañana en la tarde.',
+    fullMessage: `¡Me parece excelente! Tomar decisiones en equipo con la pareja es lo más inteligente 👫💼\n\nPara que tu pareja tenga la información de primera mano y no con dudas a medias, ¿qué tal si organizamos una breve llamada de 15 minutos hoy o mañana donde les explico a ambos cómo funciona el modelo y resolvemos sus inquietudes financieras juntos?\n\n📲 Avísame qué horario les viene bien: [WHATSAPP_LINK]`,
+    tags: ['#DecisionEnPareja', '#SeguimientoProfesional', '#Transparencia']
+  },
 
-  // 4. CIERRE
+  // 4. CIERRE (5 copys)
   {
     id: 'cie-1',
     stage: 'cierre',
@@ -272,8 +324,34 @@ export const PREBUILT_BUSINESS_COPYS: GeneratedBusinessCopy[] = [
     fullMessage: `Quiero presentarte a la persona que me está guiando en este proyecto 🤝📞\n\nSé que quieres estar 100% seguro y tomar la mejor decisión para tu familia. Por eso coordiné un espacio especial de 15 minutos en una llamada de 3 vías con mi mentor y Líder Diamante en HGW.\n\nPodrás hacerle cualquier pregunta técnica sobre los pagos internacionales, envíos a domicilio y estrategias de escala.\n\n📲 Dime qué hora te favorece: [WHATSAPP_LINK]`,
     tags: ['#Llamada3Vias', '#Mentoria', '#CierreProfesional']
   },
+  {
+    id: 'cie-4',
+    stage: 'cierre',
+    stageLabel: 'Cierre',
+    title: 'Cierre de Registro en 5 Minutos (Paso a Paso)',
+    targetProfile: 'Prospectos convencidos que solo necesitan los pasos técnicos',
+    hook: '¡Excelente decisión! Estos son los 3 datos sencillos para tu registro oficial 📝',
+    body: 'Para generar tu usuario oficial y código de socio HGW, solo necesito:\n\n1. Nombre completo.\n2. Número de cédula o identificación oficial.\n3. Correo electrónico y dirección de entrega de tu combo de productos.\n\nEn 5 minutos tendrás tu acceso al Backoffice activo.',
+    keyPoints: ['Registro expedito', 'Sin trámites engorrosos', 'Activación inmediata'],
+    cta: 'Envíame los datos por aquí y te comparto tu confirmación de ingreso.',
+    fullMessage: `¡Excelente decisión! Estos son los 3 datos sencillos para tu registro oficial 📝💎\n\nPara generar tu usuario oficial y código de socio HGW, solo necesito:\n1️⃣ Nombre completo y número de cédula/ID.\n2️⃣ Correo electrónico y teléfono de contacto.\n3️⃣ Dirección de entrega para tu combo de bienvenida.\n\n📲 Envíame los datos por aquí y procedemos con tu alta: [WHATSAPP_LINK] (Patrocinador: [NOMBRE])`,
+    tags: ['#RegistroOficial', '#AltaDeSocio', '#HGWDirecto']
+  },
+  {
+    id: 'cie-5',
+    stage: 'cierre',
+    stageLabel: 'Cierre',
+    title: 'Cierre de Autoconsumo Familiar y Ahorro',
+    targetProfile: 'Prospectos interesados principalmente en consumir con descuento',
+    hook: 'Aunque solo quieras consumir con descuento para tu familia, registrarte es la mejor opción 🛒🌿',
+    body: 'Al registrarte como socio HGW, obtienes automáticamente el precio de fábrica con hasta el 50% de descuento en todos tus consumos de café, colágeno, toallas y probióticos. Sin compras forzadas mensuales: compras lo que necesitas, cuando lo necesitas.',
+    keyPoints: ['Precios de mayorista de por vida', 'Sin compras mensuales obligatorias', 'Salud familiar accesible'],
+    cta: 'Escríbeme para activar tu membresía de consumidor inteligente.',
+    fullMessage: `Aunque solo quieras consumir con descuento para tu familia, registrarte es la mejor opción 🛒🌿✨\n\nAl registrarte como socio HGW, obtienes automáticamente el precio de fábrica con hasta el 50% de descuento en todos tus consumos de café, colágeno, toallas y probióticos. Sin compras forzadas mensuales: compras lo que necesitas, cuando lo necesitas.\n\n📲 Activa tu código de descuento aquí: [WHATSAPP_LINK] (Código: [CODIGO])`,
+    tags: ['#ConsumoInteligente', '#DescuentoDeSocio', '#AhorroFamiliar']
+  },
 
-  // 5. ACOMPAÑAMIENTO Y DUPLICACIÓN (ONBOARDING)
+  // 5. ACOMPAÑAMIENTO Y DUPLICACIÓN (ONBOARDING) (5 copys)
   {
     id: 'acomp-1',
     stage: 'acompanamiento',
@@ -313,8 +391,34 @@ export const PREBUILT_BUSINESS_COPYS: GeneratedBusinessCopy[] = [
     fullMessage: `Vamos por tu primer rango este mes: La ruta clara para lograrlo 🏆📈\n\nSubir de rango en HGW no es cuestión de suerte, sino de matemática y constancia:\n\n1️⃣ Asegura la activación mensual de tus socios directos.\n2️⃣ Realiza 2 inauguraciones de negocio virtuales por semana para tu equipo.\n3️⃣ Apaláncate de las promociones de fin de mes y combos de alta puntuación BV.\n4️⃣ Reconoce públicamente cada pequeño logro de tus afiliados con nuestros banners oficiales.\n\n📲 Escríbeme y proyectamos tu cierre de mes con números exactos: [WHATSAPP_LINK]`,
     tags: ['#CalificacionDeRango', '#EsmeraldaHGW', '#ZafiroHGW', '#EnfoqueTotal']
   },
+  {
+    id: 'acomp-4',
+    stage: 'acompanamiento',
+    stageLabel: 'Acompañamiento',
+    title: 'Enlace a Grupos VIP de WhatsApp y Canal de Testimonios',
+    targetProfile: 'Nuevos socios para integrarse a la comunidad',
+    hook: '¡Bienvenido a los canales oficiales de soporte y testimonios de nuestro equipo! 💬✨',
+    body: 'Aquí tienes los enlaces directos para unirte a nuestra comunidad:\n\n📌 **Grupo de Noticias & Zoom**: Enlaces diarios de capacitaciones.\n📌 **Canal de Testimonios Reales**: Fotos de antes y después, audios y experiencias verificadas.\n📌 **Drive de Material Gráfico**: Fotos de alta resolución, banners y videos para estados.',
+    keyPoints: ['Comunidad activa 24/7', 'Material listo para descargar', 'Capacitación constante'],
+    cta: 'Haz clic en los enlaces y preséntate en el grupo principal.',
+    fullMessage: `¡Bienvenido a los canales oficiales de soporte y testimonios de nuestro equipo! 💬✨\n\nAquí tienes tus accesos prioritarios:\n📌 **Grupo de Capacitación**: Enlaces de Zoom diarios y novedades.\n📌 **Banco de Testimonios**: Material verificado para tus redes.\n📌 **Drive de Herramientas**: Fichas técnicas y fotos profesionales.\n\n📲 Escríbeme para darte el acceso directo: [WHATSAPP_LINK] (Tu patrocinador: [NOMBRE])`,
+    tags: ['#ComunidadHGW', '#GruposVIP', '#SoporteDeEquipo']
+  },
+  {
+    id: 'acomp-5',
+    stage: 'acompanamiento',
+    stageLabel: 'Acompañamiento',
+    title: 'Inauguración de Negocio Virtual (Home Party por Zoom)',
+    targetProfile: 'Socios en su primera semana para generar sus primeras ventas',
+    hook: 'Vamos a lanzar tu negocio este fin de semana con una Inauguración Virtual 🚀🎉',
+    body: 'No tienes que dar la presentación tú solo. Organizamos una sesión de 25 minutos por Zoom donde yo, como tu patrocinador, presentaré los productos y la oportunidad a tus amigos y familiares más cercanos. Tú solo te encargas de enviar la invitación con el guion que te daré.',
+    keyPoints: ['Lanzamiento asistido por patrocinador', 'Generación de primeras ventas en 48 hrs', 'Cero estrés para el nuevo socio'],
+    cta: 'Escríbeme para fijar el día y la hora de tu inauguración.',
+    fullMessage: `Vamos a lanzar tu negocio este fin de semana con una Inauguración Virtual 🚀🎉\n\nNo tienes que dar la presentación tú solo. Organizamos una sesión de 25 minutos por Zoom donde yo, como tu patrocinador, presentaré los productos y la oportunidad a tus amigos y familiares más cercanos. Tú solo te encargas de enviar la invitación con el guion que te daré.\n\n📲 Escríbeme y elijamos el horario: [WHATSAPP_LINK]`,
+    tags: ['#InauguracionVirtual', '#LanzamientoAsistido', '#ExitoTemprano']
+  },
 
-  // 6. HERRAMIENTAS DE TRABAJO
+  // 6. HERRAMIENTAS DE TRABAJO (5 copys)
   {
     id: 'herr-1',
     stage: 'herramientas_trabajo',
@@ -354,8 +458,34 @@ export const PREBUILT_BUSINESS_COPYS: GeneratedBusinessCopy[] = [
     fullMessage: `Aprende a dominar tu Oficina Virtual HGW en 15 minutos 💻📊\n\nTu Backoffice es el centro de comando de tu negocio. Desde allí puedes:\n\n🔹 Registrar nuevos socios en cualquier país abierto.\n🔹 Consultar tus puntos BV acumulados y bonos semanales.\n🔹 Realizar órdenes de compra con entrega a domicilio.\n🔹 Monitorear el crecimiento de tu red de Ganancia Mutua en tiempo real.\n\n📲 Solicita el tutorial guiado por WhatsApp: [WHATSAPP_LINK]`,
     tags: ['#BackofficeHGW', '#OficinaVirtual', '#GestionEmpresarial']
   },
+  {
+    id: 'herr-4',
+    stage: 'herramientas_trabajo',
+    stageLabel: 'Herramientas de Trabajo',
+    title: 'Convocatoria a Degustación de Café Saludable (Coffee Break)',
+    targetProfile: 'Reuniones de negocios y degustación presencial',
+    hook: 'Te invito a un café diferente: energía, sabor y bienestar en una sola taza ☕🌿',
+    body: '¿Qué tal si compartimos un delicioso café con Ganoderma o Cordyceps mientras te cuento cómo este producto está transformando la salud de miles de personas y cómo puedes ser parte de su distribución?',
+    keyPoints: ['Degustación agradable y relajada', 'Fácil de organizar en cafeterías o casas', 'Conversación natural'],
+    cta: 'Avísame qué día de esta semana nos tomamos ese café.',
+    fullMessage: `Te invito a un café diferente: energía, sabor y bienestar en una sola taza ☕🌿✨\n\n¿Qué tal si compartimos un delicioso café con Ganoderma o Cordyceps mientras te cuento cómo este producto está transformando la salud de miles de personas y cómo puedes ser parte de su distribución?\n\n📲 Dime qué día te queda bien: [WHATSAPP_LINK] (Asesora [NOMBRE])`,
+    tags: ['#CoffeeBreakHGW', '#DegustacionDeCafe', '#NegocioAmigable']
+  },
+  {
+    id: 'herr-5',
+    stage: 'herramientas_trabajo',
+    stageLabel: 'Herramientas de Trabajo',
+    title: 'Promoción de Combos Especiales en Fechas Festivas',
+    targetProfile: 'Clientes en temporadas de regalos (Día de la Madre, Navidad, etc.)',
+    hook: 'El mejor regalo para quienes amas: Salud, Cuidado y Bienestar 🎁🌸',
+    body: 'Sorprende a mamá o a tu ser querido con un Kit Especial de Bienestar HGW que incluye:\n\n✨ Colágeno con Arándano para piel y articulaciones.\n✨ Café Gourmet Saludable.\n✨ Crema dental con extractos botánicos.\n\nEmpacado en hermosa presentación de regalo con envío a domicilio.',
+    keyPoints: ['Regalo útil y de alta gama', 'Empaque especial listo para entregar', 'Precios con descuento por combo'],
+    cta: 'Reserva tu paquete de regalo antes de que se agoten las existencias.',
+    fullMessage: `El mejor regalo para quienes amas: Salud, Cuidado y Bienestar 🎁🌸✨\n\nSorprende a mamá o a tu ser querido con un Kit Especial de Bienestar HGW que incluye:\n\n✨ Colágeno con Arándano para piel y articulaciones.\n✨ Café Gourmet Saludable.\n✨ Crema dental con extractos botánicos.\n\nEmpacado en hermosa presentación de regalo con envío a domicilio.\n\n📲 Pide tu kit hoy mismo: [WHATSAPP_LINK] (Código: [CODIGO])`,
+    tags: ['#RegalosConProposito', '#CombosFestivos', '#HGWPanama']
+  },
 
-  // 7. HERRAMIENTAS CON IA PARA TRABAJAR TU NEGOCIO HGW
+  // 7. HERRAMIENTAS CON IA PARA TRABAJAR TU NEGOCIO HGW (5 copys)
   {
     id: 'ia-1',
     stage: 'herramientas_ia',
@@ -394,5 +524,31 @@ export const PREBUILT_BUSINESS_COPYS: GeneratedBusinessCopy[] = [
     cta: 'Escríbeme para enviarte la plantilla de respuestas rápidas lista para importar en tu celular.',
     fullMessage: `Optimiza tus respuestas de WhatsApp para no perder ningún cliente por tardanza ⚡📱\n\nConfigura estas respuestas automáticas basadas en IA en tu WhatsApp Business:\n\n💬 **Respuesta de Bienvenida**: "¡Hola! Gracias por comunicarte con [NOMBRE], asesora oficial HGW. ¿Te gustaría conocer el catálogo de productos con descuento o la oportunidad de negocio?"\n💬 **Filtro de Interés**: Envío automático de video de 3 minutos + enlace a la sala de Zoom.\n💬 **Cierre de Pedidos**: Mensaje prellenado con datos bancarios y formulario de entrega.\n\n📲 Solicita la guía completa de configuración aquí: [WHATSAPP_LINK]`,
     tags: ['#WhatsAppBusiness', '#Automatizacion', '#ProductividadHGW']
+  },
+  {
+    id: 'ia-4',
+    stage: 'herramientas_ia',
+    stageLabel: 'Herramientas con IA',
+    title: 'Guion de Historia de Instagram de 15 Segundos para Prospección Masiva',
+    targetProfile: 'Socios activos en historias de WhatsApp e Instagram',
+    hook: 'La historia de 15 segundos que te llenará el WhatsApp de prospectos interesados 📱🔥',
+    body: 'Graba o comparte una foto sosteniendo tu taza de Café HGW con este texto:\n\n"Empecé a cambiar mi café de siempre por este café orgánico con Ganoderma y no solo mejoró mi digestión... ¡también me está pagando comisiones semanales por recomendarlo! ☕💸 Si tomas café todos los días y quieres generar ingresos extra, responde YO a esta historia."',
+    keyPoints: ['Historia rápida y conversacional', 'Curiosidad sin vender de forma invasiva', 'Fácil de responder para tus seguidores'],
+    cta: 'Sube esta historia hoy y responde a cada persona con nuestro mensaje de seguimiento.',
+    fullMessage: `La historia de 15 segundos que te llenará el WhatsApp de prospectos interesados 📱🔥\n\nPublica esto en tus Estados de WhatsApp e Historias de Instagram:\n\n📸 [Foto de tu taza de Café HGW]\nTexto: "Empecé a cambiar mi café de siempre por este café orgánico con Ganoderma y no solo mejoró mi digestión... ¡también me está pagando comisiones semanales por recomendarlo! ☕💸 Si tomas café todos los días y quieres generar ingresos extra, responde YO a esta historia."\n\n📲 Pruébalo hoy mismo y me cuentas cuántas personas te escribieron: [WHATSAPP_LINK]`,
+    tags: ['#HistoriasQueVenden', '#HistoriasWhatsApp', '#ProspeccionOrganica']
+  },
+  {
+    id: 'ia-5',
+    stage: 'herramientas_ia',
+    stageLabel: 'Herramientas con IA',
+    title: 'Prompt de IA para Superar Cualquier Objeción en Tiempo Real',
+    targetProfile: 'Distribuidores frente a preguntas complejas de prospectos',
+    hook: '¿Un prospecto te hizo una pregunta difícil? Deja que la IA te redacte la mejor respuesta 🧠💡',
+    body: 'Usa este comando en ChatGPT o Gemini:\n\n"Actúa como un líder ético y mentor de Network Marketing en HGW. Mi prospecto me acaba de decir: \'[PEGA AQUÍ LA OBJECIÓN O DUDA]\'. Redáctame una respuesta empática, corta de 3 párrafos para WhatsApp, que valide su preocupación, ofrezca una solución clara con el modelo HGW y termine con una pregunta de cierre."',
+    keyPoints: ['Respuestas a la medida en segundos', 'Tono profesional y empático', 'Aumenta tu tasa de cierre'],
+    cta: 'Guarda este prompt en tus notas de WhatsApp.',
+    fullMessage: `¿Un prospecto te hizo una pregunta difícil? Deja que la IA te redacte la mejor respuesta 🧠💡\n\nCopia este comando en ChatGPT o Gemini:\n\n👉 "Actúa como un líder ético y mentor de Network Marketing en HGW. Mi prospecto me acaba de decir: '[PEGA AQUÍ LA OBJECIÓN O DUDA]'. Redáctame una respuesta empática, corta de 3 párrafos para WhatsApp, que valide su preocupación, ofrezca una solución clara con el modelo HGW y termine con una pregunta de cierre."\n\n📲 Escríbeme si necesitas ayuda personalizada en tus cierres: [WHATSAPP_LINK]`,
+    tags: ['#PromptObjeciones', '#IAMarketing', '#CierresInteligentes']
   }
 ];
