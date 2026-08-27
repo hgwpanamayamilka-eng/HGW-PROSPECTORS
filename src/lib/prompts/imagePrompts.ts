@@ -14,6 +14,45 @@ export function buildMasterImagePrompt(product: Product, config: ImagePromptConf
     ? `* Integración de Personas Reales: Incluir modelos humanos/personas auténticas y expresivas interactuando con el producto (${config.tipoPersona || 'Persona feliz, radiante y saludable disfrutando del producto con una sonrisa genuina'}). La persona debe reflejar directamente el mensaje persuasivo del copy publicitario y el beneficio de bienestar.`
     : '* Enfoque: Énfasis puro en el producto con escenario publicitario limpio.';
 
+  const contactDirectiveEnglish = config.incluirContacto && (config.contactoNombre || config.contactoTelefono)
+    ? `
+CONTACT INFORMATION OVERLAY ON THE IMAGE (LOCATED ON THE LEFT SIDE):
+* Position & Layout: Positioned on the LEFT SIDE (lower-left or mid-left margin).
+* Graphic Styling: Semi-transparent dark container with exact 65% black opacity background (rgba(0, 0, 0, 0.65)), sleek rounded corners (border-radius: 12px), subtle thin white border.
+* Typography & Effect: Crisp, pure white text (#FFFFFF) with a distinct drop-shadow effect for ultra-clear readability against any background.
+* Contact Details to clearly display on the left:
+  - Name / Advisor: "${config.contactoNombre || 'Distribuidor Oficial'}"
+  - Phone / WhatsApp: "${config.contactoTelefono || ''}"
+  ${config.contactoWeb ? `- Official Website: "${config.contactoWeb}"` : ''}
+* Ensure the contact information box is neatly arranged on the left side, elegant, highly legible, professional, and does not obstruct the hero product or model's face.`
+    : '';
+
+  const titleDirectiveEnglish = config.tituloImagen?.trim()
+    ? `
+MAIN HEADLINE / ADVERTISING TITLE ON IMAGE (TOP OR UPPER-CENTER):
+* Primary Title Text: "${config.tituloImagen.trim()}"
+* Headline Styling: Bold, modern luxury advertising typography, uppercase or title case, high contrast against background with subtle drop shadow, gold/emerald accent or clean white (#FFFFFF) with elegant tracking.`
+    : '';
+
+  const contactDirectiveSpanish = config.incluirContacto && (config.contactoNombre || config.contactoTelefono)
+    ? `
+BLOQUE DE CONTACTO EN LA IMAGEN (UBICADO A LA IZQUIERDA):
+* Ubicación: En el LATERAL IZQUIERDO (margen izquierdo flotante o inferior-izquierdo).
+* Estilo Gráfico: Tarjeta/Caja rectangular con fondo negro al 65% de opacidad (negro translúcido elegante rgba(0,0,0,0.65)), esquinas redondeadas y borde blanco sutil.
+* Tipografía y Efecto: Letras en color BLANCO nítido con SOMBRA (drop shadow) tipográfica pronunciada para máxima legibilidad sobre cualquier fondo.
+* Datos de Contacto incluidos a la izquierda:
+  - Nombre: ${config.contactoNombre || 'Distribuidor Oficial'}
+  - Teléfono / WhatsApp: ${config.contactoTelefono || ''}
+  ${config.contactoWeb ? `- Sitio Web: ${config.contactoWeb}` : ''}`
+    : '';
+
+  const titleDirectiveSpanish = config.tituloImagen?.trim()
+    ? `
+TÍTULO / ENCABEZADO PUBLICITARIO EN LA IMAGEN (PARTE SUPERIOR):
+* Título Principal: "${config.tituloImagen.trim()}"
+* Estilo del Título: Tipografía publicitaria moderna, de alto impacto y legible, ubicada en la zona superior, con sombra suave o acento dorado/esmeralda para destacar sobre el fondo.`
+    : '';
+
   const promptEnglish = `Create a premium commercial advertising image using the uploaded product reference image.
 
 PRODUCT FIDELITY IS THE HIGHEST PRIORITY:
@@ -33,6 +72,8 @@ Preserve exactly:
 HUMAN MODELS & LIFESTYLE STORYTELLING (PEOPLE RELATED TO THE COPY):
 ${peopleDirectiveEnglish}
 * Add realistic people reflecting the marketing copy: vibrant vitality, wellness, healthy skin, focus, or family harmony according to the product benefits.
+${titleDirectiveEnglish}
+${contactDirectiveEnglish}
 
 STRICT NEGATIVE CONSTRAINTS (DO NOT):
 * Do NOT redesign the product or recreate it from scratch.
@@ -76,6 +117,8 @@ FIDELIDAD TOTAL AL PRODUCTO ORIGINAL:
 INTEGRACIÓN DE PERSONAS RELACIONADAS AL COPY:
 ${peopleDirectiveSpanish}
 * Incluir modelos reales en situaciones cotidianas o de éxito que refuercen los beneficios comunicados en el texto publicitario.
+${titleDirectiveSpanish}
+${contactDirectiveSpanish}
 
 ENTORNO Y ESTILO:
 * Entorno y Fondo: ${config.ambiente || `Escenario publicitario premium y estilo de vida acorde a ${product.categoria}, con iluminación cinematográfica y detalles botánicos/hogar elegante`}.

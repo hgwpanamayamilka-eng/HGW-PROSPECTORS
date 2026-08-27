@@ -11,6 +11,7 @@ import { MLMView } from './components/views/MLMView';
 import { OfficesView } from './components/views/OfficesView';
 import { SettingsView } from './components/views/SettingsView';
 import { RecognitionBannersView } from './components/views/RecognitionBannersView';
+import { AdminUsersView } from './components/views/AdminUsersView';
 import { AuthView } from './components/views/AuthView';
 import { HGW_PRODUCTS } from './data/products';
 import { Product, ContactData, AuthUser } from './types';
@@ -43,7 +44,7 @@ export const App: React.FC = () => {
       pais: 'Panamá',
       ciudad: 'Ciudad de Panamá',
       enlaceWhatsapp: 'https://wa.me/50767603578',
-      email: 'ybaguila1923@gmail.com',
+      email: 'info.yamilka@gmail.com',
       sitioWeb: 'https://hgw.yamilkabatista.com',
       fotoPerfil: 'https://drive.google.com/file/d/1KeOPcyuhctKp1qJsNsfw-nlUuXzyU_hf/view?usp=drive_link',
       enlaceReferido: 'https://hgwpanama.com/registro?ref=Yamilka507',
@@ -95,6 +96,7 @@ export const App: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem('hgw_auth_user');
     setAuthUser(null);
+    setCurrentTab('dashboard');
   };
 
   const handleGenerateCopysForProduct = (product: Product) => {
@@ -124,6 +126,7 @@ export const App: React.FC = () => {
       case 'mlm': return 'Network Marketing & Zoom';
       case 'offices': return 'Oficinas Internacionales';
       case 'settings': return 'Configuración de Contacto & Videos';
+      case 'admin_users': return 'Panel de Administración & Autorizaciones';
       default: return 'HGW Marketing AI';
     }
   };
@@ -132,6 +135,8 @@ export const App: React.FC = () => {
   if (!authUser) {
     return <AuthView onLoginSuccess={handleLoginSuccess} />;
   }
+
+  const isAdmin = authUser.rol === 'admin';
 
   return (
     <div className="min-h-screen bg-[#F5F7F6] text-slate-900 flex font-sans antialiased">
@@ -143,6 +148,7 @@ export const App: React.FC = () => {
         isOpenMobile={isMobileMenuOpen}
         onCloseMobile={() => setIsMobileMenuOpen(false)}
         contact={contact}
+        authUser={authUser}
         onLogout={handleLogout}
       />
 
@@ -154,12 +160,20 @@ export const App: React.FC = () => {
           currentTabName={getTabTitle(currentTab)}
           onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
           contact={contact}
+          authUser={authUser}
           onOpenSettings={() => setCurrentTab('settings')}
+          onOpenAdmin={isAdmin ? () => setCurrentTab('admin_users') : undefined}
           onLogout={handleLogout}
         />
 
         {/* Dynamic View Render */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+          
+          {/* Admin panel tab (Protected for admin role) */}
+          {currentTab === 'admin_users' && isAdmin && (
+            <AdminUsersView currentUser={authUser} />
+          )}
+
           {currentTab === 'dashboard' && (
             <DashboardView
               products={products}
@@ -192,6 +206,7 @@ export const App: React.FC = () => {
               products={products}
               selectedProduct={selectedProduct}
               onSelectProduct={setSelectedProduct}
+              contact={contact}
             />
           )}
 
@@ -235,7 +250,7 @@ export const App: React.FC = () => {
           <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
             <span>© {new Date().getFullYear()} HGW Marketing AI · Health Green World</span>
             <span className="font-mono text-[11px] text-slate-400">
-              Distribuidora: {contact.nombre} (Cód: {contact.codigo}) · Usuario: {authUser.email}
+              Distribuidora: {contact.nombre} (Cód: {contact.codigo}) · Rol: <strong className="uppercase">{authUser.rol}</strong>
             </span>
           </div>
         </footer>

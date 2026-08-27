@@ -107,6 +107,12 @@ export interface ImagePromptConfig {
   cantidadProductos: string;
   incluirPersonas?: boolean;
   tipoPersona?: string;
+  incluirContacto?: boolean;
+  contactoNombre?: string;
+  contactoTelefono?: string;
+  contactoWeb?: string;
+  tituloImagen?: string;
+  estiloTitulo?: 'oro_lujo' | 'blanco_sombra' | 'esmeralda_moderno' | 'minimalista';
 }
 
 export interface GeneratedImagePromptResult {
@@ -226,9 +232,40 @@ export interface AuthUser {
   email: string;
   codigo: string;
   telefono?: string;
+  ciudad?: string;
   pais?: string;
-  rol?: 'distribuidor' | 'lider' | 'admin';
+  rol: 'distribuidor' | 'lider' | 'admin';
+  estado: 'aprobado' | 'pendiente' | 'rechazado';
   fotoPerfil?: string;
+  password?: string;
+  fechaRegistro?: string;
+  ultimoAcceso?: string;
+  notificadoEmailAdmin?: boolean;
+}
+
+export interface AuditLog {
+  id: string;
+  usuarioId: string;
+  usuarioNombre: string;
+  usuarioEmail: string;
+  usuarioCodigo: string;
+  accion: string;
+  fecha: string;
+  ipDispositivo?: string;
+  detalles?: string;
+}
+
+export interface AdminNotification {
+  id: string;
+  tipo: 'nuevo_registro' | 'solicitud_aprobacion' | 'alerta_seguridad';
+  destinatarioEmail: string; // info.yamilka@gmail.com
+  asunto: string;
+  mensaje: string;
+  usuarioId: string;
+  usuarioNombre: string;
+  usuarioCodigo: string;
+  fecha: string;
+  leido: boolean;
 }
 
 export type BannerCategory =

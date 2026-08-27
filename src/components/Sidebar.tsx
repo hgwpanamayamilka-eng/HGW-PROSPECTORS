@@ -11,14 +11,15 @@ import {
   Settings, 
   X,
   ChevronRight,
-  HelpCircle,
   ExternalLink,
   Award,
   LogOut,
+  ShieldAlert,
   ShieldCheck
 } from 'lucide-react';
-import { ContactData } from '../types';
+import { ContactData, AuthUser } from '../types';
 import { getDirectImageUrl } from '../lib/imageUtils';
+import { AuthService } from '../lib/authService';
 
 export type TabType = 
   | 'dashboard'
@@ -30,7 +31,8 @@ export type TabType =
   | 'quotes'
   | 'mlm'
   | 'offices'
-  | 'settings';
+  | 'settings'
+  | 'admin_users';
 
 interface SidebarProps {
   currentTab: TabType;
@@ -38,6 +40,7 @@ interface SidebarProps {
   isOpenMobile: boolean;
   onCloseMobile: () => void;
   contact: ContactData;
+  authUser: AuthUser;
   onLogout?: () => void;
 }
 
@@ -54,9 +57,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
   isOpenMobile,
   onCloseMobile,
   contact,
+  authUser,
   onLogout
 }) => {
-  const navItems: NavItem[] = [
+  const isAdmin = authUser.rol === 'admin';
+  const pendingCount = isAdmin ? AuthService.getUsers().filter(u => u.estado === 'pendiente').length : 0;
+
+  const distributorNavItems: NavItem[] = [
     { id: 'dashboard', label: 'Panel de Control', icon: LayoutDashboard },
     { id: 'catalog', label: 'Catálogo de Productos', badge: '12', icon: ShoppingBag },
     { id: 'copys', label: 'Generador de 30 Copys', badge: 'IA', icon: FileText },
@@ -67,6 +74,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'mlm', label: 'Network Marketing & Zoom', badge: 'Cierres', icon: Users },
     { id: 'offices', label: 'Oficinas Internacionales', badge: '10 Países', icon: Building2 },
     { id: 'settings', label: 'Configuración de Datos', icon: Settings },
+  ];
+
+  const adminNavItems: NavItem[] = [
+    { 
+      id: 'admin_users', 
+      label: 'Panel de Administrador', 
+      badge: pendingCount > 0 ? `${pendingCount} Pendiente${pendingCount > 1 ? 's' : ''}` : 'Admin', 
+      icon: ShieldAlert 
+    }
   ];
 
   const handleNavClick = (tab: TabType) => {
@@ -89,7 +105,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <div>
               <div className="flex items-center gap-1.5">
                 <span className="font-heading font-bold text-base text-white tracking-tight">Marketing AI</span>
-                <span className="text-[10px] font-extrabold uppercase bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-sm">PRO</span>
+                <span className="text-[10px] font-extrabold uppercase bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-sm">
+                  {isAdmin ? 'ADMIN' : 'PRO'}
+                </span>
               </div>
               <p className="text-[11px] text-slate-400">Health Green World</p>
             </div>
@@ -104,43 +122,93 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Navigation List */}
-        <nav className="p-3 space-y-1">
-          <div className="px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-            Herramientas Principales
+        <nav className="p-3 space-y-3">
+          
+          {/* Admin Navigation (ONLY IF USER IS ADMIN) */}
+          {isAdmin && (
+            <div className="space-y-1">
+              <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-amber-400 flex items-center gap-1.5">
+                <ShieldCheck className="w-3 h-3 text-amber-400" />
+                <span>Gestión de Plataforma</span>
+              </div>
+              {adminNavItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = currentTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => handleNavClick(item.id)}
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all group cursor-pointer ${
+                      isActive
+                        ? 'bg-gradient-to-r from-amber-600 to-amber-800 text-white shadow-md shadow-amber-950/40 border border-amber-400/40'
+                        : 'text-amber-200 bg-amber-950/30 border border-amber-500/20 hover:bg-amber-900/40 hover:text-white'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <Icon className={`w-4 h-4 transition ${isActive ? 'text-[#D4AF37]' : 'text-amber-400'}`} />
+                      <span>{item.label}</span>
+                    </div>
+                    
+                    <div className="flex items-center gap-1.5">
+                      {item.badge && (
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                          pendingCount > 0 
+                            ? 'bg-amber-400 text-slate-950 animate-pulse'
+                            : isActive 
+                            ? 'bg-white/20 text-white' 
+                            : 'bg-amber-900/60 text-amber-300'
+                        }`}>
+                          {item.badge}
+                        </span>
+                      )}
+                      {isActive && <ChevronRight className="w-3.5 h-3.5 text-amber-200" />}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Distributor Tools */}
+          <div className="space-y-1">
+            <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+              {isAdmin ? 'Herramientas de Distribuidor' : 'Herramientas Principales'}
+            </div>
+            {distributorNavItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = currentTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleNavClick(item.id)}
+                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all group cursor-pointer ${
+                    isActive
+                      ? 'bg-gradient-to-r from-emerald-700 to-emerald-900 text-white shadow-md shadow-emerald-950/40 border border-emerald-500/30'
+                      : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <Icon className={`w-4 h-4 transition ${isActive ? 'text-[#D4AF37]' : 'text-slate-400 group-hover:text-emerald-400'}`} />
+                    <span>{item.label}</span>
+                  </div>
+                  
+                  <div className="flex items-center gap-1.5">
+                    {item.badge && (
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                        isActive 
+                          ? 'bg-white/20 text-white' 
+                          : 'bg-slate-800 text-emerald-400 border border-emerald-500/20'
+                      }`}>
+                        {item.badge}
+                      </span>
+                    )}
+                    {isActive && <ChevronRight className="w-3.5 h-3.5 text-emerald-300" />}
+                  </div>
+                </button>
+              );
+            })}
           </div>
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = currentTab === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all group cursor-pointer ${
-                  isActive
-                    ? 'bg-gradient-to-r from-emerald-700 to-emerald-900 text-white shadow-md shadow-emerald-950/40 border border-emerald-500/30'
-                    : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <Icon className={`w-4 h-4 transition ${isActive ? 'text-[#D4AF37]' : 'text-slate-400 group-hover:text-emerald-400'}`} />
-                  <span>{item.label}</span>
-                </div>
-                
-                <div className="flex items-center gap-1.5">
-                  {item.badge && (
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                      isActive 
-                        ? 'bg-white/20 text-white' 
-                        : 'bg-slate-800 text-emerald-400 border border-emerald-500/20'
-                    }`}>
-                      {item.badge}
-                    </span>
-                  )}
-                  {isActive && <ChevronRight className="w-3.5 h-3.5 text-emerald-300" />}
-                </div>
-              </button>
-            );
-          })}
+
         </nav>
       </div>
 
@@ -164,13 +232,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
               )}
             </div>
             <div className="overflow-hidden flex-1">
-              <span className="text-xs font-bold text-white block truncate">{contact.nombre}</span>
+              <div className="flex items-center gap-1">
+                <span className="text-xs font-bold text-white block truncate">{contact.nombre}</span>
+                {isAdmin && (
+                  <span className="bg-amber-400/20 text-amber-300 text-[9px] font-extrabold px-1 rounded">ADMIN</span>
+                )}
+              </div>
               <span className="text-[11px] text-emerald-400 block font-mono">Código: {contact.codigo}</span>
             </div>
           </div>
           <div className="mt-2.5 pt-2 border-t border-slate-700/40 flex items-center justify-between text-[11px]">
-            <span className="text-slate-400">WhatsApp:</span>
-            <span className="text-white font-mono font-medium">{contact.whatsapp}</span>
+            <span className="text-slate-400">Rol Activo:</span>
+            <span className="text-[#D4AF37] font-semibold uppercase">{authUser.rol || 'Distribuidor'}</span>
           </div>
         </div>
 
@@ -186,7 +259,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         )}
 
         <div className="flex items-center justify-between px-1 text-[11px] text-slate-400">
-          <span>v2.6 · HGW Suite</span>
+          <span>v2.8 · HGW Suite</span>
           <a
             href="https://hgw.yamilkabatista.com"
             target="_blank"
