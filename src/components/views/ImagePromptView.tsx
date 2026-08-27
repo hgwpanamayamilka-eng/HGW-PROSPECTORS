@@ -291,6 +291,24 @@ export const ImagePromptView: React.FC<ImagePromptViewProps> = ({
         </div>
       </div>
 
+      {/* Global Image Preservation Directive Banner */}
+      <div className="bg-gradient-to-r from-amber-500/10 via-emerald-500/10 to-amber-500/10 border-2 border-amber-400/40 rounded-2xl p-4 flex items-start gap-3.5 shadow-xs">
+        <ShieldCheck className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="font-heading font-extrabold text-xs text-amber-950 uppercase tracking-wide">
+              Directriz Maestra Global de Preservación Visual
+            </span>
+            <span className="bg-amber-100 text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded-md border border-amber-300">
+              Activa en toda la plataforma
+            </span>
+          </div>
+          <p className="text-xs text-slate-700 leading-relaxed">
+            <strong>La imagen original adjunta es la fuente visual absoluta:</strong> Todos los prompts maestros exigen estrictamente a la IA mantener el empaque, logotipo, colores y proporciones 100% idénticos al activo original, construyendo la composición publicitaria y modelos <em>alrededor</em> de la imagen, sin rediseñarla ni reinterpretarla.
+          </p>
+        </div>
+      </div>
+
       {/* Main Builder Grid */}
       <div className="grid lg:grid-cols-12 gap-6">
         

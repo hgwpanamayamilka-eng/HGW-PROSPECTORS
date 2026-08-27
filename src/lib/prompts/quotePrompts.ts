@@ -1,9 +1,23 @@
 import { QuoteCategory, ImageFormat, GeneratedQuote } from '../../types';
 
-export function buildMasterQuotePrompt(phrase: string, category: QuoteCategory, emotion: string, format: ImageFormat): string {
-  return `Create a premium inspirational social media image.
+export function buildMasterQuotePrompt(phrase: string, category: QuoteCategory, emotion: string, format: ImageFormat, imageRefUrl?: string): string {
+  const imageDirective = imageRefUrl 
+    ? `\nACTIVO VISUAL ADJUNTO / REFERENCIA ORIGINAL:\n* Enlace / Activo: ${imageRefUrl}\n* REGLA ESTRICTA: La imagen original adjunta es la fuente visual absoluta e inmutable. NO regenerar, NO recrear y NO reinterpretar la imagen original. La composición tipográfica y artística debe crearse ALREDEDOR de este activo.\n`
+    : `\nSI SE ADJUNTA UNA IMAGEN O REFERENCIA VISUAL: La imagen original adjunta es la fuente visual absoluta. NO regenerarla ni recrearla; la composición y tipografía deben construirse ALREDEDOR de la imagen original intacta.\n`;
 
-Main concept:
+  return `================================================================================
+REGLA PRINCIPAL OBLIGATORIA (PRESERVACIÓN VISUAL ABSOLUTA):
+SI EL USUARIO ADJUNTA UNA IMAGEN DE REFERENCIA (FOTO DE LÍDER, PRODUCTO O FONDO):
+LA IMAGEN ORIGINAL ADJUNTA ES LA FUENTE VISUAL ABSOLUTA Y DEBE MANTENERSE 100% IDÉNTICA A LA ORIGINAL.
+- NO REGENERAR LA IMAGEN ORIGINAL.
+- NO RECREAR LA IMAGEN ORIGINAL.
+- NO REINTERPRETAR LA IMAGEN ORIGINAL.
+- LA IA DEBE CREAR LA NUEVA COMPOSICIÓN TIPOGRÁFICA Y ARTÍSTICA ALREDEDOR DE LA IMAGEN ORIGINAL.
+================================================================================
+
+Create a premium inspirational social media advertising visual.
+
+Main concept & Quote:
 "${phrase}"
 
 Category / Theme:
@@ -11,20 +25,19 @@ ${category}
 
 Visual emotion:
 ${emotion || 'Inspiración, determinación, liderazgo y superación personal'}
-
-Art Direction Instructions:
+${imageDirective}
+Art Direction & Typographic Composition:
 - Create an elegant, emotionally powerful and inspiring composition.
-- The phrase must be the visual focus, integrated seamlessly with artistic typography.
-- Use highly readable, modern typography.
+- The phrase must be the visual focus, integrated seamlessly with high-end luxury typography (gold foil accents, crisp white, modern geometric sans-serif or refined serif).
 - The text must be correctly written in Spanish with proper accents and punctuation.
 - Do not misspell words.
 - Do not add random text or unrelated logos.
 - Create a complete full-bleed composition without white borders or empty margins.
 - No empty spaces, no unused canvas areas, no watermark.
-- Use professional lighting, warm cinematic color grading, and visual storytelling.
-- Create an image perfectly formatted for high engagement on social media.
+- Use professional cinematic lighting, warm color grading (#0B3D2E emerald and #D4AF37 gold accents), and deep visual storytelling.
+- Create an image perfectly formatted for viral engagement on social media.
 
-Format: [${format === '1:1' ? '1:1 Square Full Bleed' : '9:16 Vertical Full Bleed'}].`;
+Format: [${format === '1:1' ? '1:1 Square Full Bleed (1080x1080px)' : '9:16 Vertical Full Bleed (1080x1920px)'}].`;
 }
 
 // 30 rich motivational quotes per theme generator

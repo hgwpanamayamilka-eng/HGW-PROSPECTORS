@@ -133,7 +133,17 @@ export function buildMasterBannerPrompt(data: BannerFormData): BannerPromptResul
   const cityTextEs = data.paisCiudad ? `\n- Ciudad / País: ${data.paisCiudad}` : '';
   const customMessageEs = data.mensajePersonalizado ? `\n- Mensaje Especial: "${data.mensajePersonalizado}"` : '';
 
-  const promptSpanish = `Actúa como un Director de Arte y Diseñador Gráfico Senior especializado en banners publicitarios y de reconocimiento corporativo para Network Marketing y eventos de gala de HGW (Health Green World).
+  const promptSpanish = `================================================================================
+REGLA PRINCIPAL OBLIGATORIA (PRESERVACIÓN VISUAL ABSOLUTA):
+LA IMAGEN ORIGINAL ADJUNTA POR EL USUARIO (O ENLACE GOOGLE DRIVE) ES LA FUENTE VISUAL ABSOLUTA Y DEBE MANTENERSE 100% IDÉNTICA A LA ORIGINAL CUANDO SEA UTILIZADA COMO REFERENCIA.
+
+* NO regenerar la imagen original ni el rostro del homenajeado.
+* NO recrear la imagen original.
+* NO reinterpretar la imagen original.
+* La IA debe crear la nueva composición publicitaria, marcos de reconocimiento y gala ALREDEDOR DE LA IMAGEN ORIGINAL, no reconstruirla.
+================================================================================
+
+Actúa como un Director de Arte y Diseñador Gráfico Senior especializado en banners publicitarios y de reconocimiento corporativo para Network Marketing y eventos de gala de HGW (Health Green World).
 
 Crea un banner gráfico publicitario de reconocimiento de altísimo impacto visual con las siguientes especificaciones:
 
@@ -161,7 +171,18 @@ ${photoRefTextEs}
 INSTRUCCIÓN ESPECIAL PARA EL GENERADOR:
 Genera la imagen completa a sangre (full-bleed), sin bordes blancos, ultra nítida, calidad 8K, hiperrealista, con simetría visual impecable y máxima elegancia corporativa.`;
 
-  const promptEnglish = `Ultra-premium corporate recognition banner and awards poster for Health Green World (HGW).
+  const promptEnglish = `================================================================================
+CRITICAL MASTER DIRECTIVE (ABSOLUTE VISUAL FIDELITY):
+THE ATTACHED ORIGINAL IMAGE / HONOREE PHOTO IS THE ABSOLUTE AND UNALTERABLE VISUAL SOURCE.
+IT MUST REMAIN 100% IDENTICAL TO THE ORIGINAL WITHOUT ANY MODIFICATIONS.
+
+* DO NOT regenerate the original photo or face.
+* DO NOT recreate the original image.
+* DO NOT reinterpret the original image.
+* THE AI MUST BUILD THE NEW RECOGNITION BANNER COMPOSITION AND SURROUNDING GALA ATMOSPHERE *AROUND* THE ORIGINAL ASSET, NEVER RECONSTRUCTING IT.
+================================================================================
+
+Ultra-premium corporate recognition banner and awards poster for Health Green World (HGW).
 Subject: "${bannerTitleEn}" celebrating honoree "${data.nombreHomenajeado || 'Distinguished Leader'}".
 Award Badge: "${badgeEn}".
 ${data.rango ? `Rank: ${data.rango}.` : ''}
@@ -173,7 +194,7 @@ Lighting: Volumetric rim lighting, dramatic stage spot lights, floating golden d
 ${photoRefTextEn}
 Composition: Balanced centered hierarchy, metallic 3D golden typography, victory laurels, gold ribbons, cinematic lighting, 8k resolution, photorealistic, sharp focus, magazine cover quality. ${mjAspect} --v 6.0 --style raw`;
 
-  const negativePrompt = `deformed hands, extra fingers, blurry face, distorted text, low quality, pixelated, amateur layout, watermark, signature, stock photo watermark, washed out colors, oversaturated neon, cartoon, 3d render bad anatomy, cropped text`;
+  const negativePrompt = `regenerated face, altered person portrait, deformed hands, extra fingers, blurry face, distorted text, low quality, pixelated, amateur layout, watermark, signature, stock photo watermark, washed out colors, oversaturated neon, cartoon, 3d render bad anatomy, cropped text`;
 
   return {
     promptSpanish,
