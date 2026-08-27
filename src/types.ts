@@ -159,6 +159,12 @@ export interface LandingFormData {
   testimonios: string;
   faqs: string;
 
+  // Videos y Registro de Socios
+  enlaceReferido?: string;
+  videoTutorialRegistro?: string;
+  videoOpcional1?: string;
+  videoOpcional2?: string;
+
   // Diseño
   colorPrincipal: string;
   colorSecundario: string;
@@ -208,9 +214,58 @@ export interface ContactData {
   pais?: string;
   ciudad?: string;
   fotoPerfil?: string;
+  enlaceReferido?: string;
+  videoTutorialRegistro?: string;
+  videoOpcional1?: string;
+  videoOpcional2?: string;
 }
 
-export type HistoryCategory = 'copys' | 'images' | 'landing' | 'quotes' | 'network';
+export interface AuthUser {
+  id: string;
+  nombre: string;
+  email: string;
+  codigo: string;
+  telefono?: string;
+  pais?: string;
+  rol?: 'distribuidor' | 'lider' | 'admin';
+  fotoPerfil?: string;
+}
+
+export type BannerCategory =
+  | 'bienvenida'
+  | 'ascenso_rango'
+  | 'ascenso_membresia'
+  | 'ganador_viajes'
+  | 'ganador_carro'
+  | 'ganador_casa'
+  | 'aniversario';
+
+export interface BannerFormData {
+  tipo: BannerCategory;
+  nombreHomenajeado: string;
+  fotoHomenajeado?: string;
+  driveFotoUrl?: string;
+  rango?: string;
+  membresia?: string;
+  paisCiudad?: string;
+  patrocinador?: string;
+  premioNombre?: string;
+  fechaEvento?: string;
+  mensajePersonalizado?: string;
+  paletaColor: 'esmeralda_oro' | 'diamante_platino' | 'zafiro_lujo' | 'rubi_vip' | 'oro_black';
+  formato: ImageFormat | '16:9';
+  incluirLogoHGW: boolean;
+}
+
+export interface BannerPromptResult {
+  promptSpanish: string;
+  promptEnglish: string;
+  negativePrompt: string;
+  headline: string;
+  format: string;
+}
+
+export type HistoryCategory = 'copys' | 'images' | 'landing' | 'quotes' | 'network' | 'banners';
 
 export interface HistoryItem {
   id: string;

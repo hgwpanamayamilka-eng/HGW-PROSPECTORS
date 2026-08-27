@@ -3,24 +3,29 @@ import {
   Sparkles, 
   Menu, 
   ExternalLink,
-  ShieldCheck
+  ShieldCheck,
+  LogOut
 } from 'lucide-react';
 import { ContactData } from '../types';
+import { getDirectImageUrl } from '../lib/imageUtils';
 
 interface HeaderProps {
   currentTabName: string;
   onOpenMobileMenu: () => void;
   contact: ContactData;
   onOpenSettings: () => void;
+  onLogout?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   currentTabName,
   onOpenMobileMenu,
   contact,
-  onOpenSettings
+  onOpenSettings,
+  onLogout
 }) => {
   const waUrl = contact.enlaceWhatsapp || `https://wa.me/${contact.whatsapp.replace(/\D/g, '')}`;
+  const directPhoto = getDirectImageUrl(contact.fotoPerfil);
 
   return (
     <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
@@ -30,7 +35,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center gap-3">
           <button
             onClick={onOpenMobileMenu}
-            className="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition focus:outline-hidden"
+            className="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition focus:outline-hidden cursor-pointer"
             aria-label="Abrir menú"
           >
             <Menu className="w-6 h-6" />
@@ -48,8 +53,8 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Right: Distributor Info, WhatsApp quick trigger & Settings */}
-        <div className="flex items-center gap-2 sm:gap-4">
+        {/* Right: Distributor Info, WhatsApp quick trigger, Settings & Logout */}
+        <div className="flex items-center gap-2 sm:gap-3">
           
           {/* Official Badge */}
           <div 
@@ -58,9 +63,9 @@ export const Header: React.FC<HeaderProps> = ({
             title="Haz clic para editar los datos de contacto y foto de perfil"
           >
             <div className="w-9 h-9 rounded-full bg-[#0B3D2E] text-white flex items-center justify-center font-bold text-xs shadow-xs overflow-hidden border-2 border-emerald-600/40 shrink-0">
-              {contact.fotoPerfil ? (
+              {directPhoto ? (
                 <img
-                  src={contact.fotoPerfil}
+                  src={directPhoto}
                   alt={contact.nombre}
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
@@ -92,6 +97,17 @@ export const Header: React.FC<HeaderProps> = ({
             <span className="hidden sm:inline">WhatsApp</span>
             <ExternalLink className="w-3.5 h-3.5 hidden sm:inline" />
           </a>
+
+          {/* Logout Button */}
+          {onLogout && (
+            <button
+              onClick={onLogout}
+              className="p-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 transition cursor-pointer"
+              title="Cerrar Sesión"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          )}
         </div>
 
       </div>

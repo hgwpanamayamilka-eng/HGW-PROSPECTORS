@@ -1,7 +1,9 @@
 import { LandingFormData } from '../../types';
+import { getEmbedVideoUrl } from '../imageUtils';
 
 export function buildChatGPTLandingPrompt(data: LandingFormData): string {
   const waUrl = data.linkWhatsapp || `https://wa.me/${data.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(`Hola ${data.nombreVendedor}, quiero ordenar ${data.nombreProducto} y conocer las promociones disponibles.`)}`;
+  const referralUrl = data.enlaceReferido || `https://hgwpanama.com/registro?ref=${data.codigoDistribuidor}`;
 
   return `Actúa como un desarrollador web Senior y especialista en CRO (Optimización de la Tasa de Conversión), diseño UX/UI y copywriting de ventas directas.
 
@@ -22,12 +24,16 @@ INFORMACIÓN EXACTA Y REAL PROPORCIONADA:
 - Puntos de Volumen (BV): ${data.bv} BV
 - Público Objetivo: ${data.publicoObjetivo || 'Familias, profesionales y personas interesadas en salud natural'}
 
-2. INFORMACIÓN COMERCIAL Y CONTACTO:
+2. INFORMACIÓN COMERCIAL, ENLACE DE REFERIDO Y VIDEOS:
 - Vendedor / Distribuidor Oficial: ${data.nombreVendedor}
 - Empresa: ${data.empresa || 'HGW Health Green World'}
 - Código de Distribuidor: ${data.codigoDistribuidor}
 - WhatsApp: ${data.whatsapp}
 - Enlace directo a WhatsApp: ${waUrl}
+- Enlace Oficial de Registro / Referido HGW: ${referralUrl}
+${data.videoTutorialRegistro ? `- Video Tutorial de Registro Oficial (Cómo crear la cuenta HGW): ${data.videoTutorialRegistro}` : ''}
+${data.videoOpcional1 ? `- Video Opcional 1 (Presentación / Plan de Compensación): ${data.videoOpcional1}` : ''}
+${data.videoOpcional2 ? `- Video Opcional 2 (Uso de Oficina Virtual / Testimonios): ${data.videoOpcional2}` : ''}
 - Teléfono: ${data.telefono}
 - Email de contacto: ${data.email}
 - Página Web / Tienda Online: ${data.paginaWeb}
@@ -36,30 +42,32 @@ INFORMACIÓN EXACTA Y REAL PROPORCIONADA:
 3. ELEMENTOS DE CONVERSIÓN:
 - CTA Principal: "${data.ctaPrincipal || 'COMPRAR CON DESCUENTO AHORA'}"
 - CTA Secundario: "${data.ctaSecundario || 'HABLAR CON UN ASESOR POR WHATSAPP'}"
+- CTA Registro de Socio: "REGISTRARME COMO SOCIO CON DESCUENTO (CÓDIGO: ${data.codigoDistribuidor})"
 - Garantía: ${data.garantia || 'Garantía de originalidad y satisfacción respaldada por Health Green World Group'}
 - Tiempo de Promoción: ${data.tiempoPromocion || 'Oferta por tiempo limitado o hasta agotar existencias'}
 - Testimonios sugeridos: ${data.testimonios || 'Experiencias de clientes reales satisfechos con la calidad del producto'}
 - Preguntas Frecuentes: ${data.faqs || 'Preguntas sobre envíos a nivel nacional, formas de pago, cómo afiliarse y modo de uso'}
 
-4. DIRECCIÓN VISUAL Y COLORES:
-- Color Primario: ${data.colorPrincipal || '#0B3D2E'} (Verde HGW)
-- Color Secundario: ${data.colorSecundario || '#D4AF37'} (Dorado Premium)
+4. DIRECCIÓN VISUAL Y REGLA DE TIPOGRAFÍA CENTRADA:
+- REGLA ESTRICTA DE TIPOGRAFÍA: TODOS los títulos (h1, h2, h3, h4) y subtítulos de TODAS las secciones de la landing page DEBEN estar estrictamente centrados (text-center, mx-auto, max-w-3xl) para garantizar máxima simetría visual y balance estético en dispositivos móviles y de escritorio.
+- Color Primario: ${data.colorPrincipal || '#0B3D2E'} (Verde Esmeralda HGW)
+- Color Secundario: ${data.colorSecundario || '#D4AF37'} (Dorado Imperial)
 - Estilo: ${data.estilo || 'SaaS Premium / E-commerce de Alto Nivel, limpio, Mobile First y moderno'}
 - Imagen del Producto (Vista Web): ${data.imagenPrincipal}
 ${data.driveUrl ? `- Enlace Oficial de Google Drive del Producto (Activo Original en Alta Resolución): ${data.driveUrl}` : ''}
 ${data.imagenesAdicionales ? `- Imágenes Adicionales: ${data.imagenesAdicionales}` : ''}
 - REGLA DE IMÁGENES: Usa el activo fotográfico del producto (${data.driveUrl || data.imagenPrincipal}) como imagen principal y hero del producto, y complementa con imágenes de personas sonrientes, familias o profesionales que reflejen el estilo de vida saludable y los beneficios de HGW.
 
-REGLAS Y ESTRUCTURA OBLIGATORIA DE LA LANDING PAGE:
-===================================================
+REGLAS Y ESTRUCTURA OBLIGATORIA DE LA LANDING PAGE (29 SECCIONES):
+===================================================================
 La landing page debe incluir en orden armónico las siguientes 29 secciones:
 1. Barra de anuncio superior (urgencia de envío / descuento).
-2. Header / Barra de navegación con logo, enlaces de salto y botón WhatsApp.
-3. Hero Section (Título de alto impacto, subtítulo persuasivo, badge de descuento, imagen hero del producto y CTA principal).
+2. Header / Barra de navegación con logo centrado/balanceado, enlaces de salto y botón WhatsApp.
+3. Hero Section (Título H1 CENTRADO de alto impacto, subtítulo CENTRADO persuasivo, badge de descuento, imagen hero del producto y CTA principal).
 4. Barra de confianza (Certificaciones: FDA, ISO 9001, Halal, Presencia en +69 países).
-5. Sección del Problema común que enfrenta el cliente.
-6. Sección de la Solución natural con ${data.nombreProducto}.
-7. Beneficios destacados (Tarjetas visuales con iconos).
+5. Sección del Problema común que enfrenta el cliente (Título y subtítulo centrados).
+6. Sección de la Solución natural con ${data.nombreProducto} (Título y subtítulo centrados).
+7. Beneficios destacados (Tarjetas visuales con iconos, títulos centrados).
 8. Características técnicas y tabla nutricional / botánica.
 9. Ingredientes puros y procedencia de la materia prima.
 10. Modo de uso / Preparación paso a paso.
@@ -68,22 +76,23 @@ La landing page debe incluir en orden armónico las siguientes 29 secciones:
 13. Diferenciadores exclusivos de HGW frente a marcas convencionales.
 14. Oferta irresistible con comparación de precios (Antes vs Ahora).
 15. Paquetes especiales y opción de adquirir como Distribuidor HGW con descuento permanente.
-16. Bonos adicionales por compra inmediata (Guía de uso digital, asesoría personalizada).
-17. Testimonios y prueba social de clientes satisfechos.
-18. Calculadora o desglose de ahorro económico.
-19. Preguntas Frecuentes desplegables (Acordeón interactivo).
-20. Manejo y derribo de objeciones frecuentes.
-21. Garantía oficial de satisfacción y autenticidad.
-22. Sección de Llamado a la Acción Final (Gran bloque de conversión).
-23. Formulario de pedido rápido con envío automático a WhatsApp.
-24. Botón flotante interactivo de WhatsApp fijado en la esquina.
-25. Información sobre métodos de envío (Servientrega / Retiro en Oficinas Nacionales).
-26. Directorio y datos de contacto de la distribuidora ${data.nombreVendedor} (Código: ${data.codigoDistribuidor}).
-27. Footer completo con enlaces, mapa de sitio y derechos de autor.
-28. Aviso de privacidad de datos.
+16. SECCIÓN ESPECIAL DE TUTORIAL: "Paso a Paso: Cómo Crear tu Cuenta HGW y Registrarte" con reproductor de video centrado embed (${data.videoTutorialRegistro || 'Video explicativo'}) y botón directo a tu enlace de afiliación (${referralUrl}).
+17. Bonos adicionales por compra inmediata (Guía de uso digital, asesoría personalizada).
+18. Testimonios y prueba social de clientes satisfechos.
+19. Calculadora o desglose de ahorro económico.
+20. Preguntas Frecuentes desplegables (Acordeón interactivo).
+21. Manejo y derribo de objeciones frecuentes.
+22. Garantía oficial de satisfacción y autenticidad.
+23. Sección de Llamado a la Acción Final (Gran bloque de conversión centrado).
+24. Formulario de pedido rápido con envío automático a WhatsApp.
+25. Botón flotante interactivo de WhatsApp fijado en la esquina.
+26. Información sobre métodos de envío (Servientrega / Retiro en Oficinas Nacionales).
+27. Directorio y datos de contacto de la distribuidora ${data.nombreVendedor} (Código: ${data.codigoDistribuidor}).
+28. Footer completo con enlaces, mapa de sitio y derechos de autor.
 29. Disclaimer legal correspondiente: "Este sitio es operado por un distribuidor independiente de HGW Health Green World. Los productos son suplementos y alimentos, no reemplazan tratamientos médicos prescritos."
 
 REQUISITOS TÉCNICOS:
+- Todos los encabezados H1, H2, H3 y subtítulos deben tener la clase 'text-center' y estar centrados con mx-auto.
 - Código HTML5 semántico y 100% responsive (Mobile First).
 - Incluir CDN de Tailwind CSS y Lucide Icons / Feather.
 - Scripts JS para acordeón de FAQs, contador regresivo de oferta y enlace con mensaje prellenado a WhatsApp.
@@ -93,8 +102,13 @@ REQUISITOS TÉCNICOS:
 
 export function generateStandAloneLandingHTML(data: LandingFormData): string {
   const waUrl = data.linkWhatsapp || `https://wa.me/${data.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(`Hola ${data.nombreVendedor}, quiero ordenar ${data.nombreProducto} con la promoción actual.`)}`;
+  const referralUrl = data.enlaceReferido || `https://hgwpanama.com/registro?ref=${data.codigoDistribuidor}`;
   const primary = data.colorPrincipal || '#0B3D2E';
   const secondary = data.colorSecundario || '#D4AF37';
+
+  const embedMainVideo = data.videoTutorialRegistro ? getEmbedVideoUrl(data.videoTutorialRegistro) : null;
+  const embedOpt1 = data.videoOpcional1 ? getEmbedVideoUrl(data.videoOpcional1) : null;
+  const embedOpt2 = data.videoOpcional2 ? getEmbedVideoUrl(data.videoOpcional2) : null;
 
   return `<!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
@@ -108,7 +122,7 @@ export function generateStandAloneLandingHTML(data: LandingFormData): string {
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    h1, h2, h3, h4, .font-heading { font-family: 'Outfit', sans-serif; }
+    h1, h2, h3, h4, .font-heading { font-family: 'Outfit', sans-serif; text-align: center; }
     :root {
       --primary-hgw: ${primary};
       --secondary-gold: ${secondary};
@@ -118,7 +132,7 @@ export function generateStandAloneLandingHTML(data: LandingFormData): string {
 <body class="bg-slate-50 text-slate-900 antialiased selection:bg-[#1F7A5A] selection:text-white">
 
   <!-- Top Announcement Bar -->
-  <div class="bg-[${primary}] text-white text-xs sm:text-sm font-medium py-2 text-center px-4">
+  <div class="bg-[${primary}] text-white text-xs sm:text-sm font-medium py-2.5 text-center px-4">
     🚀 <strong>Promoción Exclusiva HGW:</strong> Envíos a todo el país | Asesoría directa con la distribuidora <strong>${data.nombreVendedor}</strong> (Cód: ${data.codigoDistribuidor})
   </div>
 
@@ -130,100 +144,190 @@ export function generateStandAloneLandingHTML(data: LandingFormData): string {
           HGW
         </div>
         <div>
-          <span class="font-heading font-bold text-lg text-[${primary}] block leading-tight">Health Green World</span>
-          <span class="text-xs text-slate-500 font-medium">${data.nombreVendedor} · Distribuidor Oficial</span>
+          <span class="font-heading font-bold text-lg text-[${primary}] block leading-tight text-left">Health Green World</span>
+          <span class="text-xs text-slate-500 font-medium block text-left">${data.nombreVendedor} · Distribuidor Oficial</span>
         </div>
       </div>
-      <a href="${waUrl}" target="_blank" class="bg-[#25D366] hover:bg-[#20bd5a] text-white px-4 py-2 rounded-xl text-sm font-bold shadow-md transition flex items-center gap-2">
-        <span>WhatsApp</span>
-      </a>
+      <div class="flex items-center gap-2">
+        <a href="${referralUrl}" target="_blank" class="hidden sm:inline-flex bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 px-3.5 py-1.5 rounded-xl text-xs font-bold transition">
+          <span>Crear Cuenta HGW</span>
+        </a>
+        <a href="${waUrl}" target="_blank" class="bg-[#25D366] hover:bg-[#20bd5a] text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-md transition flex items-center gap-1.5">
+          <span>WhatsApp</span>
+        </a>
+      </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="relative overflow-hidden py-12 lg:py-20 bg-gradient-to-b from-emerald-50/50 via-white to-slate-50">
-    <div class="max-w-6xl mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center">
-      <div>
-        <div class="inline-flex items-center gap-2 bg-emerald-100 text-[${primary}] px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
-          ✨ Calidad Certificada Internacional
-        </div>
-        <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-[1.1] mb-6">
-          Descubre el poder natural de <span class="text-[${primary}]">${data.nombreProducto}</span>
-        </h1>
-        <p class="text-lg text-slate-600 mb-8 leading-relaxed">
-          ${data.descripcion}
-        </p>
-
-        <!-- Pricing card in Hero -->
-        <div class="bg-white p-6 rounded-2xl shadow-xl border border-emerald-100 mb-8">
-          <div class="flex items-baseline gap-3 mb-2">
-            <span class="text-3xl sm:text-4xl font-extrabold text-slate-900">$${data.precio.toFixed(2)} USD</span>
-            ${data.precioAnterior > 0 ? `<span class="text-lg text-slate-400 line-through font-semibold">$${data.precioAnterior.toFixed(2)} USD</span>` : ''}
-            <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">${data.descuento || 'Ahorro Especial'}</span>
-          </div>
-          <p class="text-xs text-slate-500 mb-4">Puntos de volumen: <strong>${data.bv} BV</strong> | Presentación: ${data.presentacion}</p>
-          <a href="${waUrl}" target="_blank" class="w-full block text-center bg-[${primary}] hover:bg-emerald-900 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition text-lg">
-            ${data.ctaPrincipal || '👉 PEDIR AHORA POR WHATSAPP'}
-          </a>
-        </div>
-
-        <div class="flex items-center gap-4 text-xs text-slate-500 font-medium">
-          <span class="flex items-center gap-1">🔒 Compra Segura</span>
-          <span class="flex items-center gap-1">📦 Envío Inmediato</span>
-          <span class="flex items-center gap-1">💎 Producto 100% Original</span>
-        </div>
+  <!-- Hero Section (Centered Layout) -->
+  <section class="relative overflow-hidden py-12 lg:py-16 bg-gradient-to-b from-emerald-50/50 via-white to-slate-50">
+    <div class="max-w-5xl mx-auto px-4 text-center">
+      
+      <div class="inline-flex items-center justify-center gap-2 bg-emerald-100 text-[${primary}] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-4 mx-auto">
+        ✨ Calidad Certificada Internacional · HGW Oficial
       </div>
 
-      <!-- Product Image Container -->
-      <div class="relative flex justify-center">
-        <div class="relative w-full max-w-md bg-white p-6 rounded-3xl shadow-2xl border border-slate-100">
-          <div class="absolute top-4 right-4 bg-[${secondary}] text-slate-900 text-xs font-black px-3 py-1 rounded-full shadow">
-            PREMIUM
+      <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-[1.15] mb-4 text-center max-w-4xl mx-auto">
+        Descubre el poder natural y bienestar con <span class="text-[${primary}]">${data.nombreProducto}</span>
+      </h1>
+
+      <p class="text-base sm:text-lg text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed text-center">
+        ${data.descripcion}
+      </p>
+
+      <!-- Centered Product Image & Pricing Card -->
+      <div class="grid md:grid-cols-2 gap-8 items-center max-w-4xl mx-auto mb-8">
+        
+        <!-- Product Image -->
+        <div class="relative flex justify-center">
+          <div class="relative w-full max-w-sm bg-white p-6 rounded-3xl shadow-xl border border-slate-100">
+            <div class="absolute top-4 right-4 bg-[${secondary}] text-slate-900 text-xs font-black px-3 py-1 rounded-full shadow">
+              PREMIUM
+            </div>
+            <img src="${data.imagenPrincipal}" alt="${data.nombreProducto}" class="w-full h-72 object-contain rounded-2xl mb-4" />
+            <div class="bg-slate-50 p-3 rounded-xl text-center">
+              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest block mb-0.5">Categoría Oficial</span>
+              <span class="text-xs font-bold text-[${primary}]">${data.categoria}</span>
+            </div>
           </div>
-          <img src="${data.imagenPrincipal}" alt="${data.nombreProducto}" class="w-full h-80 object-contain rounded-2xl mb-4" />
-          <div class="bg-slate-50 p-4 rounded-xl text-center">
-            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-1">Categoría Oficial</span>
-            <span class="text-sm font-bold text-[${primary}]">${data.categoria}</span>
+        </div>
+
+        <!-- Pricing & Action Card -->
+        <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-xl border border-emerald-100 text-center space-y-4">
+          <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-block">
+            ${data.descuento || 'Ahorro Especial de Socio'}
+          </span>
+          
+          <div class="flex items-baseline justify-center gap-3">
+            <span class="text-3xl sm:text-4xl font-extrabold text-slate-900">$${data.precio.toFixed(2)} USD</span>
+            ${data.precioAnterior > 0 ? `<span class="text-lg text-slate-400 line-through font-semibold">$${data.precioAnterior.toFixed(2)} USD</span>` : ''}
           </div>
+
+          <p class="text-xs text-slate-500">Puntos de volumen: <strong>${data.bv} BV</strong> | Presentación: ${data.presentacion}</p>
+
+          <div class="space-y-2.5 pt-2">
+            <a href="${waUrl}" target="_blank" class="w-full block text-center bg-[${primary}] hover:bg-emerald-900 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg hover:shadow-xl transition text-base">
+              ${data.ctaPrincipal || '👉 PEDIR AHORA POR WHATSAPP'}
+            </a>
+
+            <a href="${referralUrl}" target="_blank" class="w-full block text-center bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold py-3 px-6 rounded-xl shadow-md transition text-xs uppercase tracking-wider">
+              ⭐ Afiliarme con Código ${data.codigoDistribuidor}
+            </a>
+          </div>
+
+          <div class="flex items-center justify-center gap-4 text-[11px] text-slate-500 font-medium pt-2">
+            <span class="flex items-center gap-1">🔒 Compra Segura</span>
+            <span class="flex items-center gap-1">📦 Envío Rápido</span>
+            <span class="flex items-center gap-1">💎 100% Original</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Key Benefits (Centered Headings) -->
+  <section class="py-16 bg-white border-t border-slate-100">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 class="font-heading text-3xl sm:text-4xl font-bold text-slate-900 mb-3 text-center">¿Por qué elegir ${data.nombreProducto}?</h2>
+        <p class="text-slate-600 text-center">Beneficios científicamente respaldados por la tradición botánica y la biotecnología de Health Green World.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100 text-center">
+          <div class="w-12 h-12 rounded-xl bg-[${primary}] text-white flex items-center justify-center font-bold text-xl mb-4 mx-auto">01</div>
+          <h3 class="font-heading font-bold text-lg text-slate-900 mb-2 text-center">Ingredientes Puros</h3>
+          <p class="text-slate-600 text-sm leading-relaxed text-center">${data.ingredientes}</p>
+        </div>
+        <div class="bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100 text-center">
+          <div class="w-12 h-12 rounded-xl bg-[${primary}] text-white flex items-center justify-center font-bold text-xl mb-4 mx-auto">02</div>
+          <h3 class="font-heading font-bold text-lg text-slate-900 mb-2 text-center">Resultados Comprobados</h3>
+          <p class="text-slate-600 text-sm leading-relaxed text-center">${data.beneficios}</p>
+        </div>
+        <div class="bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100 text-center">
+          <div class="w-12 h-12 rounded-xl bg-[${primary}] text-white flex items-center justify-center font-bold text-xl mb-4 mx-auto">03</div>
+          <h3 class="font-heading font-bold text-lg text-slate-900 mb-2 text-center">Respaldo Global</h3>
+          <p class="text-slate-600 text-sm leading-relaxed text-center">Presencia en más de 69 países con más de 31 años de trayectoria corporativa.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Key Benefits -->
-  <section class="py-16 bg-white border-t border-slate-100">
-    <div class="max-w-6xl mx-auto px-4">
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <h2 class="font-heading text-3xl sm:text-4xl font-bold text-slate-900 mb-4">¿Por qué elegir ${data.nombreProducto}?</h2>
-        <p class="text-slate-600">Beneficios científicamente respaldados por la tradición y la tecnología de Health Green World.</p>
+  <!-- Video Tutorial Section: Cómo Crear tu Cuenta HGW (Requested) -->
+  <section class="py-16 bg-slate-900 text-white">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      
+      <div class="inline-flex items-center gap-2 bg-[#D4AF37] text-slate-950 px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider mb-4 mx-auto">
+        🎥 Video Tutorial Paso a Paso
       </div>
 
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100">
-          <div class="w-12 h-12 rounded-xl bg-[${primary}] text-white flex items-center justify-center font-bold text-xl mb-4">01</div>
-          <h3 class="font-heading font-bold text-xl text-slate-900 mb-2">Ingredientes Puros</h3>
-          <p class="text-slate-600 text-sm leading-relaxed">${data.ingredientes}</p>
-        </div>
-        <div class="bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100">
-          <div class="w-12 h-12 rounded-xl bg-[${primary}] text-white flex items-center justify-center font-bold text-xl mb-4">02</div>
-          <h3 class="font-heading font-bold text-xl text-slate-900 mb-2">Resultados Comprobados</h3>
-          <p class="text-slate-600 text-sm leading-relaxed">${data.beneficios}</p>
-        </div>
-        <div class="bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100">
-          <div class="w-12 h-12 rounded-xl bg-[${primary}] text-white flex items-center justify-center font-bold text-xl mb-4">03</div>
-          <h3 class="font-heading font-bold text-xl text-slate-900 mb-2">Respaldo Global</h3>
-          <p class="text-slate-600 text-sm leading-relaxed">Presente en más de 69 países con más de 31 años de trayectoria corporativa.</p>
-        </div>
+      <h2 class="font-heading text-3xl sm:text-4xl font-extrabold mb-3 text-center text-white">
+        Cómo Crear tu Cuenta en HGW y Comprar con Descuento
+      </h2>
+
+      <p class="text-emerald-200 text-sm sm:text-base max-w-xl mx-auto mb-8 text-center">
+        Sigue esta breve guía en video para registrarte oficialmente como socio o cliente preferencial con el código <strong>${data.codigoDistribuidor}</strong> de <strong>${data.nombreVendedor}</strong>.
+      </p>
+
+      <!-- Main Tutorial Video Embed -->
+      <div class="relative w-full aspect-video max-w-3xl mx-auto bg-slate-950 rounded-3xl overflow-hidden shadow-2xl border-2 border-emerald-500/40 mb-8">
+        ${embedMainVideo ? `
+          <iframe 
+            src="${embedMainVideo}" 
+            title="Video Tutorial Registro HGW" 
+            class="w-full h-full" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen
+          ></iframe>
+        ` : `
+          <div class="w-full h-full flex flex-col items-center justify-center p-6 text-center space-y-3">
+            <div class="w-16 h-16 rounded-full bg-emerald-700/60 text-[#D4AF37] flex items-center justify-center text-2xl font-bold">▶</div>
+            <h3 class="text-lg font-bold text-white text-center">Video Tutorial Oficial de Registro HGW</h3>
+            <p class="text-xs text-slate-400 max-w-md text-center">Haz clic abajo para abrir tu cuenta con el código oficial de patrocinador de ${data.nombreVendedor}.</p>
+          </div>
+        `}
       </div>
+
+      <!-- Optional Videos Grid if provided -->
+      ${(embedOpt1 || embedOpt2) ? `
+        <div class="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto mb-8 text-center">
+          ${embedOpt1 ? `
+            <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700 text-center">
+              <h4 class="font-heading font-bold text-sm text-emerald-300 mb-2 text-center">Plan de Ganancia & Beneficios</h4>
+              <div class="aspect-video bg-black rounded-xl overflow-hidden">
+                <iframe src="${embedOpt1}" title="Video 1" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+              </div>
+            </div>
+          ` : ''}
+          ${embedOpt2 ? `
+            <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700 text-center">
+              <h4 class="font-heading font-bold text-sm text-emerald-300 mb-2 text-center">Oficina Virtual & Testimonios</h4>
+              <div class="aspect-video bg-black rounded-xl overflow-hidden">
+                <iframe src="${embedOpt2}" title="Video 2" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+              </div>
+            </div>
+          ` : ''}
+        </div>
+      ` : ''}
+
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="${referralUrl}" target="_blank" class="bg-[#D4AF37] hover:bg-amber-400 text-slate-950 font-extrabold py-3.5 px-8 rounded-xl shadow-xl text-base flex items-center gap-2 transition">
+          <span>✨ REGISTRARME AHORA CON EL CÓDIGO ${data.codigoDistribuidor}</span>
+        </a>
+      </div>
+
     </div>
   </section>
 
   <!-- Fast Contact CTA -->
   <section class="py-16 bg-[${primary}] text-white text-center">
-    <div class="max-w-4xl mx-auto px-4">
-      <h2 class="font-heading text-3xl sm:text-4xl font-extrabold mb-4">¿Tienes dudas o deseas atención personalizada?</h2>
-      <p class="text-emerald-100 text-lg mb-8 max-w-xl mx-auto">
-        Comunícate directamente con ${data.nombreVendedor}. Te asesoraré sobre el modo de uso, envíos a tu ciudad o cómo afiliarte con descuento.
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="font-heading text-3xl sm:text-4xl font-extrabold mb-4 text-center">¿Tienes dudas o deseas atención personalizada?</h2>
+      <p class="text-emerald-100 text-base sm:text-lg mb-8 max-w-xl mx-auto text-center">
+        Comunícate directamente con <strong>${data.nombreVendedor}</strong>. Te asesoraré sobre el modo de uso, envíos a tu ciudad o cómo afiliarte con descuento.
       </p>
       <div class="flex flex-wrap justify-center gap-4">
         <a href="${waUrl}" target="_blank" class="bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-4 px-8 rounded-xl shadow-xl text-lg flex items-center gap-2">
@@ -236,10 +340,10 @@ export function generateStandAloneLandingHTML(data: LandingFormData): string {
   <!-- Legal Disclaimer -->
   <footer class="bg-slate-900 text-slate-400 py-12 text-xs border-t border-slate-800">
     <div class="max-w-6xl mx-auto px-4 text-center space-y-4">
-      <p>
+      <p class="text-center max-w-3xl mx-auto">
         <strong>Aviso Importante:</strong> Este sitio es operado por <strong>${data.nombreVendedor}</strong> (Código Oficial HGW: <strong>${data.codigoDistribuidor}</strong>), distribuidora independiente autorizada de Health Green World (HGW). La información proporcionada tiene fines informativos y comerciales. Los productos no sustituyen tratamientos médicos prescritos.
       </p>
-      <p class="text-slate-500">
+      <p class="text-slate-500 text-center">
         © ${new Date().getFullYear()} HGW Marketing AI · Todos los derechos reservados.
       </p>
     </div>

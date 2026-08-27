@@ -54,6 +54,10 @@ export const LandingBuilderView: React.FC<LandingBuilderViewProps> = ({
     paginaWeb: 'https://hgw.yamilkabatista.com',
     ciudad: contact.ciudad || 'Ciudad de Panamá',
     pais: contact.pais || 'Panamá',
+    enlaceReferido: contact.enlaceReferido || `https://hgwpanama.com/registro?ref=${contact.codigo}`,
+    videoTutorialRegistro: contact.videoTutorialRegistro || '',
+    videoOpcional1: contact.videoOpcional1 || '',
+    videoOpcional2: contact.videoOpcional2 || '',
     ctaPrincipal: '👉 ORDENAR POR WHATSAPP CON DESCUENTO',
     ctaSecundario: '💬 CONSULTAR CON UN ASESOR',
     garantia: 'Garantía oficial de autenticidad HGW. Envío rápido y seguro.',
@@ -280,6 +284,34 @@ export const LandingBuilderView: React.FC<LandingBuilderViewProps> = ({
                 value={formData.beneficios}
                 onChange={(e) => setFormData({ ...formData, beneficios: e.target.value })}
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-700 leading-relaxed"
+              />
+            </div>
+
+            {/* Referral Link */}
+            <div className="sm:col-span-2 bg-amber-50/70 p-3 rounded-xl border border-amber-200 space-y-1">
+              <label className="block text-xs font-bold text-amber-950">
+                Enlace Oficial de Referido / Afiliación HGW
+              </label>
+              <input
+                type="url"
+                value={formData.enlaceReferido || ''}
+                onChange={(e) => setFormData({ ...formData, enlaceReferido: e.target.value })}
+                placeholder="https://hgwpanama.com/registro?ref=Yamilka507"
+                className="w-full bg-white border border-amber-300 rounded-lg px-3 py-1.5 text-xs font-mono text-slate-900"
+              />
+            </div>
+
+            {/* Video Tutorial */}
+            <div className="sm:col-span-2 space-y-1">
+              <label className="block text-xs font-bold text-slate-700">
+                URL Video Tutorial: Cómo Crear la Cuenta HGW
+              </label>
+              <input
+                type="url"
+                value={formData.videoTutorialRegistro || ''}
+                onChange={(e) => setFormData({ ...formData, videoTutorialRegistro: e.target.value })}
+                placeholder="https://www.youtube.com/watch?v=..."
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-mono text-slate-800"
               />
             </div>
 

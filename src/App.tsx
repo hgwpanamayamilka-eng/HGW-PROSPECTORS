@@ -10,10 +10,25 @@ import { QuotesView } from './components/views/QuotesView';
 import { MLMView } from './components/views/MLMView';
 import { OfficesView } from './components/views/OfficesView';
 import { SettingsView } from './components/views/SettingsView';
+import { RecognitionBannersView } from './components/views/RecognitionBannersView';
+import { AuthView } from './components/views/AuthView';
 import { HGW_PRODUCTS } from './data/products';
-import { Product, ContactData } from './types';
+import { Product, ContactData, AuthUser } from './types';
 
 export const App: React.FC = () => {
+  // Auth state persisted in localStorage
+  const [authUser, setAuthUser] = useState<AuthUser | null>(() => {
+    try {
+      const saved = localStorage.getItem('hgw_auth_user');
+      if (saved) {
+        return JSON.parse(saved);
+      }
+    } catch (e) {
+      console.error('Error loading auth user', e);
+    }
+    return null;
+  });
+
   const [currentTab, setCurrentTab] = useState<TabType>('dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [products] = useState<Product[]>(HGW_PRODUCTS);
@@ -28,9 +43,13 @@ export const App: React.FC = () => {
       pais: 'Panamá',
       ciudad: 'Ciudad de Panamá',
       enlaceWhatsapp: 'https://wa.me/50767603578',
-      email: 'contacto@yamilkabatista.com',
+      email: 'ybaguila1923@gmail.com',
       sitioWeb: 'https://hgw.yamilkabatista.com',
-      fotoPerfil: 'https://hgwpanama.com/wp-content/uploads/Foto-de-perfil-Yamilka-Batista-HGW.png'
+      fotoPerfil: 'https://drive.google.com/file/d/1KeOPcyuhctKp1qJsNsfw-nlUuXzyU_hf/view?usp=drive_link',
+      enlaceReferido: 'https://hgwpanama.com/registro?ref=Yamilka507',
+      videoTutorialRegistro: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoOpcional1: '',
+      videoOpcional2: ''
     };
 
     const saved = localStorage.getItem('hgw_contact_data');
@@ -54,6 +73,30 @@ export const App: React.FC = () => {
     localStorage.setItem('hgw_contact_data', JSON.stringify(newContact));
   };
 
+  const handleLoginSuccess = (user: AuthUser, extraContact?: Partial<ContactData>) => {
+    setAuthUser(user);
+    if (extraContact) {
+      const updatedContact: ContactData = {
+        ...contact,
+        nombre: user.nombre || contact.nombre,
+        codigo: user.codigo || contact.codigo,
+        whatsapp: user.telefono || contact.whatsapp,
+        email: user.email || contact.email,
+        pais: user.pais || contact.pais,
+        fotoPerfil: user.fotoPerfil || contact.fotoPerfil,
+        enlaceWhatsapp: user.telefono ? `https://wa.me/${user.telefono.replace(/\D/g, '')}` : contact.enlaceWhatsapp,
+        ...extraContact
+      };
+      setContact(updatedContact);
+      localStorage.setItem('hgw_contact_data', JSON.stringify(updatedContact));
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('hgw_auth_user');
+    setAuthUser(null);
+  };
+
   const handleGenerateCopysForProduct = (product: Product) => {
     setSelectedProduct(product);
     setCurrentTab('copys');
@@ -75,14 +118,20 @@ export const App: React.FC = () => {
       case 'catalog': return 'Catálogo de Productos';
       case 'copys': return 'Generador de 30 Copys';
       case 'images': return 'Prompts de Imágenes';
+      case 'banners': return 'Banners de Reconocimiento Oficial';
       case 'landing': return 'Creador de Landing Pages';
       case 'quotes': return '30 Frases & Motivación';
       case 'mlm': return 'Network Marketing & Zoom';
       case 'offices': return 'Oficinas Internacionales';
-      case 'settings': return 'Configuración de Contacto';
+      case 'settings': return 'Configuración de Contacto & Videos';
       default: return 'HGW Marketing AI';
     }
   };
+
+  // If user is not authenticated, show the Access and Registration Gate
+  if (!authUser) {
+    return <AuthView onLoginSuccess={handleLoginSuccess} />;
+  }
 
   return (
     <div className="min-h-screen bg-[#F5F7F6] text-slate-900 flex font-sans antialiased">
@@ -94,6 +143,7 @@ export const App: React.FC = () => {
         isOpenMobile={isMobileMenuOpen}
         onCloseMobile={() => setIsMobileMenuOpen(false)}
         contact={contact}
+        onLogout={handleLogout}
       />
 
       {/* Main Content Area */}
@@ -105,6 +155,7 @@ export const App: React.FC = () => {
           onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
           contact={contact}
           onOpenSettings={() => setCurrentTab('settings')}
+          onLogout={handleLogout}
         />
 
         {/* Dynamic View Render */}
@@ -144,6 +195,12 @@ export const App: React.FC = () => {
             />
           )}
 
+          {currentTab === 'banners' && (
+            <RecognitionBannersView
+              contact={contact}
+            />
+          )}
+
           {currentTab === 'landing' && (
             <LandingBuilderView
               products={products}
@@ -177,7 +234,9 @@ export const App: React.FC = () => {
         <footer className="py-4 px-6 border-t border-slate-200/80 text-center text-xs text-slate-400 bg-white/50">
           <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
             <span>© {new Date().getFullYear()} HGW Marketing AI · Health Green World</span>
-            <span className="font-mono text-[11px] text-slate-400">Distribuidora: {contact.nombre} (Cód: {contact.codigo})</span>
+            <span className="font-mono text-[11px] text-slate-400">
+              Distribuidora: {contact.nombre} (Cód: {contact.codigo}) · Usuario: {authUser.email}
+            </span>
           </div>
         </footer>
 

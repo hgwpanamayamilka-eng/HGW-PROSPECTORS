@@ -12,15 +12,20 @@ import {
   X,
   ChevronRight,
   HelpCircle,
-  ExternalLink
+  ExternalLink,
+  Award,
+  LogOut,
+  ShieldCheck
 } from 'lucide-react';
 import { ContactData } from '../types';
+import { getDirectImageUrl } from '../lib/imageUtils';
 
 export type TabType = 
   | 'dashboard'
   | 'catalog'
   | 'copys'
   | 'images'
+  | 'banners'
   | 'landing'
   | 'quotes'
   | 'mlm'
@@ -33,6 +38,7 @@ interface SidebarProps {
   isOpenMobile: boolean;
   onCloseMobile: () => void;
   contact: ContactData;
+  onLogout?: () => void;
 }
 
 interface NavItem {
@@ -47,13 +53,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onSelectTab,
   isOpenMobile,
   onCloseMobile,
-  contact
+  contact,
+  onLogout
 }) => {
   const navItems: NavItem[] = [
     { id: 'dashboard', label: 'Panel de Control', icon: LayoutDashboard },
     { id: 'catalog', label: 'Catálogo de Productos', badge: '12', icon: ShoppingBag },
     { id: 'copys', label: 'Generador de 30 Copys', badge: 'IA', icon: FileText },
     { id: 'images', label: 'Prompts de Imágenes', badge: 'Fidelidad', icon: ImageIcon },
+    { id: 'banners', label: 'Banners de Reconocimiento', badge: 'Gala HGW', icon: Award },
     { id: 'landing', label: 'Landing Page HTML', badge: '29 Sec', icon: LayoutTemplate },
     { id: 'quotes', label: '30 Frases & Motivación', badge: 'Social', icon: Quote },
     { id: 'mlm', label: 'Network Marketing & Zoom', badge: 'Cierres', icon: Users },
@@ -66,8 +74,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
     onCloseMobile();
   };
 
+  const directPhoto = getDirectImageUrl(contact.fotoPerfil);
+
   const content = (
-    <div className="h-full flex flex-col justify-between bg-slate-900 text-slate-300 select-none">
+    <div className="h-full flex flex-col justify-between bg-slate-900 text-slate-300 select-none overflow-y-auto">
       
       {/* Brand Header */}
       <div>
@@ -105,7 +115,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all group ${
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all group cursor-pointer ${
                   isActive
                     ? 'bg-gradient-to-r from-emerald-700 to-emerald-900 text-white shadow-md shadow-emerald-950/40 border border-emerald-500/30'
                     : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
@@ -134,14 +144,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </nav>
       </div>
 
-      {/* Footer Profile & Contact info */}
+      {/* Footer Profile & Logout */}
       <div className="p-4 border-t border-slate-800/80 space-y-3">
         <div className="bg-slate-800/60 p-3 rounded-xl border border-slate-700/60">
           <div className="flex items-center gap-2.5">
             <div className="w-10 h-10 rounded-full bg-[#D4AF37] text-slate-950 font-extrabold flex items-center justify-center text-xs overflow-hidden border-2 border-emerald-500/50 shrink-0">
-              {contact.fotoPerfil ? (
+              {directPhoto ? (
                 <img
-                  src={contact.fotoPerfil}
+                  src={directPhoto}
                   alt={contact.nombre}
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
@@ -150,10 +160,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   }}
                 />
               ) : (
-                <span>★</span>
+                <span>YB</span>
               )}
             </div>
-            <div className="overflow-hidden">
+            <div className="overflow-hidden flex-1">
               <span className="text-xs font-bold text-white block truncate">{contact.nombre}</span>
               <span className="text-[11px] text-emerald-400 block font-mono">Código: {contact.codigo}</span>
             </div>
@@ -164,8 +174,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         </div>
 
+        {/* Logout button */}
+        {onLogout && (
+          <button
+            onClick={onLogout}
+            className="w-full flex items-center justify-center gap-2 bg-slate-800/80 hover:bg-rose-950/40 hover:text-rose-300 text-slate-400 py-2 rounded-xl text-xs font-semibold border border-slate-700/50 transition cursor-pointer"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span>Cerrar Sesión</span>
+          </button>
+        )}
+
         <div className="flex items-center justify-between px-1 text-[11px] text-slate-400">
-          <span>v2.5 · HGW Suite</span>
+          <span>v2.6 · HGW Suite</span>
           <a
             href="https://hgw.yamilkabatista.com"
             target="_blank"
