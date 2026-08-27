@@ -968,10 +968,10 @@ export const INITIAL_PRODUCTS: Product[] = [
   },
   {
     id: 'toalla-sanitaria-dia',
-    nombre: 'Toalla Sanitaria con Turmalina Uso Día',
+    nombre: 'Toalla Sanitaria SMILIFE con Turmalina Uso Día',
     categoria: 'Cuidado Personal e Higiene Femenina',
-    descripcion_corta: 'Toalla femenina diurna con banda aniónica de turmalina, diseño anatómico y absorción rápida para días activos.',
-    descripcion: 'Enjoyable Day Use HGW ofrece la protección perfecta para el día. Diseñada con canales de absorción rápida, alas laterales de fijación segura y banda aniónica de turmalina para garantizar libertad de movimiento, frescura y comodidad en todo momento.',
+    descripcion_corta: 'Toalla femenina diurna SMILIFE con banda aniónica de turmalina, diseño anatómico y absorción rápida para días activos.',
+    descripcion: 'SMILIFE Day Use HGW ofrece la protección perfecta para el día. Diseñada con canales de absorción rápida, alas laterales de fijación segura y banda aniónica de turmalina para garantizar libertad de movimiento, frescura y comodidad en todo momento.',
     beneficios: [
       'Diseño diurno anatómico con alas de sujeción.',
       'Banda aniónica con turmalina para control de frescura.',
@@ -987,7 +987,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     imagen: 'https://lh3.googleusercontent.com/d/1xQZJzQQGP7Xf1HdcIZsbaoHMEdgteXm8',
     driveUrl: 'https://drive.google.com/file/d/1xQZJzQQGP7Xf1HdcIZsbaoHMEdgteXm8/view?usp=drivesdk',
     claims_permitidos: [
-      'Máxima comodidad y protección diurna con tecnología de aniones.',
+      'Máxima comodidad y protección diurna con tecnología de aniones SMILIFE.',
       'Cuidado femenino delicado y transpirable.'
     ],
     claims_no_permitidos: [
@@ -996,10 +996,10 @@ export const INITIAL_PRODUCTS: Product[] = [
   },
   {
     id: 'toalla-sanitaria-noche',
-    nombre: 'Toalla Sanitaria con Turmalina Uso Noche',
+    nombre: 'Toalla Sanitaria SMILIFE con Turmalina Uso Noche',
     categoria: 'Cuidado Personal e Higiene Femenina',
-    descripcion_corta: 'Toallas higiénicas nocturnas con suave algodón orgánico y banda aniónica de turmalina para máxima absorción y frescura.',
-    descripcion: 'Enjoyable Night Use HGW es una toalla higiénica femenina especialmente diseñada para la noche. Combina una suave capa de algodón hipoalergénico con una banda de turmalina generadora de aniones, proporcionando alta absorción, control de humedad y una sensación prolongada de frescura y tranquilidad durante el descanso.',
+    descripcion_corta: 'Toallas higiénicas nocturnas SMILIFE con suave algodón orgánico y banda aniónica de turmalina para máxima absorción y frescura.',
+    descripcion: 'SMILIFE Night Use HGW es una toalla higiénica femenina especialmente diseñada para la noche. Combina una suave capa de algodón hipoalergénico con una banda de turmalina generadora de aniones, proporcionando alta absorción, control de humedad y una sensación prolongada de frescura y tranquilidad durante el descanso.',
     beneficios: [
       'Banda aniónica de turmalina para mayor higiene y frescura.',
       'Capa superior de suave algodón libre de químicos irritantes.',
@@ -1015,7 +1015,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     imagen: 'https://lh3.googleusercontent.com/d/1vmPomxc2GqLY-TlcYHaZhsg9TVo_2t9T',
     driveUrl: 'https://drive.google.com/file/d/1vmPomxc2GqLY-TlcYHaZhsg9TVo_2t9T/view?usp=drivesdk',
     claims_permitidos: [
-      'Higiene íntima femenina superior con tecnología de aniones.',
+      'Higiene íntima femenina superior con tecnología de aniones SMILIFE.',
       'Comodidad, suavidad y protección nocturna sin irritaciones.'
     ],
     claims_no_permitidos: [
@@ -1024,10 +1024,10 @@ export const INITIAL_PRODUCTS: Product[] = [
   },
   {
     id: 'protector-diario-turmalina',
-    nombre: 'Protector Íntimo Diario con Turmalina',
+    nombre: 'Protector Íntimo Diario SMILIFE con Turmalina',
     categoria: 'Cuidado Personal e Higiene Femenina',
-    descripcion_corta: 'Protectores diarios ultrafinos con banda aniónica de turmalina para frescura, absorción y confianza todo el día.',
-    descripcion: 'Enjoyable Panty Liner HGW es un protector íntimo ultrafino diseñado para el confort y la higiene diaria femenina. Su banda central de turmalina genera iones negativos que ayudan a mantener una sensación limpia y fresca durante las actividades cotidianas.',
+    descripcion_corta: 'Protectores diarios ultrafinos SMILIFE con banda aniónica de turmalina para frescura, absorción y confianza todo el día.',
+    descripcion: 'SMILIFE Panty Liner HGW es un protector íntimo ultrafino diseñado para el confort y la higiene diaria femenina. Su banda central de turmalina genera iones negativos que ayudan a mantener una sensación limpia y fresca durante las actividades cotidianas.',
     beneficios: [
       'Diseño anatómico ultrafino y discreto.',
       'Banda aniónica de turmalina para frescura y control de olores.',
@@ -1043,7 +1043,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     imagen: 'https://lh3.googleusercontent.com/d/1BG5WNt0-W9QqvtKGE8P6EvwicZbAlcGA',
     driveUrl: 'https://drive.google.com/file/d/1BG5WNt0-W9QqvtKGE8P6EvwicZbAlcGA/view?usp=drivesdk',
     claims_permitidos: [
-      'Protección e higiene diaria con confort y frescura prolongada.',
+      'Protección e higiene diaria con confort y frescura prolongada SMILIFE.',
       'Hipoalergénico y suave con la piel íntima.'
     ],
     claims_no_permitidos: [

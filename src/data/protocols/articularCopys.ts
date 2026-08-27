@@ -4,28 +4,28 @@ export const ARTICULAR_COPYS: HealthProtocolCopy[] = Array.from({ length: 30 }, 
   const num = i + 1;
   const variations = [
     {
-      title: `Movilidad y Confort Articular con Infrarrojo Lejano #${num}`,
-      angle: 'Alivio Articular & Férulas',
+      title: `Movilidad y Confort Articular con Infrarrojo Lejano & Turmalina #${num}`,
+      angle: 'Alivio Articular & Turmalina',
       hook: `¿Te cuesta levantarte por las mañanas debido a rigidez o dolor en rodillas y articulaciones? (#${num}) 🦵⚡`,
-      body: `La tecnología biomagnética de las Férulas y Rodilleras de Turmalina HGW genera microcorrientes y calor biológico infrarrojo lejano que activa la microcirculación local, ayudando a relajar músculos tensos y desinflamar articulaciones sobrecargadas.\n\nÚsalas en casa mientras descansas y siente un alivio progresivo y natural.`,
-      combo: 'Rodilleras de Turmalina HGW + Café con Cordyceps (Nutrición Celular)',
-      cta: `Escríbeme por WhatsApp para consultar tallas disponibles y formas de entrega de las férulas de turmalina.`
+      body: `La tecnología biomagnética de los Protectores de Rodilla Autocalentables de Turmalina HGW genera microcorrientes y calor infrarrojo lejano que activa la microcirculación local, ayudando a relajar músculos tensos y desinflamar articulaciones sobrecargadas.\n\nÚsalos de 20 a 45 minutos al día y siente un alivio progresivo y natural.`,
+      combo: 'Protector de Rodilla Autocalentable de Turmalina + Péptido de Colágeno de Arándano',
+      cta: `Escríbeme por WhatsApp para consultar disponibilidad y tallas de los protectores de turmalina.`
     },
     {
-      title: `Nutrición Adaptógena para Músculos y Articulaciones #${num}`,
-      angle: 'Nutrición Celular con Cordyceps',
-      hook: `Fortalece tu flexibilidad y resistencia articular desde el interior (#${num}) 🍄☕`,
-      body: `El hongo Cordyceps Sinensis y el Ganoderma Lucidum son reconocidos en la medicina oriental por sus propiedades adaptógenas que apoyan la regeneración de tejidos y mejoran la oxigenación muscular.\n\nCombina nutrición celular diaria con terapias térmicas de turmalina para una movilidad plena.`,
-      combo: 'Café con Cordyceps HGW + Férula para Cuello / Rodilla con Turmalina',
+      title: `Nutrición Celular para Cartílagos con Péptidos de Colágeno #${num}`,
+      angle: 'Colágeno Bioactivo & Ginseng',
+      hook: `Fortalece tu flexibilidad y regeneración articular desde el interior (#${num}) 🫐🦴`,
+      body: `El Péptido de Colágeno de Arándano HGW aporta péptidos de bajo peso molecular de rápida absorción que nutren directamente los cartílagos, tendones y ligamentos. Acompáñalo con Peptipro Candy (colágeno + ginseng) para mantener tus articulaciones protegidas durante tu rutina activa.`,
+      combo: 'Péptido de Colágeno de Arándano + Peptipro Candy (Colágeno y Ginseng)',
       cta: `Solicita tu combo articular con envío directo escribiéndome al WhatsApp.`
     },
     {
-      title: `Alivio Cervical y Lumbar para Jornadas Largas #${num}`,
-      angle: 'Descanso Lumbar y Cervical',
-      hook: `¿Trabajas muchas horas sentado o manejando y terminas con dolor de cuello o espalda? (#${num}) 🧘‍♂️🎒`,
-      body: `Nuestra Férula Cervical de Turmalina HGW actúa en solo 20 a 30 minutos al contacto con la piel, liberando tensión en la zona del cuello y hombros gracias a sus imanes permanentes y piedras de turmalina.\n\nUn spa de descanso en la comodidad de tu hogar.`,
-      combo: 'Férula Cervical de Turmalina HGW + Té de Arándanos',
-      cta: `Haz clic en mi enlace de WhatsApp para conocer más sobre la línea de turmalina terapéutica.`
+      title: `Alivio Cervical y Lumbar para Jornadas Largas con Faja de Turmalina #${num}`,
+      angle: 'Descanso Lumbar & Cervical',
+      hook: `¿Trabajas muchas horas sentado o de pie y terminas con dolor de cuello o cintura? (#${num}) 🧘‍♂️🎒`,
+      body: `El Protector de Cintura de Turmalina (Cinturón Lumbar) y el Protector de Cuello Autocalentable de Turmalina HGW actúan al contacto con la piel liberando calor biológico y relajando la tensión muscular acumulada.\n\nUn soporte ergonómico y reconfortante en la comodidad de tu hogar.`,
+      combo: 'Protector de Cintura de Turmalina + Protector de Cuello Autocalentable de Turmalina',
+      cta: `Haz clic en mi enlace de WhatsApp para conocer más sobre la línea de turmalina terapéutica HGW.`
     }
   ];
 
@@ -41,6 +41,7 @@ export const ARTICULAR_COPYS: HealthProtocolCopy[] = Array.from({ length: 30 }, 
     suggestedCombo: sel.combo,
     cta: sel.cta,
     fullMessage: `${sel.hook}\n\n${sel.body}\n\n🦴 **Combo Articular:** ${sel.combo}\n\n📲 **Escríbeme por WhatsApp:** [WHATSAPP_LINK]\n(Código oficial: [CODIGO] - Asesor: [NOMBRE])`,
-    tags: ['#SaludArticular', '#TurmalinaHGW', '#Cordyceps', '#SinDolor', '#MovilidadTotal']
+    tags: ['#SaludArticular', '#TurmalinaHGW', '#PeptidoColageno', '#SinDolor', '#MovilidadTotal']
   };
 });
+
