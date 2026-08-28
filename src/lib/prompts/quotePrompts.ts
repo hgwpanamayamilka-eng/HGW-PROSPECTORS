@@ -1,9 +1,29 @@
-import { QuoteCategory, ImageFormat, GeneratedQuote } from '../../types';
+import { QuoteCategory, ImageFormat, GeneratedQuote, QuoteBrandConfig } from '../../types';
 
-export function buildMasterQuotePrompt(phrase: string, category: QuoteCategory, emotion: string, format: ImageFormat, imageRefUrl?: string): string {
+export function buildMasterQuotePrompt(
+  phrase: string, 
+  category: QuoteCategory, 
+  emotion: string, 
+  format: ImageFormat, 
+  imageRefUrl?: string,
+  brandConfig?: QuoteBrandConfig
+): string {
   const imageDirective = imageRefUrl 
     ? `\nACTIVO VISUAL ADJUNTO / REFERENCIA ORIGINAL:\n* Enlace / Activo: ${imageRefUrl}\n* REGLA ESTRICTA: La imagen original adjunta es la fuente visual absoluta e inmutable. NO regenerar, NO recrear y NO reinterpretar la imagen original. La composición tipográfica y artística debe crearse ALREDEDOR de este activo.\n`
     : `\nSI SE ADJUNTA UNA IMAGEN O REFERENCIA VISUAL: La imagen original adjunta es la fuente visual absoluta. NO regenerarla ni recrearla; la composición y tipografía deben construirse ALREDEDOR de la imagen original intacta.\n`;
+
+  let brandDirective = '';
+  if (brandConfig?.incluirMarca && (brandConfig.nombre || brandConfig.profesion || brandConfig.redSocial || brandConfig.enlaceContacto)) {
+    brandDirective = `
+PERSONAL BRAND & AUTHOR SIGNATURE / WATERMARK ON IMAGE (BOTTOM-LEFT OR FOOTER):
+* Include an ultra-clean, elegant semi-transparent author badge/signature in the lower area:
+  ${brandConfig.nombre ? `- Author / Speaker Name: "${brandConfig.nombre}" (Prominent clean typography)` : ''}
+  ${brandConfig.profesion ? `- Profession / Rank / Title: "${brandConfig.profesion}" (Subtle elegant subtext)` : ''}
+  ${brandConfig.redSocial ? `- Social Media / Personal Brand: "${brandConfig.redSocial}"` : ''}
+  ${brandConfig.enlaceContacto ? `- Contact / Link: "${brandConfig.enlaceContacto}"` : ''}
+* Styling: Crisp white (#FFFFFF) with subtle drop-shadow or gold metallic accent, perfectly readable and harmoniously placed without clashing with the main quote.
+`;
+  }
 
   return `================================================================================
 REGLA PRINCIPAL OBLIGATORIA (PRESERVACIÓN VISUAL ABSOLUTA):
@@ -25,7 +45,7 @@ ${category}
 
 Visual emotion:
 ${emotion || 'Inspiración, determinación, liderazgo y superación personal'}
-${imageDirective}
+${imageDirective}${brandDirective}
 Art Direction & Typographic Composition:
 - Create an elegant, emotionally powerful and inspiring composition.
 - The phrase must be the visual focus, integrated seamlessly with high-end luxury typography (gold foil accents, crisp white, modern geometric sans-serif or refined serif).
@@ -41,7 +61,7 @@ Format: [${format === '1:1' ? '1:1 Square Full Bleed (1080x1080px)' : '9:16 Vert
 }
 
 // 30 rich motivational quotes per theme generator
-export function generate30Quotes(category: QuoteCategory, format: ImageFormat): GeneratedQuote[] {
+export function generate30Quotes(category: QuoteCategory, format: ImageFormat, brandConfig?: QuoteBrandConfig): GeneratedQuote[] {
   const quoteTemplates: Record<QuoteCategory, Array<{ phrase: string; emotion: string; visualIdea: string }>> = {
     Emprendimiento: [
       { phrase: 'El éxito no es cuestión de suerte, es cuestión de constancia y acción diaria.', emotion: 'Determinación', visualIdea: 'Emprendedor visualizando el horizonte de una gran ciudad al amanecer.' },
@@ -322,7 +342,7 @@ export function generate30Quotes(category: QuoteCategory, format: ImageFormat): 
       categoria: category,
       emotion: emotion,
       visualIdea: visualIdea,
-      promptImagen: buildMasterQuotePrompt(phrase, category, emotion, format),
+      promptImagen: buildMasterQuotePrompt(phrase, category, emotion, format, undefined, brandConfig),
       formato: format
     };
   });

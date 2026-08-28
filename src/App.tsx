@@ -261,7 +261,7 @@ export const App: React.FC = () => {
           )}
 
           {currentTab === 'quotes' && (
-            <QuotesView />
+            <QuotesView contact={contact} />
           )}
 
           {currentTab === 'mlm' && (

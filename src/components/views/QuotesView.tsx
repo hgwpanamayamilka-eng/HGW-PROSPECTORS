@@ -9,18 +9,36 @@ import {
   Filter, 
   RefreshCw,
   Code,
-  Layers
+  Layers,
+  User,
+  Globe,
+  Phone,
+  Sliders
 } from 'lucide-react';
-import { QuoteCategory, ImageFormat, GeneratedQuote } from '../../types';
+import { QuoteCategory, ImageFormat, GeneratedQuote, QuoteBrandConfig, ContactData } from '../../types';
 import { generate30Quotes, buildMasterQuotePrompt } from '../../lib/prompts/quotePrompts';
 
-export const QuotesView: React.FC = () => {
+interface QuotesViewProps {
+  contact?: ContactData;
+}
+
+export const QuotesView: React.FC<QuotesViewProps> = ({ contact }) => {
   const [selectedCategory, setSelectedCategory] = useState<QuoteCategory>('Emprendimiento');
   const [selectedFormat, setSelectedFormat] = useState<ImageFormat>('1:1');
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [copiedPromptIndex, setCopiedPromptIndex] = useState<number | null>(null);
   const [copiedAll, setCopiedAll] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const [brandConfig, setBrandConfig] = useState<QuoteBrandConfig>({
+    nombre: contact?.nombre || 'Yamilka Batista',
+    profesion: 'Líder & Mentora HGW',
+    redSocial: '@yamilka.hgw',
+    enlaceContacto: contact?.enlaceWhatsapp || (contact?.whatsapp ? `wa.me/${contact.whatsapp.replace(/\D/g, '')}` : 'wa.me/50767603578'),
+    incluirMarca: true
+  });
+
+  const [showBrandControls, setShowBrandControls] = useState(true);
 
   const categories: QuoteCategory[] = [
     'Emprendimiento',
@@ -33,7 +51,7 @@ export const QuotesView: React.FC = () => {
     'Superación'
   ];
 
-  const quotes = generate30Quotes(selectedCategory, selectedFormat);
+  const quotes = generate30Quotes(selectedCategory, selectedFormat, brandConfig);
 
   const filteredQuotes = quotes.filter(q => 
     q.frase.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -70,7 +88,7 @@ export const QuotesView: React.FC = () => {
             30 Frases & Motivación para Redes Sociales
           </h2>
           <p className="text-xs sm:text-sm text-slate-500">
-            Colecciones de 30 frases de alto impacto con prompt publicitario visual integrado para cada una
+            Colecciones de 30 frases de alto impacto con prompt publicitario visual integrado y personalización de marca
           </p>
         </div>
 
@@ -81,6 +99,115 @@ export const QuotesView: React.FC = () => {
           {copiedAll ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-[#D4AF37]" />}
           <span>{copiedAll ? '¡30 Frases Copiadas!' : 'Copiar las 30 Frases & Prompts'}</span>
         </button>
+      </div>
+
+      {/* Brand Configuration Card (Requested by user) */}
+      <div className="bg-slate-900 text-white p-5 rounded-2xl border border-slate-800 shadow-sm space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+              <User className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                Personalización de Marca en las Imágenes de Frases
+                {brandConfig.incluirMarca && (
+                  <span className="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold">
+                    Activa
+                  </span>
+                )}
+              </h3>
+              <p className="text-xs text-slate-400">
+                La IA incluirá tu nombre, profesión, red social y enlace de contacto en los prompts de imagen de las frases
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <label className="text-xs text-slate-300 font-medium flex items-center gap-2 cursor-pointer">
+              <span>Incluir en Prompts</span>
+              <input
+                type="checkbox"
+                checked={brandConfig.incluirMarca}
+                onChange={(e) => setBrandConfig({ ...brandConfig, incluirMarca: e.target.checked })}
+                className="w-4 h-4 accent-emerald-500 rounded cursor-pointer"
+              />
+            </label>
+            <button
+              onClick={() => setShowBrandControls(!showBrandControls)}
+              className="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-lg transition border border-slate-700"
+            >
+              {showBrandControls ? 'Ocultar' : 'Editar Datos'}
+            </button>
+          </div>
+        </div>
+
+        {showBrandControls && brandConfig.incluirMarca && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2 border-t border-slate-800">
+            {/* 1. Nombre */}
+            <div>
+              <label className="block text-[11px] font-bold text-slate-300 mb-1 flex items-center gap-1">
+                <User className="w-3 h-3 text-emerald-400" />
+                <span>Nombre en la imagen *</span>
+              </label>
+              <input
+                type="text"
+                value={brandConfig.nombre}
+                onChange={(e) => setBrandConfig({ ...brandConfig, nombre: e.target.value })}
+                placeholder="Ej. Yamilka Batista"
+                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+              />
+            </div>
+
+            {/* 2. Profesión / Rango */}
+            <div>
+              <label className="block text-[11px] font-bold text-slate-300 mb-1 flex items-center gap-1">
+                <Sparkles className="w-3 h-3 text-amber-400" />
+                <span>Profesión / Rango</span>
+              </label>
+              <input
+                type="text"
+                value={brandConfig.profesion || ''}
+                onChange={(e) => setBrandConfig({ ...brandConfig, profesion: e.target.value })}
+                placeholder="Ej. Líder & Mentora HGW"
+                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+              />
+            </div>
+
+            {/* 3. Red Social o Marca Personal */}
+            <div>
+              <label className="block text-[11px] font-bold text-slate-300 mb-1 flex items-center gap-1">
+                <Globe className="w-3 h-3 text-blue-400" />
+                <span>Red Social o Marca</span>
+              </label>
+              <input
+                type="text"
+                value={brandConfig.redSocial || ''}
+                onChange={(e) => setBrandConfig({ ...brandConfig, redSocial: e.target.value })}
+                placeholder="Ej. @yamilka.hgw"
+                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+              />
+            </div>
+
+            {/* 4. Enlace de Contacto (Opcional) */}
+            <div>
+              <label className="block text-[11px] font-bold text-slate-300 mb-1 flex items-center justify-between">
+                <span className="flex items-center gap-1">
+                  <Phone className="w-3 h-3 text-[#25D366]" />
+                  <span>Enlace Contacto (Opcional)</span>
+                </span>
+                <span className="text-[10px] text-slate-400">Opcional</span>
+              </label>
+              <input
+                type="text"
+                value={brandConfig.enlaceContacto || ''}
+                onChange={(e) => setBrandConfig({ ...brandConfig, enlaceContacto: e.target.value })}
+                placeholder="Ej. wa.me/50767603578"
+                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white font-mono placeholder-slate-500 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+              />
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Categories & Format Toolbar */}

@@ -117,6 +117,19 @@ export interface ImagePromptConfig {
   contactoWeb?: string;
   tituloImagen?: string;
   estiloTitulo?: 'oro_lujo' | 'blanco_sombra' | 'esmeralda_moderno' | 'minimalista';
+  // Personal Brand Customization for Images
+  marcaNombre?: string;
+  marcaProfesion?: string;
+  marcaRedSocial?: string;
+  marcaContacto?: string;
+}
+
+export interface QuoteBrandConfig {
+  incluirMarca: boolean;
+  nombre: string;
+  profesion: string;
+  redSocial: string;
+  enlaceContacto?: string;
 }
 
 export interface GeneratedImagePromptResult {

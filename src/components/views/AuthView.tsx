@@ -307,9 +307,9 @@ export const AuthView: React.FC<AuthViewProps> = ({ onLoginSuccess }) => {
                     <input
                       type="text"
                       required
-                      value={loginEmail || ADMIN_EMAIL}
+                      value={loginEmail}
                       onChange={(e) => setLoginEmail(e.target.value)}
-                      placeholder="info.yamilka@gmail.com o Yamilka507"
+                      placeholder="Correo o Código HGW"
                       className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-3.5 py-2.5 text-xs sm:text-sm text-slate-900 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
                     />
                   </div>
@@ -437,10 +437,10 @@ export const AuthView: React.FC<AuthViewProps> = ({ onLoginSuccess }) => {
             <div className="p-3.5 bg-amber-50 rounded-2xl border border-amber-200 text-xs text-amber-950 space-y-2 text-left">
               <div className="flex items-center gap-2 font-bold text-amber-900">
                 <BellRing className="w-4 h-4 text-amber-700 shrink-0" />
-                <span>Notificación Enviada por Email a la Administradora</span>
+                <span>Solicitud Registrada en el Sistema HGW</span>
               </div>
               <p>
-                Tu solicitud ha sido registrada con el código <strong>{pendingApprovalUser.codigo}</strong>. La administradora principal (<strong>{ADMIN_EMAIL}</strong>) debe autorizar tu cuenta antes de que puedas iniciar sesión.
+                Tu solicitud ha sido registrada exitosamente con el código <strong>{pendingApprovalUser.codigo}</strong>. El equipo de administración revisará y activará tu cuenta de distribuidor en breve para que puedas acceder a todas las herramientas.
               </p>
             </div>
 
@@ -557,8 +557,8 @@ export const AuthView: React.FC<AuthViewProps> = ({ onLoginSuccess }) => {
             ) : (
               /* Registration Form */
               <form onSubmit={handleRegisterSubmit} className="space-y-3.5">
-                <div className="bg-amber-50 p-2.5 rounded-xl border border-amber-200/80 text-[11px] text-amber-900">
-                  ℹ️ Los nuevos registros requieren autorización previa de la administradora (<strong>{ADMIN_EMAIL}</strong>).
+                <div className="bg-amber-50 p-2.5 rounded-xl border border-amber-200/80 text-[11px] text-amber-900 font-medium">
+                  ℹ️ Pendiente de aprobacion
                 </div>
 
                 <div>

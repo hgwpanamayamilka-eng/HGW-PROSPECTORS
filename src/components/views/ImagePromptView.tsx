@@ -461,12 +461,12 @@ export const ImagePromptView: React.FC<ImagePromptViewProps> = ({
               </div>
             </div>
 
-            {/* CONTACT INFORMATION OVERLAY SECTION (REQUESTED BY USER: Lateral izquierdo con fondo negro 65% y letra blanca con sombra) */}
+            {/* PERSONAL BRAND & CONTACT INFORMATION SECTION (REQUESTED BY USER: Nombre, Profesión, Red Social o Marca Personal, Enlace de Contacto) */}
             <div className="bg-slate-900 text-white p-4 rounded-xl border border-slate-800 shadow-sm space-y-3">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
                   <User className="w-4 h-4 text-emerald-400" />
-                  <span>Datos de Contacto en la Imagen (Lateral Izquierdo)</span>
+                  <span>Marca Personal & Contacto en la Imagen</span>
                 </label>
                 <input
                   type="checkbox"
@@ -480,58 +480,81 @@ export const ImagePromptView: React.FC<ImagePromptViewProps> = ({
               <div className="text-[11px] text-slate-300 bg-black/40 p-2.5 rounded-lg border border-slate-800 flex items-start gap-2">
                 <Sparkles className="w-3.5 h-3.5 text-[#D4AF37] shrink-0 mt-0.5" />
                 <span>
-                  <strong className="text-white">Estilo requerido:</strong> Ubicado a la <strong>izquierda</strong> con <strong>fondo negro opacidad 65%</strong> y <strong>letras blancas con sombra</strong> para máxima legibilidad publicitaria.
+                  Personaliza los datos que la IA debe renderizar en la insignia o marca de agua visual de la imagen publicitaria:
                 </span>
               </div>
 
               {config.incluirContacto && (
-                <div className="space-y-2.5 pt-1">
+                <div className="space-y-3 pt-1">
                   
-                  {/* Name Input */}
+                  {/* 1. Nombre que quiere que aparezca en la imagen */}
                   <div>
                     <label className="block text-[11px] font-bold text-slate-300 mb-1 flex items-center gap-1">
                       <User className="w-3 h-3 text-emerald-400" />
-                      <span>Nombre del Distribuidor / Asesor</span>
+                      <span>Nombre que aparecerá en la imagen *</span>
                     </label>
                     <input
                       type="text"
-                      value={config.contactoNombre || ''}
-                      onChange={(e) => setConfig({ ...config, contactoNombre: e.target.value })}
+                      value={config.marcaNombre || config.contactoNombre || ''}
+                      onChange={(e) => setConfig({ 
+                        ...config, 
+                        marcaNombre: e.target.value,
+                        contactoNombre: e.target.value 
+                      })}
                       placeholder="Ej. Yamilka Batista"
                       className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
                     />
                   </div>
 
-                  {/* Phone / WhatsApp Input */}
+                  {/* 2. Profesión / Rango */}
                   <div>
                     <label className="block text-[11px] font-bold text-slate-300 mb-1 flex items-center gap-1">
-                      <Phone className="w-3 h-3 text-[#25D366]" />
-                      <span>Teléfono / WhatsApp</span>
+                      <Sparkles className="w-3 h-3 text-amber-400" />
+                      <span>Profesión / Rango / Título</span>
                     </label>
                     <input
                       type="text"
-                      value={config.contactoTelefono || ''}
-                      onChange={(e) => setConfig({ ...config, contactoTelefono: e.target.value })}
-                      placeholder="Ej. +507 6760-3578 o 67603578"
-                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white font-mono placeholder-slate-500 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                      value={config.marcaProfesion || ''}
+                      onChange={(e) => setConfig({ ...config, marcaProfesion: e.target.value })}
+                      placeholder="Ej. Asesora de Salud & Bienestar o Líder Diamante HGW"
+                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
                     />
                   </div>
 
-                  {/* Website Input (Optional) */}
+                  {/* 3. Red Social o Marca Personal */}
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-300 mb-1 flex items-center gap-1">
+                      <Globe className="w-3 h-3 text-blue-400" />
+                      <span>Red Social o Marca Personal</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={config.marcaRedSocial || ''}
+                      onChange={(e) => setConfig({ ...config, marcaRedSocial: e.target.value })}
+                      placeholder="Ej. @yamilka.hgw o Instagram / TikTok: @yamilkabatista"
+                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                    />
+                  </div>
+
+                  {/* 4. Enlace de Contacto (Opcional) */}
                   <div>
                     <label className="block text-[11px] font-bold text-slate-300 mb-1 flex items-center justify-between">
                       <span className="flex items-center gap-1">
-                        <Globe className="w-3 h-3 text-blue-400" />
-                        <span>Página Web (Opcional)</span>
+                        <Phone className="w-3 h-3 text-[#25D366]" />
+                        <span>Enlace de Contacto / WhatsApp (Opcional)</span>
                       </span>
                       <span className="text-[10px] text-slate-400 font-normal">Opcional</span>
                     </label>
                     <input
                       type="text"
-                      value={config.contactoWeb || ''}
-                      onChange={(e) => setConfig({ ...config, contactoWeb: e.target.value })}
-                      placeholder="Ej. https://hgw.yamilkabatista.com"
-                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                      value={config.marcaContacto || config.contactoTelefono || ''}
+                      onChange={(e) => setConfig({ 
+                        ...config, 
+                        marcaContacto: e.target.value,
+                        contactoTelefono: e.target.value 
+                      })}
+                      placeholder="Ej. +507 6760-3578 o wa.me/50767603578"
+                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white font-mono placeholder-slate-500 focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
                     />
                   </div>
 
@@ -542,7 +565,7 @@ export const ImagePromptView: React.FC<ImagePromptViewProps> = ({
                       className="text-[10px] text-emerald-400 hover:text-emerald-300 flex items-center gap-1 transition cursor-pointer pt-1"
                     >
                       <RotateCcw className="w-3 h-3" />
-                      <span>Restablecer con mis datos de perfil</span>
+                      <span>Restablecer con mis datos de socia</span>
                     </button>
                   )}
 
